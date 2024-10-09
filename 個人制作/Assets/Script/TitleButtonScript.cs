@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class TitleButtonScript : MonoBehaviour
 {
-    public Button Home;
+    public Button home;
+    public Button endgame;
     int mode = 0;
 
     public void LoadScene()
@@ -22,6 +23,7 @@ public class TitleButtonScript : MonoBehaviour
     {
         StartCoroutine("MoveDelay", 1.0f);
         mode = (int)Mode.GameEnd;
+        
     }
 
     private IEnumerator MoveDelay(float waitTime)
@@ -29,7 +31,7 @@ public class TitleButtonScript : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         if(mode==(int)Mode.LoadHome)
-            SceneManager.LoadScene("Home");
+            SceneManager.LoadScene("home");
         if (mode == (int)Mode.GameEnd)
         {
 #if UNITY_EDITOR
@@ -38,6 +40,12 @@ public class TitleButtonScript : MonoBehaviour
     Application.Quit();//ゲームプレイ終了
 #endif
         }
+    }
+
+    public void Click()
+    {
+        //ボタンを押せないようにする
+        GetComponent<Button>().interactable = false;
     }
 
     //押したボタンの判別用
