@@ -24,14 +24,12 @@ public class PlayerController : MonoBehaviour
         //入力ベクトルの取得
         var horizontal = Input.GetAxis("Horizontal");
         var vertical   = Input.GetAxis("Vertical");
-        var velocity = new Vector3(horizontal, 0, vertical).normalized;
-        var speed = Input.GetKey(KeyCode.LeftShift) ? 1.5f : 0.75f;
+        var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
+        var velocity = horizontalRotation* new Vector3(horizontal, 0, vertical).normalized;
+        
+        //速度の取得
+        var speed = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         var rotationSpeed = 600 * Time.deltaTime;
-
-        pos.x += horizontal / 60 * speed;
-        pos.z += vertical / 60 * speed;
-
-        transform.position = pos;
 
         if (velocity.magnitude > 0.5f)
         {
@@ -41,5 +39,8 @@ public class PlayerController : MonoBehaviour
 
         //移動速度をAnimatorに反映
         animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
+
+        transform.Translate(Vector3.forward * vertical * speed * Time.deltaTime);
+        transform.Rotate(Vector3.up * horizontal * speed * Time.deltaTime);
     }
 }
