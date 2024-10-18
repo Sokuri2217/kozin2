@@ -5,18 +5,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Animator animator;
-    
     Quaternion targetRotation;
+    Rigidbody player_rb;
     Vector3 pos;
-
     void Awake()
     {
-        //コンポーネント関連付け
-        TryGetComponent(out animator);
-
         //初期化
+        TryGetComponent(out animator);
         targetRotation = transform.rotation;
+        player_rb = GetComponent<Rigidbody>();
         pos = transform.position;
+
     }
     // Update is called once per frame
     void Update()
@@ -31,6 +30,9 @@ public class PlayerController : MonoBehaviour
         var speed = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         var rotationSpeed = 600 * Time.deltaTime;
 
+        pos += velocity / 50 * speed;
+        transform.position = pos;
+
         if (velocity.magnitude > 0.5f)
         {
             targetRotation = Quaternion.LookRotation(velocity, Vector3.up);
@@ -39,8 +41,5 @@ public class PlayerController : MonoBehaviour
 
         //移動速度をAnimatorに反映
         animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
-
-        transform.Translate(Vector3.forward * vertical * speed * Time.deltaTime);
-        transform.Rotate(Vector3.up * horizontal * speed * Time.deltaTime);
     }
 }
