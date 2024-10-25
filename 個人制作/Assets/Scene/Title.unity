@@ -289,7 +289,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 88156865}
-        m_TargetAssemblyTypeName: TitleButtonScript, Assembly-CSharp
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
         m_MethodName: EndGame
         m_Mode: 1
         m_Arguments:
@@ -347,11 +347,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 88156860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cbf06fa91afeb04383a203560993e97, type: 3}
+  m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  home: {fileID: 1359730788}
-  endgame: {fileID: 88156862}
 --- !u!1 &309073060
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,8 +942,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1359730791}
-        m_TargetAssemblyTypeName: TitleButtonScript, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: LoadHome
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1002,11 +1000,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359730786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cbf06fa91afeb04383a203560993e97, type: 3}
+  m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  home: {fileID: 1359730788}
-  endgame: {fileID: 88156862}
 --- !u!1 &1761426796
 GameObject:
   m_ObjectHideFlags: 0

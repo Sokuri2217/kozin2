@@ -14,10 +14,10 @@ public class PlayerController : MonoBehaviour
     public int ap = 0;//アタックポイント
 
     //攻撃関連
-    public int weapon = 0;         //攻撃手段  
-    public int skill = 0;         //付与する効果
-    public bool interval = false;  //クールタイム中かどうか
-    bool input = false;  //長押し防止
+    public int weapon = 0;       //攻撃手段  
+    public int skill = 0;        //付与する効果
+    public bool interval = false;//クールタイム中かどうか
+    bool input = false;          //長押し防止
 
     void Awake()
     {
@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour
             case 3:
                 Debug.Log("ソード");
                 break;
-            default:
-                break;
         }
     }
     // Update is called once per frame
@@ -55,11 +53,20 @@ public class PlayerController : MonoBehaviour
     //移動関連
     void Move3D()
     {
+        MainUIScript mainUIScript; //呼ぶスクリプトにあだなつける
+        GameObject obj = GameObject.Find("MainUI"); //Playerっていうオブジェクトを探す
+        mainUIScript = obj.GetComponent<MainUIScript>(); //付いているスクリプトを取得
+
         //入力ベクトルの取得
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
         var velocity = horizontalRotation * new Vector3(horizontal, 0, vertical).normalized;
+
+        //if (!mainUIScript.open_Option)
+        //{
+        //    velocity = new Vector3(0, 0, 0);
+        //}
 
         //速度の取得
         var speed = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
@@ -81,7 +88,7 @@ public class PlayerController : MonoBehaviour
     //攻撃関連
     void Attack()
     {
-        // 左ボタンが押されていたら実行
+        //左クリックしたときに実行
         if (Input.GetMouseButton(0) && !interval && !input)
         {
             //クールタイムフラグ
@@ -101,35 +108,31 @@ public class PlayerController : MonoBehaviour
                 case 3:
                     Sword();
                     break;
-                default:
-                    break;
             }
         }
-
+        //長押し禁止用
         if (Input.GetMouseButtonUp(0))
         {
             input = false;
         }
     }
-
+    //武器
     void Knuckle()
     {
         GetComponent<Animator>().SetTrigger("knuckle");
         Invoke("Interval", 3.0f);
     }
-
     void Knife()
     {
         GetComponent<Animator>().SetTrigger("knife");
         Invoke("Interval", 4.0f);
     }
-
     void Sword()
     {
         GetComponent<Animator>().SetTrigger("sword");
         Invoke("Interval", 6.0f);
     }
-
+    //クールタイム
     void Interval()
     {
         Debug.Log("攻撃可能です");
@@ -139,6 +142,38 @@ public class PlayerController : MonoBehaviour
     //付与効果
     void RandomSkill()
     {
-
+        switch (skill)
+        {
+            case 1:
+                Debug.Log("1");
+                break;
+            case 2:
+                Debug.Log("2");
+                break;
+            case 3:
+                Debug.Log("3");
+                break;
+            case 4:
+                Debug.Log("4");
+                break;
+            case 5:
+                Debug.Log("5");
+                break;
+            case 6:
+                Debug.Log("6");
+                break;
+            case 7:
+                Debug.Log("7");
+                break;
+            case 8:
+                Debug.Log("8");
+                break;
+            case 9:
+                Debug.Log("9");
+                break;
+            case 10:
+                Debug.Log("10");
+                break;
+        }
     }
 }

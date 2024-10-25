@@ -6,21 +6,63 @@ using UnityEngine.SceneManagement;
 
 public class MainUIScript : MonoBehaviour
 {
+    //UIパネル
+    [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject camera;
+    //ゲーム状態
+    public bool open_Option = false;
+    //長押し防止
+    public bool input = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        menuPanel.SetActive(false);
+        camera.SetActive(true);
+        open_Option = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //オプション管理
+        //Escで操作
+        if (Input.GetKeyDown(KeyCode.Escape) && !input) 
+        {
+            switch (open_Option)
+            {
+                case false:
+                    menuPanel.SetActive(true);
+                    camera.SetActive(false);
+                    open_Option = true;
+                    break;
+                case true:
+                    menuPanel.SetActive(false);
+                    camera.SetActive(true);
+                    open_Option = false;
+                    break;
+            }
+            input = true;
+        }
+        //ボタンで操作
+        if(!open_Option)
+        {
+            menuPanel.SetActive(false);
+            camera.SetActive(true);
+        }
+            
+
+        if (Input.GetKeyUp(KeyCode.Escape)&&input)
+        {
+            input = false;
+        }
     }
 
+    //使用装備をアイコンとして表示
     void Icon()
     {
         PlayerController playerController = GetComponent<PlayerController>();
+        //武器
         switch (playerController.weapon)
         {
             case 1:
@@ -32,7 +74,7 @@ public class MainUIScript : MonoBehaviour
             default:
                 break;
         }
-
+        //付与効果
         switch(playerController.skill)
         {
             case 1:
@@ -58,5 +100,11 @@ public class MainUIScript : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    //体力・APをゲージとして表示
+    void Gauge()
+    {
+
     }
 }
