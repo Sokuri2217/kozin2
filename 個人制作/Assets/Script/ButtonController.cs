@@ -8,6 +8,13 @@ public class ButtonController : MonoBehaviour
 {
     int mode = 0;
 
+    //タイトルに移動
+    public void LoadTitle()
+    {
+        StartCoroutine("MoveDelay", 0.5f);
+        mode = (int)Mode.Title;
+
+    }
     //ステージ1に移動
     public void LoadMain1()
     {
@@ -50,6 +57,8 @@ public class ButtonController : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
 
+        if (mode == (int)Mode.Title)
+            SceneManager.LoadScene("title");
         if (mode == (int)Mode.Home)
             SceneManager.LoadScene("home");
         if (mode == (int)Mode.Main1)
@@ -82,6 +91,7 @@ public class ButtonController : MonoBehaviour
     //押したボタンの判別用
     public enum Mode
     {
+        Title,
         Main1,
         Main2,
         Main3,
