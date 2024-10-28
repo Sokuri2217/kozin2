@@ -8,7 +8,6 @@ public class MainUIScript : MonoBehaviour
 {
     //UIÉpÉlÉã
     [SerializeField] GameObject menuPanel;
-    [SerializeField] GameObject camera;
     //ÉQÅ[ÉÄèÛë‘
     public bool open_Option = false;
     //í∑âüÇµñhé~
@@ -18,7 +17,6 @@ public class MainUIScript : MonoBehaviour
     void Start()
     {
         menuPanel.SetActive(false);
-        camera.SetActive(true);
         open_Option = false;
     }
 
@@ -33,12 +31,10 @@ public class MainUIScript : MonoBehaviour
             {
                 case false:
                     menuPanel.SetActive(true);
-                    camera.SetActive(false);
                     open_Option = true;
                     break;
                 case true:
                     menuPanel.SetActive(false);
-                    camera.SetActive(true);
                     open_Option = false;
                     break;
             }
@@ -48,7 +44,6 @@ public class MainUIScript : MonoBehaviour
         if(!open_Option)
         {
             menuPanel.SetActive(false);
-            camera.SetActive(true);
         }
             
 
@@ -61,7 +56,10 @@ public class MainUIScript : MonoBehaviour
     //égópëïîıÇÉAÉCÉRÉìÇ∆ÇµÇƒï\é¶
     void Icon()
     {
-        PlayerController playerController = GetComponent<PlayerController>();
+        PlayerController playerController;
+        GameObject obj = GameObject.Find("Player");
+        playerController = obj.GetComponent<PlayerController>();
+
         //ïêäÌ
         switch (playerController.weapon)
         {
@@ -75,36 +73,50 @@ public class MainUIScript : MonoBehaviour
                 break;
         }
         //ïtó^å¯â 
-        switch(playerController.skill)
+        //AP2î{
+        if (playerController.skill >= 1 && playerController.skill <= 20)
         {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
-            default:
-                break;
+
         }
-    }
-
-    //ëÃóÕÅEAPÇÉQÅ[ÉWÇ∆ÇµÇƒï\é¶
-    void Gauge()
-    {
-
+        //HP2î{
+        else if (playerController.skill >= 21 && playerController.skill <= 40)
+        {
+            
+        }
+        //çUåÇóÕ2î{
+        else if (playerController.skill >= 41 && playerController.skill <= 50)
+        {
+           
+        }
+        //îÌÉ_ÉÅÅ[ÉW2î{
+        else if (playerController.skill >= 51 && playerController.skill <= 60)
+        {
+           
+        }
+        //à⁄ìÆ1.5î{ÅEçUåÇóÕ0.75î{
+        else if (playerController.skill >= 61 && playerController.skill <= 70)
+        {
+            
+        }
+        //à⁄ìÆ0.75î{ÅEçUåÇóÕ1.5î{
+        else if (playerController.skill >= 71 && playerController.skill <= 80)
+        {
+           
+        }
+        //è¡îÔAPÅEçUåÇóÕ2î{
+        else if (playerController.skill >= 81 && playerController.skill <= 90)
+        {
+            
+        }
+        //îÌÉ_ÉÅÅ[ÉW2î{ÅEó^É_ÉÅÅ[ÉW0.5î{
+        else if (playerController.skill >= 91 && playerController.skill <= 95)
+        {
+            
+        }
+        //îÌÉ_ÉÅÅ[ÉW0.5î{ÅEó^É_ÉÅÅ[ÉW2î{
+        else if (playerController.skill >= 96 && playerController.skill <= 100)
+        {
+            
+        }
     }
 }
