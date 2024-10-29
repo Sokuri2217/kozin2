@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
         weapon = Random.Range(1, 3);
         skill = Random.Range(1, 100);
 
+        RandomSkill();
+
         //Sliderを満タンにする。
         hpSlider.value = 1;
         apSlider.value = 1;
@@ -55,7 +57,6 @@ public class PlayerController : MonoBehaviour
         currentHp = maxHp;
         currentAp = maxAp;
 
-        RandomSkill();
     }
     // Update is called once per frame
     void Update()
@@ -64,8 +65,7 @@ public class PlayerController : MonoBehaviour
 
         Attack();
 
-        if (maxAp > currentAp)
-            Invoke("ApHeal", 2.0f);
+        Invoke("ApHeal", 1.0f);
     }
 
     //移動関連
@@ -110,16 +110,20 @@ public class PlayerController : MonoBehaviour
             //攻撃手段を分岐
             switch (weapon)
             {
-                case 1:
+                case (int)Weapon.Knuckle:
                     Knuckle();
                     break;
-                case 2:
+                case (int)Weapon.Knife:
                     Knife();
                     break;
-                case 3:
+                case (int)Weapon.Sword:
                     Sword();
                     break;
             }
+        }
+        else if(currentAp < use_Ap)
+        {
+            Debug.Log("APが不足しています");
         }
         //長押し禁止用
         if (Input.GetMouseButtonUp(0))
@@ -130,7 +134,7 @@ public class PlayerController : MonoBehaviour
     //武器
     void Knuckle()
     {
-        GetComponent<Animator>().SetTrigger("knuckle");
+        //GetComponent<Animator>().SetTrigger("knuckle");
         attack = 5.0f;
         use_Ap = 10.0f;
         Invoke("Interval", 1.0f);
@@ -141,7 +145,7 @@ public class PlayerController : MonoBehaviour
     }
     void Knife()
     {
-        GetComponent<Animator>().SetTrigger("knife");
+        //GetComponent<Animator>().SetTrigger("knife");
         attack = 10.0f;
         use_Ap = 25.0f;
         Invoke("Interval", 4.0f);
@@ -152,7 +156,7 @@ public class PlayerController : MonoBehaviour
     }
     void Sword()
     {
-        GetComponent<Animator>().SetTrigger("sword");
+        //GetComponent<Animator>().SetTrigger("sword");
         attack = 20.0f;
         use_Ap = 50.0f;
         Invoke("Interval", 7.0f);
@@ -170,9 +174,9 @@ public class PlayerController : MonoBehaviour
     //AP関連
     void ApHeal()
     {
-        currentAp += 5.0f;
-        if (currentAp >= 100.0f)
-            currentAp = 100.0f;
+        currentAp += 2.0f;
+        if (currentAp >= maxAp)
+            currentAp = maxAp;
         if (currentAp <= 0.0f)
             Invoke("ApLost", 10.0f);
         apSlider.value = currentAp / maxAp;
@@ -249,5 +253,12 @@ public class PlayerController : MonoBehaviour
             //最大HPにおける現在のHPをSliderに反映。
             hpSlider.value = currentHp / maxHp;
         }
+    }
+
+    public enum Weapon
+    {
+        Knuckle,
+        Knife,
+        Sword
     }
 }

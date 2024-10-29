@@ -83,9 +83,6 @@ public class ButtonController : MonoBehaviour
     Application.Quit();//ゲームプレイ終了
 #endif
         }
-
-        //ボタンを押せないようにする
-        GetComponent<Button>().interactable = false;
     }
 
     //押したボタンの判別用
