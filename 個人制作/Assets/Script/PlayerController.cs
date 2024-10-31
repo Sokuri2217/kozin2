@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float maxAp = 100;
     public float currentAp;
     public float use_Ap;//消費AP
+    public bool apLost = true;
     //移動関連
     float horizontal;
     float vertical;
@@ -61,11 +62,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move3D();
+        GameManager gameManager = GetComponent<GameManager>();
+        if (gameManager.gamePlay == true)
+        {
+            Move3D();
 
-        Attack();
+            Attack();
 
-        Invoke("ApHeal", 1.0f);
+            if (currentAp == 0.0f) 
+            Invoke("ApLost", 10.0f);
+        }
+
+        if (currentAp < use_Ap)
+        {
+            interval = true;
+        }
+        
     }
 
     //移動関連
@@ -100,30 +112,29 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         //左クリックしたときに実行
-        if (Input.GetMouseButton(0) && !interval && !input && currentAp >= use_Ap) 
+        if (Input.GetMouseButton(0) && !interval && !input) 
         {
             //クールタイムフラグ
             interval = true;
             //入力フラグ
             input = true;
 
-            //攻撃手段を分岐
-            switch (weapon)
+            if(currentAp >= use_Ap)
             {
-                case (int)Weapon.Knuckle:
-                    Knuckle();
-                    break;
-                case (int)Weapon.Knife:
-                    Knife();
-                    break;
-                case (int)Weapon.Sword:
-                    Sword();
-                    break;
+                //攻撃手段を分岐
+                switch (weapon)
+                {
+                    case (int)Weapon.Knife:
+                        Knife();
+                        break;
+                    case (int)Weapon.Sword:
+                        Sword();
+                        break;
+                    case (int)Weapon.Spear:
+                        Spear();
+                        break;
+                }
             }
-        }
-        else if(currentAp < use_Ap)
-        {
-            Debug.Log("APが不足しています");
         }
         //長押し禁止用
         if (Input.GetMouseButtonUp(0))
@@ -132,7 +143,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     //武器
-    void Knuckle()
+    void Knife()
     {
         //GetComponent<Animator>().SetTrigger("knuckle");
         attack = 5.0f;
@@ -143,7 +154,7 @@ public class PlayerController : MonoBehaviour
         //最大APにおける現在のAPをSliderに反映。
         apSlider.value = currentAp / maxAp;
     }
-    void Knife()
+    void Sword()
     {
         //GetComponent<Animator>().SetTrigger("knife");
         attack = 10.0f;
@@ -154,7 +165,7 @@ public class PlayerController : MonoBehaviour
         //最大APにおける現在のAPをSliderに反映。
         apSlider.value = currentAp / maxAp;
     }
-    void Sword()
+    void Spear()
     {
         //GetComponent<Animator>().SetTrigger("sword");
         attack = 20.0f;
@@ -172,19 +183,22 @@ public class PlayerController : MonoBehaviour
         interval = false;
     }
     //AP関連
-    void ApHeal()
-    {
-        currentAp += 2.0f;
-        if (currentAp >= maxAp)
-            currentAp = maxAp;
-        if (currentAp <= 0.0f)
-            Invoke("ApLost", 10.0f);
-        apSlider.value = currentAp / maxAp;
-    }
+    //void ApHeal()
+    //{
+    //    currentAp += 2.0f;
+    //    if (currentAp >= maxAp)
+    //        currentAp = maxAp;
+    //    if (currentAp <= 0.0f)
+    //        Invoke("ApLost", 10.0f);
+    //    apSlider.value = currentAp / maxAp;
+    //}
     void ApLost()
     {
         currentAp = maxAp;
+        interval = false;
         apSlider.value = currentAp / maxAp;
+        apLost = false;
+        Debug.Log("AP全回復");
     }
 
     //付与効果
@@ -242,10 +256,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collider)
+    void OnCollisionStay(Collision collision)
     {
         //Enemyタグのオブジェクトに触れると発動
-        if (collider.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             //現在のHPからダメージを引く
             currentHp = currentHp - damage;
@@ -255,9 +269,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        //Goalタグのオブジェクトに触れると発動
+        if (other.CompareTag("Goal"))
+        {
+            GameManager gameManager = GetComponent<GameManager>();
+
+            gameManager.gameClear = true;
+            gameManager.gamePlay = false;
+        }
+    }
+
     public enum Weapon
     {
-        Knuckle,
+        Spear,
         Knife,
         Sword
     }

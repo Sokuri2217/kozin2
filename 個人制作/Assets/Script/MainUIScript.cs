@@ -8,14 +8,15 @@ public class MainUIScript : MonoBehaviour
 {
     //UIパネル
     public GameObject menuPanel;
-    public GameObject clearPanel;
-    public GameObject overPanel;
     public GameObject camera;
     //武器アイコン
     public Image weapon_icon;
-    public Sprite wepon_knuckle;
     public Sprite wepon_knife;
+    public Sprite wepon_knife_interval;
     public Sprite wepon_sword;
+    public Sprite wepon_sword_interval;
+    public Sprite wepon_spear;
+    public Sprite wepon_spear_interval;
     //スキルアイコン
     public  Image skill_icon;
     public Sprite ap_x2;
@@ -38,8 +39,6 @@ public class MainUIScript : MonoBehaviour
     void Start()
     {
         menuPanel.SetActive(false);
-        clearPanel.SetActive(false);
-        overPanel.SetActive(false);
         camera.SetActive(true);
 
         weapon_icon = GetComponent<Image>();
@@ -83,6 +82,8 @@ public class MainUIScript : MonoBehaviour
         {
             input = false;
         }
+
+        Icon();
     }
 
     //使用装備をアイコンとして表示
@@ -92,19 +93,39 @@ public class MainUIScript : MonoBehaviour
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
-        //武器
-        switch (playerController.weapon)
+        if (playerController.interval == false)
         {
-            case (int)Weapon.Knuckle:
-                GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knuckle;
-                break;
-            case (int)Weapon.Knife:
-                GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knife;
-                break;
-            case (int)Weapon.Sword:
-                GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_sword;
-                break;
+            //武器
+            switch (playerController.weapon)
+            {
+                case (int)Weapon.Knife:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knife;
+                    break;
+                case (int)Weapon.Sword:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_sword;
+                    break;
+                case (int)Weapon.Spear:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_spear;
+                    break;
+            }
         }
+        if (playerController.interval == true) 
+        {
+            //武器
+            switch (playerController.weapon)
+            {
+                case (int)Weapon.Knife:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knife_interval;
+                    break;
+                case (int)Weapon.Sword:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_sword_interval;
+                    break;
+                case (int)Weapon.Spear:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_spear_interval;
+                    break;
+            }
+        }
+       
         //付与効果
         //AP2倍 0
         if (playerController.skill >= 1 && playerController.skill <= 20)
@@ -155,7 +176,7 @@ public class MainUIScript : MonoBehaviour
 
     public enum Weapon
     {
-        Knuckle,
+        Spear,
         Knife,
         Sword
     }
