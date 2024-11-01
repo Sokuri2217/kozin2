@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     //ダメージ関連
     public float damage = 10.0f;
 
+    private float currentTime = 0.0f;
+
     void Awake()
     {
         //初期化
@@ -48,6 +50,20 @@ public class PlayerController : MonoBehaviour
         pos = transform.position;
         weapon = Random.Range(1, 3);
         skill = Random.Range(1, 100);
+
+        //攻撃手段を分岐
+        switch (weapon)
+        {
+            case (int)Weapon.Knife:
+                Knife();
+                break;
+            case (int)Weapon.Sword:
+                Sword();
+                break;
+            case (int)Weapon.Spear:
+                Spear();
+                break;
+        }
 
         RandomSkill();
 
@@ -69,15 +85,37 @@ public class PlayerController : MonoBehaviour
 
             Attack();
 
-            if (currentAp == 0.0f) 
-            Invoke("ApLost", 10.0f);
+            if (currentAp < maxAp)  
+            {
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= 1.0f)
+                {
+                    currentAp += 1.0f;
+                    currentTime = 0.0f;
+                }
+            }
+
+            if (currentAp <= 0.0f) 
+            {
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= 10.0f)
+                {
+                    currentAp = maxAp;
+                    currentTime = 0.0f;
+                }
+            }
         }
 
         if (currentAp < use_Ap)
         {
             interval = true;
         }
-        
+
+        //最大APにおける現在のAPをSliderに反映。
+        apSlider.value = currentAp / maxAp;
+
     }
 
     //移動関連
@@ -119,22 +157,7 @@ public class PlayerController : MonoBehaviour
             //入力フラグ
             input = true;
 
-            if(currentAp >= use_Ap)
-            {
-                //攻撃手段を分岐
-                switch (weapon)
-                {
-                    case (int)Weapon.Knife:
-                        Knife();
-                        break;
-                    case (int)Weapon.Sword:
-                        Sword();
-                        break;
-                    case (int)Weapon.Spear:
-                        Spear();
-                        break;
-                }
-            }
+            //攻撃処理
         }
         //長押し禁止用
         if (Input.GetMouseButtonUp(0))
@@ -151,8 +174,6 @@ public class PlayerController : MonoBehaviour
         Invoke("Interval", 1.0f);
         //現在のAPから消費APを引く
         currentAp = currentAp - use_Ap;
-        //最大APにおける現在のAPをSliderに反映。
-        apSlider.value = currentAp / maxAp;
     }
     void Sword()
     {
@@ -162,8 +183,6 @@ public class PlayerController : MonoBehaviour
         Invoke("Interval", 4.0f);
         //現在のAPから消費APを引く
         currentAp = currentAp - use_Ap;
-        //最大APにおける現在のAPをSliderに反映。
-        apSlider.value = currentAp / maxAp;
     }
     void Spear()
     {
@@ -173,32 +192,12 @@ public class PlayerController : MonoBehaviour
         Invoke("Interval", 7.0f);
         //現在のAPから消費APを引く
         currentAp = currentAp - use_Ap;
-        //最大APにおける現在のAPをSliderに反映。
-        apSlider.value = currentAp / maxAp;
     }
     //クールタイム
     void Interval()
     {
         Debug.Log("攻撃可能です");
         interval = false;
-    }
-    //AP関連
-    //void ApHeal()
-    //{
-    //    currentAp += 2.0f;
-    //    if (currentAp >= maxAp)
-    //        currentAp = maxAp;
-    //    if (currentAp <= 0.0f)
-    //        Invoke("ApLost", 10.0f);
-    //    apSlider.value = currentAp / maxAp;
-    //}
-    void ApLost()
-    {
-        currentAp = maxAp;
-        interval = false;
-        apSlider.value = currentAp / maxAp;
-        apLost = false;
-        Debug.Log("AP全回復");
     }
 
     //付与効果
@@ -264,7 +263,7 @@ public class PlayerController : MonoBehaviour
             //現在のHPからダメージを引く
             currentHp = currentHp - damage;
 
-            //最大HPにおける現在のHPをSliderに反映。
+            //最大HPにおける現在のHPをSliderに反映
             hpSlider.value = currentHp / maxHp;
         }
     }
