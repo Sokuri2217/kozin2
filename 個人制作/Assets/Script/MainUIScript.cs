@@ -32,6 +32,7 @@ public class MainUIScript : MonoBehaviour
 
     //ÉQÅ[ÉÄèÛë‘
     public bool open_Option = false;
+    public bool gameset = false;
     //í∑âüÇµñhé~
     public bool input = false;
 
@@ -51,6 +52,10 @@ public class MainUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameManager gameManager;
+        GameObject obj = GameObject.Find("Player");
+        gameManager = obj.GetComponent<GameManager>();
+
         //ÉIÉvÉVÉáÉìä«óù
         //EscÇ≈ëÄçÏ
         if (Input.GetKeyDown(KeyCode.Escape) && !input) 
@@ -60,11 +65,13 @@ public class MainUIScript : MonoBehaviour
                 case false:
                     menuPanel.SetActive(true);
                     camera.SetActive(false);
+                    gameManager.gamePlay = false;
                     open_Option = true;
                     break;
                 case true:
                     menuPanel.SetActive(false);
                     camera.SetActive(true);
+                    gameManager.gamePlay = true;
                     open_Option = false;
                     break;
             }
@@ -75,21 +82,21 @@ public class MainUIScript : MonoBehaviour
         {
             menuPanel.SetActive(false);
             camera.SetActive(true);
-        }
-            
-
+        } 
+        //í∑âüÇµñhé~
         if (Input.GetKeyUp(KeyCode.Escape)&&input)
         {
             input = false;
         }
 
-        GameManager gameManager;
-        GameObject obj = GameObject.Find("Player");
-        gameManager = obj.GetComponent<GameManager>();
-
-        if(gameManager.gameClear||gameManager.gameOver)
+        if(!gameManager.gamePlay)
         {
-            camera.SetActive(true);
+            camera.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
 
