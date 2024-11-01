@@ -8,7 +8,7 @@ public class MainUIScript : MonoBehaviour
 {
     //UIパネル
     public GameObject menuPanel;
-    public GameObject camera;
+    public new GameObject camera;
     //武器アイコン
     public Image weapon_icon;
     public Sprite wepon_knife;
@@ -82,6 +82,16 @@ public class MainUIScript : MonoBehaviour
         {
             input = false;
         }
+
+        GameManager gameManager;
+        GameObject obj = GameObject.Find("Player");
+        gameManager = obj.GetComponent<GameManager>();
+
+        if(gameManager.gameClear||gameManager.gameOver)
+        {
+            camera.SetActive(true);
+        }
+
 
         Icon();
     }

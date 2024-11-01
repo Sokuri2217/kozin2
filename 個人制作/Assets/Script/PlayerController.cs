@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     float vertical;
     Quaternion horizontalRotation;
     public Vector3 velocity;
-    float speed;
+    public float speed;
     //Sliderを入れる
     public Slider hpSlider;
     public Slider apSlider;
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     public float attack;        //攻撃力
 
     //ダメージ関連
-    public float damage = 10.0f;
+    public float damage;
 
     private float currentTime = 0.0f;
 
@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         pos = transform.position;
         weapon = Random.Range(1, 3);
         skill = Random.Range(1, 100);
+        damage = 10.0f;
+        speed = 1.0f;
 
         //攻撃手段を分岐
         switch (weapon)
@@ -85,7 +87,20 @@ public class PlayerController : MonoBehaviour
 
             Attack();
 
-            if (currentAp < maxAp)  
+            if (currentAp == 0.0f)
+            {
+                currentAp = 0.0f;
+                currentTime += Time.deltaTime;
+
+
+                if (currentTime >= 10.0f)
+                {
+                    currentAp = maxAp;
+                    currentTime = 0.0f;
+                    Debug.Log("AP全回復");
+                }
+            }
+            else if (currentAp < maxAp)
             {
                 currentTime += Time.deltaTime;
 
@@ -96,26 +111,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (currentAp <= 0.0f) 
+            if(currentAp<use_Ap)
             {
-                currentTime += Time.deltaTime;
-
-                if (currentTime >= 10.0f)
-                {
-                    currentAp = maxAp;
-                    currentTime = 0.0f;
-                }
+                interval = true;
             }
+
+            //最大APにおける現在のAPをSliderに反映。
+            apSlider.value = currentAp / maxAp;
         }
-
-        if (currentAp < use_Ap)
-        {
-            interval = true;
-        }
-
-        //最大APにおける現在のAPをSliderに反映。
-        apSlider.value = currentAp / maxAp;
-
     }
 
     //移動関連
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
         var move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         var rotationSpeed = 600 * Time.deltaTime;
 
-        speed= Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
+        speed *= Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
 
         pos += velocity / 50 * speed;
         transform.position = pos;
@@ -158,6 +161,21 @@ public class PlayerController : MonoBehaviour
             input = true;
 
             //攻撃処理
+            switch (weapon)
+            {
+                case (int)Weapon.Knife:
+                    Invoke("Interval", 1.0f);
+                    break;
+                case (int)Weapon.Sword:
+                    Invoke("Interval", 4.0f);
+                    break;
+                case (int)Weapon.Spear:
+                    Invoke("Interval", 7.0f);
+                    break;
+            }
+
+            //現在のAPから消費APを引く
+            currentAp = currentAp - use_Ap;
         }
         //長押し禁止用
         if (Input.GetMouseButtonUp(0))
@@ -171,27 +189,18 @@ public class PlayerController : MonoBehaviour
         //GetComponent<Animator>().SetTrigger("knuckle");
         attack = 5.0f;
         use_Ap = 10.0f;
-        Invoke("Interval", 1.0f);
-        //現在のAPから消費APを引く
-        currentAp = currentAp - use_Ap;
     }
     void Sword()
     {
         //GetComponent<Animator>().SetTrigger("knife");
         attack = 10.0f;
         use_Ap = 25.0f;
-        Invoke("Interval", 4.0f);
-        //現在のAPから消費APを引く
-        currentAp = currentAp - use_Ap;
     }
     void Spear()
     {
         //GetComponent<Animator>().SetTrigger("sword");
         attack = 20.0f;
         use_Ap = 50.0f;
-        Invoke("Interval", 7.0f);
-        //現在のAPから消費APを引く
-        currentAp = currentAp - use_Ap;
     }
     //クールタイム
     void Interval()
@@ -255,18 +264,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionStay(Collision collision)
-    {
-        //Enemyタグのオブジェクトに触れると発動
-        if (collision.gameObject.tag == "Enemy")
-        {
-            //現在のHPからダメージを引く
-            currentHp = currentHp - damage;
+    //void OnCollisionStay(Collision collision)
+    //{
+    //    //Enemyタグのオブジェクトに触れると発動
+    //    if (collision.gameObject.tag == "Enemy")
+    //    {
+    //        //現在のHPからダメージを引く
+    //        currentHp = currentHp - damage;
 
-            //最大HPにおける現在のHPをSliderに反映
-            hpSlider.value = currentHp / maxHp;
-        }
-    }
+    //        //最大HPにおける現在のHPをSliderに反映
+    //        hpSlider.value = currentHp / maxHp;
+    //    }
+    //}
 
     void OnTriggerEnter(Collider other)
     {
@@ -277,6 +286,16 @@ public class PlayerController : MonoBehaviour
 
             gameManager.gameClear = true;
             gameManager.gamePlay = false;
+        }
+
+        //Enemyタグのオブジェクトに触れると発動
+        if (other.CompareTag("Enemy"))
+        {
+            //現在のHPからダメージを引く
+            currentHp = currentHp - damage;
+
+            //最大HPにおける現在のHPをSliderに反映
+            hpSlider.value = currentHp / maxHp;
         }
     }
 
