@@ -11,38 +11,37 @@ public class PlayerController : MonoBehaviour
     Vector3 pos;
 
     //基礎能力
-    public float maxHp = 100;      //最大のHP
-    public float currentHp;        //現在のHP
-    public float maxAp = 100;      //最大のAP
-    public float currentAp;        //現在のAP
-    public float use_Ap;           //消費AP
+    public float maxHp = 100;     //最大のHP
+    public float currentHp;       //現在のHP
+    public float maxAp = 100;     //最大のAP
+    public float currentAp;       //現在のAP
+    public float use_Ap;          //消費AP
     //移動関連
-    float horizontal;              //横移動
-    float vertical;                //縦移動
-    Quaternion horizontalRotation; //向き取得
-    public Vector3 velocity;       //ベクトル取得
-    public float speed;            //移動速度
-    float move;                    //歩き、走りの切り替え
-    float rotationSpeed;           //向きを変える速度
-    //Sliderを入れる
-    public Slider hpSlider;        //HPバー
-    public Slider apSlider;        //Apバー
-
+    float horizontal;             //横移動
+    float vertical;               //縦移動
+    Quaternion horizontalRotation;//向き取得
+    Vector3 velocity;             //ベクトル取得
+    float speed;                  //移動速度
+    float move;                   //歩き、走りの切り替え
+    float rotationSpeed;          //向きを変える速度
     //攻撃関連
-    public int weapon = 0;         //攻撃手段  
-    public int skill = 0;          //付与する効果
-    public bool interval = false;  //クールタイム中かどうか
-    bool input = false;            //長押し防止
-    public float attack;           //攻撃力
-    public GameObject knife;       //ナイフ
-    public GameObject sword;       //ソード
-    public GameObject spear;       //スピアー
-
+    public int weapon = 0;        //攻撃手段  
+    public int skill = 0;         //付与する効果
+    public bool interval = false; //クールタイム中かどうか
+    bool input = false;           //長押し防止
+    public float attack;          //攻撃力
     //ダメージ関連
-    public float damage;           //受けるダメージ
+    public float damage;          //受けるダメージ
+    float currentTime = 0.0f;     //現在の時間取得
+    public int kill_enemy;        //倒した敵数
 
-    //時間関連
-    private float currentTime = 0.0f; //時間取得
+    //Sliderを入れる
+    public Slider hpSlider;       //HPバー
+    public Slider apSlider;       //Apバー
+    //武器
+    public GameObject knife;      //ナイフ
+    public GameObject sword;      //ソード
+    public GameObject spear;      //スピアー
 
     void Awake()
     {
@@ -58,6 +57,7 @@ public class PlayerController : MonoBehaviour
         skill = Random.Range(1, 100);
         damage = 10.0f;
         speed = 50.0f;
+        kill_enemy = 0;
 
         //攻撃手段を分岐
         switch (weapon)
@@ -94,22 +94,13 @@ public class PlayerController : MonoBehaviour
 
             Attack();  //攻撃
 
-            //APが0になったとき
-            if (currentAp == 0.0f)
+            if (Input.GetMouseButton(1))
             {
-                currentAp = 0.0f;
-                currentTime += Time.deltaTime;
-
-
-                if (currentTime >= 10.0f)
-                {
-                    currentAp = maxAp;
-                    currentTime = 0.0f;
-                    Debug.Log("AP全回復");
-                }
+                kill_enemy++;
             }
+
             //APの自動回復
-            else if (currentAp < maxAp)
+            if (currentAp < maxAp)
             {
                 currentTime += Time.deltaTime;
 
@@ -123,6 +114,10 @@ public class PlayerController : MonoBehaviour
             if (currentAp < use_Ap) 
             {
                 interval = true;
+            }
+            else
+            {
+                interval = false;
             }
 
             //移動速度をAnimatorに反映
@@ -269,7 +264,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 96 && skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
         {
-            use_Ap *= 0.5f;
+            damage *= 0.5f;
             attack *= 2.0f;
             Debug.Log("被ダメージ0.5倍・与ダメージ2倍");
         }

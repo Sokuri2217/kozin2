@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject clearPanel;
     public GameObject overPanel;
+    public GameObject goal;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         gameClear = false;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
+        goal.SetActive(false);
     }
 
     // Update is called once per frame
@@ -26,13 +28,21 @@ public class GameManager : MonoBehaviour
     {
         PlayerController playerController = GetComponent<PlayerController>();
 
-        if (playerController.currentHp <= 0.0f) 
+        if (playerController.currentHp <= 0.0f)
         {
             gameOver = true;
             gamePlay = false;
+            overPanel.SetActive(true);
         }
 
         if (gameClear)
+        {
             clearPanel.SetActive(true);
+        }
+
+        if (playerController.kill_enemy >= 5)
+        {
+            goal.SetActive(true);
+        }
     }
 }
