@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public float damage;          //受けるダメージ
     float currentTime = 0.0f;     //現在の時間取得
     public int kill_enemy;        //倒した敵数
+    public int goalspawn;         //ゴール出現に必要な敵数
 
     //Sliderを入れる
     public Slider hpSlider;       //HPバー
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
         damage = 10.0f;
         speed = 50.0f;
         kill_enemy = 0;
+        goalspawn = 5;
 
         //攻撃手段を分岐
         switch (weapon)

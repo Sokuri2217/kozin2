@@ -33,6 +33,9 @@ public class MainUIScript : MonoBehaviour
     //ƒQ[ƒ€ó‘Ô
     public bool open_Option = false;
     public bool gameset = false;
+    public Text currentKill;
+    public Text goalSpawnKill;
+
     //’·‰Ÿ‚µ–h~
     public bool input = false;
 
@@ -52,9 +55,12 @@ public class MainUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         GameManager gameManager;
+        PlayerController playerController;
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
+        playerController = obj.GetComponent<PlayerController>();
 
         //ƒIƒvƒVƒ‡ƒ“ŠÇ—
         //Esc‚Å‘€ì
@@ -82,6 +88,7 @@ public class MainUIScript : MonoBehaviour
         {
             menuPanel.SetActive(false);
             camera.SetActive(true);
+            gameManager.gamePlay = true;
         } 
         //’·‰Ÿ‚µ–h~
         if (Input.GetKeyUp(KeyCode.Escape)&&input)
@@ -99,6 +106,8 @@ public class MainUIScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        currentKill.text = playerController.kill_enemy.ToString();
+        goalSpawnKill.text = playerController.goalspawn.ToString();
 
         Icon();
     }

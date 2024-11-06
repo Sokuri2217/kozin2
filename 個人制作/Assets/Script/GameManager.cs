@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject clearPanel;
     public GameObject overPanel;
+    public GameObject spawnGoal;
     public GameObject goal;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
         gameClear = false;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
+        spawnGoal.SetActive(false);
         goal.SetActive(false);
     }
 
@@ -37,12 +39,15 @@ public class GameManager : MonoBehaviour
 
         if (gameClear)
         {
+            gameClear = true;
+            gamePlay = false;
             clearPanel.SetActive(true);
         }
 
         if (playerController.kill_enemy >= 5)
         {
             goal.SetActive(true);
+            spawnGoal.SetActive(true);
         }
     }
 }
