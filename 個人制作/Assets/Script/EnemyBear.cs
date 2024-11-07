@@ -14,6 +14,9 @@ public class EnemyBear : MonoBehaviour
 
     public Slider hpSlider;       //HPƒo[
 
+    public float maxHp = 100;     //Å‘å‚ÌHP
+    public float currentHp;       //Œ»İ‚ÌHP
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +46,9 @@ public class EnemyBear : MonoBehaviour
         {
             nextGoal();
         }
+
+        //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
+        hpSlider.value = currentHp / maxHp;
 
     }
 
