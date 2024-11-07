@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     Animator animator;
     Quaternion targetRotation;
-    Rigidbody player_rb;
     Vector3 pos;
 
     //基礎能力
@@ -49,7 +48,6 @@ public class PlayerController : MonoBehaviour
         //初期化
         TryGetComponent(out animator);
         targetRotation = transform.rotation;
-        player_rb = GetComponent<Rigidbody>();
         pos = transform.position;
         knife.SetActive(false);
         sword.SetActive(false);
@@ -129,6 +127,10 @@ public class PlayerController : MonoBehaviour
             //最大APにおける現在のAPをSliderに反映。
             apSlider.value = currentAp / maxAp;
         }
+        //最大HPにおける現在のHPをSliderに反映
+        hpSlider.value = currentHp / maxHp;
+        //最大APにおける現在のAPをSliderに反映。
+        apSlider.value = currentAp / maxAp;
     }
 
     //移動関連
@@ -284,6 +286,13 @@ public class PlayerController : MonoBehaviour
     //        hpSlider.value = currentHp / maxHp;
     //    }
     //}
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag=="Wall")
+        {
+            Debug.Log("壁当たった");
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -300,7 +309,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             //現在のHPからダメージを引く
-            currentHp = currentHp - damage;
+            currentHp -= damage;
         }
     }
 
