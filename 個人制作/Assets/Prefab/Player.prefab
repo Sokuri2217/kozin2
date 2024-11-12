@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 7789700593328585084}
   - component: {fileID: 7789700593328585060}
   - component: {fileID: 7789700593328585062}
-  - component: {fileID: 7054479107539079598}
-  - component: {fileID: 7252041890012422637}
+  - component: {fileID: 1657345918}
+  - component: {fileID: 4994125062305931050}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -137,20 +137,7 @@ MonoBehaviour:
   overPanel: {fileID: 0}
   spawnGoal: {fileID: 0}
   goal: {fileID: 0}
---- !u!65 &7054479107539079598
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7789700593328585074}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.5143903, z: 0.41329193}
-  m_Center: {x: 0, y: 0.7657339, z: -0.04419613}
---- !u!54 &7252041890012422637
+--- !u!54 &1657345918
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,6 +153,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!136 &4994125062305931050
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7789700593328585074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.26567364
+  m_Height: 1.4858938
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.7729427, z: -0.050034523}
 --- !u!1 &7789700593330569129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3318,7 +3319,7 @@ GameObject:
   - component: {fileID: 7789700594003010347}
   - component: {fileID: 7789700594003010324}
   m_Layer: 0
-  m_Name: pico_chan_chr_pico_00
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10528,6 +10529,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trident
       objectReference: {fileID: 0}
+    - target: {fileID: 4658356505668009224, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
+      propertyPath: m_TagString
+      value: spear
+      objectReference: {fileID: 0}
     - target: {fileID: 4658356505668009231, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -10639,6 +10644,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dagger
       objectReference: {fileID: 0}
+    - target: {fileID: 5483802313191499152, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
+      propertyPath: m_TagString
+      value: knife
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
 --- !u!4 &2306109422064394418 stripped
@@ -10705,6 +10714,10 @@ PrefabInstance:
     - target: {fileID: 9081558614015763075, guid: eb360b06ee92a194fa6a456126902349, type: 3}
       propertyPath: m_Name
       value: LongSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 9081558614015763075, guid: eb360b06ee92a194fa6a456126902349, type: 3}
+      propertyPath: m_TagString
+      value: sword
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb360b06ee92a194fa6a456126902349, type: 3}

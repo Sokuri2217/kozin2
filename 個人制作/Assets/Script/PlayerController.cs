@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     Animator animator;
     Quaternion targetRotation;
-    Vector3 pos;
+    Rigidbody rb;
 
     //Šî‘b”\—Í
     public float maxHp = 100;     //Å‘å‚ÌHP
@@ -46,9 +46,9 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         //‰Šú‰»
+        rb=GetComponent<Rigidbody>();
         TryGetComponent(out animator);
         targetRotation = transform.rotation;
-        pos = transform.position;
         knife.SetActive(false);
         sword.SetActive(false);
         spear.SetActive(false);
@@ -119,13 +119,6 @@ public class PlayerController : MonoBehaviour
             {
                 interval = false;
             }
-
-            //ˆÚ“®‘¬“x‚ğAnimator‚É”½‰f
-            animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
-            //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
-            hpSlider.value = currentHp / maxHp;
-            //Å‘åAP‚É‚¨‚¯‚éŒ»İ‚ÌAP‚ğSlider‚É”½‰fB
-            apSlider.value = currentAp / maxAp;
         }
         //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
         hpSlider.value = currentHp / maxHp;
@@ -146,14 +139,15 @@ public class PlayerController : MonoBehaviour
         move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         rotationSpeed = 600 * Time.deltaTime;
 
-        pos += velocity / speed * move;
-        transform.position = pos;
+        transform.position += velocity / speed * move;
 
         if (velocity.magnitude > 0.5f)
         {
             targetRotation = Quaternion.LookRotation(velocity, Vector3.up);
         }
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
+
+        animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
     }
 
     //UŒ‚ŠÖ˜A

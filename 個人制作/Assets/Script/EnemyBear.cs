@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;//NavMeshagent‚ğg‚¤
+using UnityEngine.AI;//NavMeshagentã‚’ä½¿ã†
 using UnityEngine.UI;
 
 
@@ -11,27 +11,25 @@ public class EnemyBear : MonoBehaviour
     public Transform player;
     private int destNum = 0;
     private NavMeshAgent agent;
+    private Animator animator;
 
-    public Slider hpSlider;       //HPƒo[
+    public Slider hpSlider;       //HPãƒãƒ¼
 
-    public float maxHp = 100;     //Å‘å‚ÌHP
-    public float currentHp;       //Œ»İ‚ÌHP
+    public float maxHp = 100;     //æœ€å¤§ã®HP
+    public float currentHp;       //ç¾åœ¨ã®HP
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.destination = goals[destNum].position;
+        animator = GetComponent<Animator>();
     }
 
     void nextGoal()
     {
 
-        destNum += 1;
-        if (destNum == 3)
-        {
-            destNum = 0;
-        }
+        destNum = Random.Range(0, 3);
 
         agent.destination = goals[destNum].position;
 
@@ -41,13 +39,13 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log(agent.remainingDistance);
+        //Debug.Log(agent.remainingDistance);
         if (agent.remainingDistance < 0.5f)
         {
             nextGoal();
         }
 
-        //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
+        //æœ€å¤§HPã«ãŠã‘ã‚‹ç¾åœ¨ã®HPã‚’Sliderã«åæ˜ 
         hpSlider.value = currentHp / maxHp;
 
     }
@@ -57,7 +55,7 @@ public class EnemyBear : MonoBehaviour
         if (col.gameObject.name == "player")
         {
             transform.LookAt(player);
-            transform.Translate(0, 0, 0.1f);
+            transform.Translate(0.1f, 0, 0.1f);
         }
     }
 }
