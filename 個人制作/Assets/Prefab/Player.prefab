@@ -118,6 +118,9 @@ MonoBehaviour:
   knife: {fileID: 2306109422064394573}
   sword: {fileID: 1302312261297104362}
   spear: {fileID: 3224399095573564441}
+  knifeCollider: {fileID: 2306109422071921695}
+  swordCollider: {fileID: 1302312262865931219}
+  spearCollider: {fileID: 3224399095022178649}
 --- !u!114 &7789700593328585062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +154,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!136 &4994125062305931050
 CapsuleCollider:
@@ -160,7 +163,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7789700593328585074}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7a9006b4dbae10249b026243ceeda20b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.26567364
@@ -10577,8 +10580,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4658356507259904072, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658356507259904074, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
+      propertyPath: m_TagString
+      value: weapon
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
+--- !u!65 &3224399095022178649 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 4658356507259904072, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
+  m_PrefabInstance: {fileID: 7789700594414416145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3224399095573564441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4658356505668009224, guid: cfe781a76afd6ef4d881c4e9e9bfb2d4, type: 3}
@@ -10648,6 +10664,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: knife
       objectReference: {fileID: 0}
+    - target: {fileID: 5483802313198794946, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483802313198794948, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
+      propertyPath: m_TagString
+      value: weapon
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
 --- !u!4 &2306109422064394418 stripped
@@ -10660,6 +10684,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5483802313191499152, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
   m_PrefabInstance: {fileID: 7789700594660984029}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &2306109422071921695 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 5483802313198794946, guid: ae53334f7df959540af5fc02a96310b1, type: 3}
+  m_PrefabInstance: {fileID: 7789700594660984029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7789700595181651817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10667,6 +10696,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7789700593426689868}
     m_Modifications:
+    - target: {fileID: 9081558612294356148, guid: eb360b06ee92a194fa6a456126902349, type: 3}
+      propertyPath: m_TagString
+      value: weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 9081558612294356154, guid: eb360b06ee92a194fa6a456126902349, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9081558614015763074, guid: eb360b06ee92a194fa6a456126902349, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -10729,5 +10766,10 @@ GameObject:
 --- !u!4 &1302312261297104363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9081558614015763074, guid: eb360b06ee92a194fa6a456126902349, type: 3}
+  m_PrefabInstance: {fileID: 7789700595181651817}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1302312262865931219 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 9081558612294356154, guid: eb360b06ee92a194fa6a456126902349, type: 3}
   m_PrefabInstance: {fileID: 7789700595181651817}
   m_PrefabAsset: {fileID: 0}

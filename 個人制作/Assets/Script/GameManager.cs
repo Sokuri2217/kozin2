@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
             gameOver = true;
             gamePlay = false;
             overPanel.SetActive(true);
+            spawnGoal.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
         }
 
         if (gameClear)
@@ -42,6 +44,8 @@ public class GameManager : MonoBehaviour
             gameClear = true;
             gamePlay = false;
             clearPanel.SetActive(true);
+            spawnGoal.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
         }
 
         if (playerController.kill_enemy >= 5)

@@ -42,17 +42,21 @@ public class PlayerController : MonoBehaviour
     public GameObject knife;      //ナイフ
     public GameObject sword;      //ソード
     public GameObject spear;      //スピアー
+    public Collider knifeCollider;
+    public Collider swordCollider;
+    public Collider spearCollider;
 
     void Awake()
     {
         //初期化
-        rb=GetComponent<Rigidbody>();
+        //animator = GetComponent<Animator>();
+        rb =GetComponent<Rigidbody>();
         TryGetComponent(out animator);
         targetRotation = transform.rotation;
         knife.SetActive(false);
         sword.SetActive(false);
         spear.SetActive(false);
-        weapon = Random.Range(1, 3);
+        weapon = Random.Range(0, 2);
         skill = Random.Range(1, 100);
         damage = 10.0f;
         speed = 50.0f;
@@ -165,12 +169,15 @@ public class PlayerController : MonoBehaviour
             switch (weapon)
             {
                 case (int)Weapon.Knife:
+                    GetComponent<Animator>().SetTrigger("knife");
                     Invoke("Interval", 1.0f);
                     break;
                 case (int)Weapon.Sword:
+                    GetComponent<Animator>().SetTrigger("sword");
                     Invoke("Interval", 4.0f);
                     break;
                 case (int)Weapon.Spear:
+                    GetComponent<Animator>().SetTrigger("spear");
                     Invoke("Interval", 7.0f);
                     break;
             }
@@ -187,21 +194,18 @@ public class PlayerController : MonoBehaviour
     //武器
     void Knife()
     {
-        //GetComponent<Animator>().SetTrigger("knuckle");
         attack = 5.0f;
         use_Ap = 10.0f;
         knife.SetActive(true);
     }
     void Sword()
     {
-        //GetComponent<Animator>().SetTrigger("knife");
         attack = 10.0f;
         use_Ap = 25.0f;
         sword.SetActive(true);
     }
     void Spear()
     {
-        //GetComponent<Animator>().SetTrigger("sword");
         attack = 20.0f;
         use_Ap = 50.0f;
         spear.SetActive(true);
@@ -309,8 +313,8 @@ public class PlayerController : MonoBehaviour
 
     public enum Weapon
     {
-        Spear,
         Knife,
-        Sword
+        Sword,
+        Spear
     }
 }

@@ -119,7 +119,7 @@ public class MainUIScript : MonoBehaviour
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
-        if (playerController.interval == true)
+        if (playerController.interval)
         {
             //ïêäÌ
             switch (playerController.weapon)
@@ -135,7 +135,7 @@ public class MainUIScript : MonoBehaviour
                     break;
             }
         }
-        else if (playerController.interval == false)
+        else if (!playerController.interval)
         {
             //ïêäÌ
             switch (playerController.weapon)
@@ -202,8 +202,8 @@ public class MainUIScript : MonoBehaviour
 
     public enum Weapon
     {
-        Spear,
         Knife,
-        Sword
+        Sword,
+        Spear
     }
 }
