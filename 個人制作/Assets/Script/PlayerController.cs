@@ -27,10 +27,12 @@ public class PlayerController : MonoBehaviour
     public int weapon = 0;        //攻撃手段  
     public int skill = 0;         //付与する効果
     public bool interval = false; //クールタイム中かどうか
+    public bool apLost = false;   //攻撃に必要なApが残っているかどうか
     bool input = false;           //長押し防止
     public float attack;          //攻撃力
     //ダメージ関連
     public float damage;          //受けるダメージ
+    public bool isDamage;         //被弾確認
     float currentTime = 0.0f;     //現在の時間取得
     public int kill_enemy;        //倒した敵数
     public int goalspawn;         //ゴール出現に必要な敵数
@@ -49,9 +51,9 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         //初期化
-        //animator = GetComponent<Animator>();
-        rb =GetComponent<Rigidbody>();
-        TryGetComponent(out animator);
+        animator = GetComponent<Animator>();
+        //rb =GetComponent<Rigidbody>();
+        //TryGetComponent(out animator);
         targetRotation = transform.rotation;
         knife.SetActive(false);
         sword.SetActive(false);
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour
         speed = 50.0f;
         kill_enemy = 0;
         goalspawn = 5;
+        isDamage = false;
 
         //攻撃手段を分岐
         switch (weapon)
@@ -78,6 +81,15 @@ public class PlayerController : MonoBehaviour
         }
 
         RandomSkill();
+
+        if(currentAp<use_Ap)
+        {
+            apLost = true;
+        }
+        else
+        {
+            apLost = false;
+        }
 
         //Sliderを満タンにする。
         hpSlider.value = 1;
@@ -98,9 +110,10 @@ public class PlayerController : MonoBehaviour
 
             Attack();  //攻撃
 
-            if (Input.GetMouseButton(1))
+            //キルカウントの制御
+            if(kill_enemy>=5)
             {
-                kill_enemy++;
+                kill_enemy = 5;
             }
 
             //APの自動回復
@@ -113,15 +126,6 @@ public class PlayerController : MonoBehaviour
                     currentAp += 1.0f;
                     currentTime = 0.0f;
                 }
-            }
-            //現在のAPが消費APより少ないと攻撃できない
-            if (currentAp < use_Ap) 
-            {
-                interval = true;
-            }
-            else
-            {
-                interval = false;
             }
         }
         //最大HPにおける現在のHPをSliderに反映
@@ -158,7 +162,7 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         //左クリックしたときに実行
-        if (Input.GetMouseButton(0) && !interval && !input) 
+        if (Input.GetMouseButton(0) && !interval && !input && currentAp >= use_Ap)  
         {
             //クールタイムフラグ
             interval = true;
@@ -169,28 +173,29 @@ public class PlayerController : MonoBehaviour
             switch (weapon)
             {
                 case (int)Weapon.Knife:
-                    GetComponent<Animator>().SetTrigger("knife");
-                    Invoke("Interval", 1.0f);
+                    animator.SetTrigger("knife");
+                    Invoke("Interval", 2.0f);
                     break;
                 case (int)Weapon.Sword:
-                    GetComponent<Animator>().SetTrigger("sword");
-                    Invoke("Interval", 4.0f);
+                    animator.SetTrigger("sword");
+                    Invoke("Interval", 5.0f);
                     break;
                 case (int)Weapon.Spear:
-                    GetComponent<Animator>().SetTrigger("spear");
-                    Invoke("Interval", 7.0f);
+                    animator.SetTrigger("spear");
+                    Invoke("Interval", 8.0f);
                     break;
             }
-
             //現在のAPから消費APを引く
             currentAp = currentAp - use_Ap;
         }
+
         //長押し禁止用
         if (Input.GetMouseButtonUp(0))
         {
             input = false;
         }
     }
+
     //武器
     void Knife()
     {
@@ -292,7 +297,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         //Goalタグのオブジェクトに触れると発動
         if (other.CompareTag("Goal"))
@@ -304,11 +309,18 @@ public class PlayerController : MonoBehaviour
         }
 
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && !isDamage) 
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
+            isDamage = true;
+            Invoke("NotDamage", 3.0f);
         }
+    }
+
+    void NotDamage()
+    {
+        isDamage = false;
     }
 
     public enum Weapon

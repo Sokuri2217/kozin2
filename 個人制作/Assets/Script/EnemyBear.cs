@@ -46,6 +46,10 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerController playerController;
+        GameObject obj = GameObject.Find("Player");
+        playerController = obj.GetComponent<PlayerController>();
+
         //Debug.Log(agent.remainingDistance);
         if (agent.remainingDistance < 0.5f)
         {
@@ -58,16 +62,17 @@ public class EnemyBear : MonoBehaviour
         if(currentHp<=0.0f)
         {
             Destroy(gameObject);
+            playerController.kill_enemy++;
         }
 
-        //APの自動回復
+        //HPの自動回復
         if (currentHp < maxHp)
         {
             currentTime += Time.deltaTime;
 
-            if (currentTime >= 1.0f)
+            if (currentTime >= 2.0f)
             {
-                currentHp += 1.0f;
+                currentHp += 5.0f;
                 currentTime = 0.0f;
             }
         }
