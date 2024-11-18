@@ -52,8 +52,6 @@ public class PlayerController : MonoBehaviour
     {
         //‰Šú‰»
         animator = GetComponent<Animator>();
-        //rb =GetComponent<Rigidbody>();
-        //TryGetComponent(out animator);
         targetRotation = transform.rotation;
         knife.SetActive(false);
         sword.SetActive(false);
