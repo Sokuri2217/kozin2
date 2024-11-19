@@ -187,8 +187,13 @@ public class PlayerController : MonoBehaviour
             currentAp = currentAp - use_Ap;
         }
 
+        if (Input.GetMouseButton(1))
+        {
+            kill_enemy++;
+        }
+
         //’·‰Ÿ‚µ‹ÖŽ~—p
-        if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
         {
             input = false;
         }

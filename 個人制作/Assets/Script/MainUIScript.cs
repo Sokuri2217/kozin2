@@ -6,9 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MainUIScript : MonoBehaviour
 {
-    //UIパネル
+    //UI
     public GameObject menuPanel;
     public new GameObject camera;
+    public GameObject killCounter;
     //武器アイコン
     public Image weapon_icon;
     public Sprite wepon_knife;
@@ -44,6 +45,7 @@ public class MainUIScript : MonoBehaviour
     {
         menuPanel.SetActive(false);
         camera.SetActive(true);
+        killCounter.SetActive(true);
 
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
@@ -64,7 +66,7 @@ public class MainUIScript : MonoBehaviour
 
         //オプション管理
         //Escで操作
-        if (Input.GetKeyDown(KeyCode.Escape) && !input) 
+        if (Input.GetKeyDown(KeyCode.Escape) && !input && gameManager.gamePlay)  
         {
             switch (open_Option)
             {
@@ -108,6 +110,11 @@ public class MainUIScript : MonoBehaviour
 
         currentKill.text = playerController.kill_enemy.ToString();
         goalSpawnKill.text = playerController.goalspawn.ToString();
+
+        if (playerController.kill_enemy >= 5) 
+        {
+            killCounter.SetActive(false);
+        }
 
         Icon();
     }
