@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public bool apLost = false;   //攻撃に必要なApが残っているかどうか
     bool input = false;           //長押し防止
     public float attack;          //攻撃力
+    public bool isAttack = false; //攻撃中
+    public float notAttack = 0;     //動けるようになるまでの時間
     //ダメージ関連
     public float damage;          //受けるダメージ
     public bool isDamage;         //被弾確認
@@ -56,10 +58,10 @@ public class PlayerController : MonoBehaviour
         knife.SetActive(false);
         sword.SetActive(false);
         spear.SetActive(false);
-        weapon = Random.Range(0, 2);
+        weapon = Random.Range(1, 4);
         skill = Random.Range(1, 100);
         damage = 10.0f;
-        speed = 50.0f;
+        speed = 40.0f;
         kill_enemy = 0;
         goalspawn = 5;
         isDamage = false;
@@ -80,15 +82,6 @@ public class PlayerController : MonoBehaviour
 
         RandomSkill();
 
-        if(currentAp<use_Ap)
-        {
-            apLost = true;
-        }
-        else
-        {
-            apLost = false;
-        }
-
         //Sliderを満タンにする。
         hpSlider.value = 1;
         apSlider.value = 1;
@@ -104,7 +97,8 @@ public class PlayerController : MonoBehaviour
         //プレイ中のみ動く
         if (gameManager.gamePlay)
         {
-            Move3D();  //移動
+            if(!isAttack)
+                Move3D();  //移動
 
             Attack();  //攻撃
 
@@ -126,6 +120,16 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (currentAp < use_Ap)
+        {
+            apLost = true;
+        }
+        else
+        {
+            apLost = false;
+        }
+
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
         //最大APにおける現在のAPをSliderに反映。
@@ -166,6 +170,7 @@ public class PlayerController : MonoBehaviour
             interval = true;
             //入力フラグ
             input = true;
+            isAttack = true;
 
             //攻撃処理
             switch (weapon)
@@ -185,11 +190,7 @@ public class PlayerController : MonoBehaviour
             }
             //現在のAPから消費APを引く
             currentAp = currentAp - use_Ap;
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            kill_enemy++;
+            Invoke("NotAttack", notAttack);
         }
 
         //長押し禁止用
@@ -204,18 +205,21 @@ public class PlayerController : MonoBehaviour
     {
         attack = 5.0f;
         use_Ap = 10.0f;
+        notAttack = 1.0f;
         knife.SetActive(true);
     }
     void Sword()
     {
         attack = 10.0f;
         use_Ap = 25.0f;
+        notAttack = 1.0f;
         sword.SetActive(true);
     }
     void Spear()
     {
         attack = 20.0f;
         use_Ap = 50.0f;
+        notAttack = 2.0f;
         spear.SetActive(true);
     }
     //クールタイム
@@ -280,18 +284,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //void OnCollisionStay(Collision collision)
-    //{
-    //    //Enemyタグのオブジェクトに触れると発動
-    //    if (collision.gameObject.tag == "Enemy")
-    //    {
-    //        //現在のHPからダメージを引く
-    //        currentHp = currentHp - damage;
-
-    //        //最大HPにおける現在のHPをSliderに反映
-    //        hpSlider.value = currentHp / maxHp;
-    //    }
-    //}
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag=="Wall")
@@ -325,10 +317,14 @@ public class PlayerController : MonoBehaviour
     {
         isDamage = false;
     }
+    void NotAttack()
+    {
+        isAttack = false;
+    }
 
     public enum Weapon
     {
-        Knife,
+        Knife = 1,
         Sword,
         Spear
     }

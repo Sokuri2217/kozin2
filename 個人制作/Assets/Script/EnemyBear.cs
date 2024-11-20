@@ -46,9 +46,7 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerController playerController;
-        GameObject obj = GameObject.Find("Player");
-        playerController = obj.GetComponent<PlayerController>();
+        
 
         //Debug.Log(agent.remainingDistance);
         if (agent.remainingDistance < 0.5f)
@@ -61,21 +59,21 @@ public class EnemyBear : MonoBehaviour
 
         if(currentHp<=0.0f)
         {
-            Destroy(gameObject);
-            playerController.kill_enemy++;
+            animator.SetTrigger("death");
+            Invoke("Death", 0.6f);
         }
 
-        //HPの自動回復
-        if (currentHp < maxHp)
-        {
-            currentTime += Time.deltaTime;
+        ////HPの自動回復
+        //if (currentHp < maxHp)
+        //{
+        //    currentTime += Time.deltaTime;
 
-            if (currentTime >= 2.0f)
-            {
-                currentHp += 5.0f;
-                currentTime = 0.0f;
-            }
-        }
+        //    if (currentTime >= 2.0f)
+        //    {
+        //        currentHp += 5.0f;
+        //        currentTime = 0.0f;
+        //    }
+        //}
 
     }
 
@@ -85,17 +83,11 @@ public class EnemyBear : MonoBehaviour
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
         if (collider.gameObject.tag == "Player")
         {
+            animator.SetBool("search", true);
             // 対象のオブジェクトを追いかける
             agent.destination = collider.gameObject.transform.position;
-
-            if(currentHp<=currentHp/2)
-            {
-                animator.SetTrigger("search");
-
-                agent.destination = collider.gameObject.transform.position;
-            }
         }
-
+        
     }
 
     // CollisionDetectorクラスに作ったonTriggerExitEventにセットする。 
@@ -124,12 +116,13 @@ public class EnemyBear : MonoBehaviour
         }
     }
 
-    //void OnTriggerStay(Collider col)
-    //{
-    //    if (col.gameObject.name == "player")
-    //    {
-    //        transform.LookAt(player);
-    //        transform.Translate(0.1f, 0, 0.1f);
-    //    }
-    //}
+    void Death()
+    {
+        PlayerController playerController;
+        GameObject obj = GameObject.Find("Player");
+        playerController = obj.GetComponent<PlayerController>();
+
+        playerController.kill_enemy++;
+        Destroy(gameObject);
+    }
 }

@@ -126,7 +126,7 @@ public class MainUIScript : MonoBehaviour
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
-        if (playerController.interval)
+        if (playerController.interval || playerController.apLost) 
         {
             //ïêäÌ
             switch (playerController.weapon)
@@ -209,7 +209,7 @@ public class MainUIScript : MonoBehaviour
 
     public enum Weapon
     {
-        Knife,
+        Knife = 1,
         Sword,
         Spear
     }
