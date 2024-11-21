@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         weapon = Random.Range(1, 4);
         skill = Random.Range(1, 100);
         damage = 10.0f;
-        speed = 40.0f;
+        speed = 7.5f;
         kill_enemy = 0;
         goalspawn = 5;
         isDamage = false;
@@ -113,9 +113,9 @@ public class PlayerController : MonoBehaviour
             {
                 currentTime += Time.deltaTime;
 
-                if (currentTime >= 1.0f)
+                if (currentTime >= 2.0f)
                 {
-                    currentAp += 1.0f;
+                    currentAp += 5.0f;
                     currentTime = 0.0f;
                 }
             }
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
         move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         rotationSpeed = 600 * Time.deltaTime;
 
-        transform.position += velocity / speed * move;
+        transform.position += velocity * Time.deltaTime * speed * move;
 
         if (velocity.magnitude > 0.5f)
         {

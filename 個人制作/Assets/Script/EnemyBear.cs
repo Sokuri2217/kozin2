@@ -9,6 +9,7 @@ public class EnemyBear : MonoBehaviour
 {
     public Transform[] goals;
     public Transform player;
+    public new Transform  camera;
     private int destNum = 0;
     private NavMeshAgent agent;
     private Animator animator;
@@ -18,7 +19,8 @@ public class EnemyBear : MonoBehaviour
 
     public float maxHp = 50;     //最大のHP
     public float currentHp;       //現在のHP
-    float currentTime = 0.0f;     //現在の時間取得
+    bool death = false;
+    bool attack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -46,8 +48,6 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
         //Debug.Log(agent.remainingDistance);
         if (agent.remainingDistance < 0.5f)
         {
@@ -57,24 +57,14 @@ public class EnemyBear : MonoBehaviour
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
 
-        if(currentHp<=0.0f)
+        if (currentHp <= 0.0f && !death) 
         {
             animator.SetTrigger("death");
+            death = true;
             Invoke("Death", 0.6f);
         }
 
-        ////HPの自動回復
-        //if (currentHp < maxHp)
-        //{
-        //    currentTime += Time.deltaTime;
-
-        //    if (currentTime >= 2.0f)
-        //    {
-        //        currentHp += 5.0f;
-        //        currentTime = 0.0f;
-        //    }
-        //}
-
+        hpSlider.transform.LookAt(camera.transform);
     }
 
     // CollisionDetectorクラスに作ったonTriggerStayEventにセットする。
