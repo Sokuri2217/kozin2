@@ -7,20 +7,24 @@ using UnityEngine.UI;
 
 public class EnemyBear : MonoBehaviour
 {
-    public Transform[] goals;
-    public Transform player;
-    public new Transform  camera;
-    private int destNum = 0;
     private NavMeshAgent agent;
     private Animator animator;
 
-
+    public Transform[] goals;     //徘徊ポイント
+    public Transform player;      //プレイヤーの位置
+    public new Transform  camera; //カメラの位置
+    private int destNum = 0;　　　//向かう場所
     public Slider hpSlider;       //HPバー
-
-    public float maxHp = 50;     //最大のHP
+    public float maxHp = 50;      //最大のHP
     public float currentHp;       //現在のHP
-    bool death = false;
-    bool attack = false;
+    bool death = false;           //死亡フラグ
+    bool isDamage = false;        //ダメージ中フラグ
+    bool attack = false;          //攻撃フラグ
+
+    private AudioSource weapon_SE = null;
+    public AudioClip knife_SE;
+    public AudioClip sword_SE;
+    public AudioClip spear_SE;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +32,7 @@ public class EnemyBear : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.destination = goals[destNum].position;
         animator = GetComponent<Animator>();
+        weapon_SE = GetComponent<AudioSource>();
 
         //Sliderを満タンにする。
         hpSlider.value = 1;
@@ -63,7 +68,6 @@ public class EnemyBear : MonoBehaviour
             death = true;
             Invoke("Death", 0.6f);
         }
-
         hpSlider.transform.LookAt(camera.transform);
     }
 
@@ -98,11 +102,25 @@ public class EnemyBear : MonoBehaviour
         playerController = obj.GetComponent<PlayerController>();
 
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon"))
+        if (other.CompareTag("weapon") && !isDamage) 
         {
+            isDamage = true;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
             GetComponent<Animator>().SetTrigger("damage");
+            switch(playerController.weapon)
+            {
+                case (int)Weapon.Knife:
+                    weapon_SE.PlayOneShot(knife_SE);
+                    break;
+                case (int)Weapon.Sword:
+                    weapon_SE.PlayOneShot(sword_SE);
+                    break;
+                case (int)Weapon.Spear:
+                    weapon_SE.PlayOneShot(spear_SE);
+                    break;
+            }
+            Invoke("NotDamage", 1.0f);
         }
     }
 
@@ -114,5 +132,16 @@ public class EnemyBear : MonoBehaviour
 
         playerController.kill_enemy++;
         Destroy(gameObject);
+    }
+
+    void NotDamage()
+    {
+        isDamage = false;
+    }
+
+    public enum Weapon{
+        Knife = 1,
+        Sword,
+        Spear,
     }
 }

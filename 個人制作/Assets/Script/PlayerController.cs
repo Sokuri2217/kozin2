@@ -31,7 +31,8 @@ public class PlayerController : MonoBehaviour
     bool input = false;           //長押し防止
     public float attack;          //攻撃力
     public bool isAttack = false; //攻撃中
-    public float notAttack = 0;     //動けるようになるまでの時間
+    public float notAttack = 0;   //動けるようになるまでの時間
+
     //ダメージ関連
     public float damage;          //受けるダメージ
     public bool isDamage;         //被弾確認
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public GameObject knife;      //ナイフ
     public GameObject sword;      //ソード
     public GameObject spear;      //スピアー
+    //武器の当たり判定
     public Collider knifeCollider;
     public Collider swordCollider;
     public Collider spearCollider;
