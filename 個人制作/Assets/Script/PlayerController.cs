@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     Quaternion targetRotation;
     Rigidbody rb;
+    public AudioSource se;
+    public AudioClip damage_se;
 
     //基礎能力
     public float maxHp = 100;     //最大のHP
@@ -32,14 +34,12 @@ public class PlayerController : MonoBehaviour
     public float attack;          //攻撃力
     public bool isAttack = false; //攻撃中
     public float notAttack = 0;   //動けるようになるまでの時間
-
     //ダメージ関連
     public float damage;          //受けるダメージ
     public bool isDamage;         //被弾確認
     float currentTime = 0.0f;     //現在の時間取得
     public int kill_enemy;        //倒した敵数
     public int goalspawn;         //ゴール出現に必要な敵数
-
     //Sliderを入れる
     public Slider hpSlider;       //HPバー
     public Slider apSlider;       //Apバー
@@ -56,10 +56,14 @@ public class PlayerController : MonoBehaviour
     {
         //初期化
         animator = GetComponent<Animator>();
+        se = GetComponent<AudioSource>();
         targetRotation = transform.rotation;
         knife.SetActive(false);
         sword.SetActive(false);
         spear.SetActive(false);
+        knifeCollider.enabled = false;
+        swordCollider.enabled = false;
+        spearCollider.enabled = false;
         weapon = Random.Range(1, 4);
         skill = Random.Range(1, 100);
         damage = 10.0f;
@@ -179,20 +183,29 @@ public class PlayerController : MonoBehaviour
             {
                 case (int)Weapon.Knife:
                     animator.SetTrigger("knife");
+                    knifeCollider.enabled = true;
                     Invoke("Interval", 2.0f);
                     break;
                 case (int)Weapon.Sword:
                     animator.SetTrigger("sword");
+                    swordCollider.enabled = true;
                     Invoke("Interval", 5.0f);
                     break;
                 case (int)Weapon.Spear:
                     animator.SetTrigger("spear");
+                    spearCollider.enabled = true;
                     Invoke("Interval", 8.0f);
                     break;
             }
             //現在のAPから消費APを引く
             currentAp = currentAp - use_Ap;
             Invoke("NotAttack", notAttack);
+        }
+        else
+        {
+            knifeCollider.enabled = false;
+            swordCollider.enabled = false;
+            spearCollider.enabled = false;
         }
 
         //長押し禁止用
@@ -310,6 +323,7 @@ public class PlayerController : MonoBehaviour
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
+            se.PlayOneShot(damage_se);
             isDamage = true;
             Invoke("NotDamage", 3.0f);
         }

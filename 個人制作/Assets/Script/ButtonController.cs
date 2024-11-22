@@ -22,24 +22,6 @@ public class ButtonController : MonoBehaviour
         mode = (int)Mode.Main1;
 
     }
-    //ステージ2に移動
-    public void LoadMain2()
-    {
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main2;
-    }
-    //ステージ3に移動
-    public void LoadMain3()
-    {
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main3;
-    }
-    //ホームに移動
-    public void LoadHome()
-    {
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Home;
-    }
     //ゲームを再開する
     public void BackGame()
     {
@@ -59,14 +41,8 @@ public class ButtonController : MonoBehaviour
 
         if (mode == (int)Mode.Title)
             SceneManager.LoadScene("title");
-        if (mode == (int)Mode.Home)
-            SceneManager.LoadScene("home");
         if (mode == (int)Mode.Main1)
             SceneManager.LoadScene("main1");
-        if (mode == (int)Mode.Main2)
-            SceneManager.LoadScene("main2");
-        if (mode == (int)Mode.Main3)
-            SceneManager.LoadScene("main3");
         if (mode == (int)Mode.Back)
         {
             MainUIScript mainUIScript;
@@ -90,9 +66,6 @@ public class ButtonController : MonoBehaviour
     {
         Title,
         Main1,
-        Main2,
-        Main3,
-        Home,
         Back,
         GameEnd
     }
