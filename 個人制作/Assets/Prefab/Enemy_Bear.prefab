@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88810839}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.008726558, w: 0.999962}
   m_LocalPosition: {x: 0, y: 0, z: 0.26}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -34,7 +34,7 @@ RectTransform:
   - {fileID: 263289610}
   m_Father: {fileID: 3312499663655723257}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.73, y: 2.31}
@@ -137,7 +137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.06, y: -3.74}
+  m_AnchoredPosition: {x: 7.0599976, y: -3.7399902}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &263289611
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1313380104}
   m_HandleRect: {fileID: 0}
-  m_Direction: 0
+  m_Direction: 1
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
@@ -996,7 +996,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2788726836488354371}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.81
+  m_Radius: 0.53
   m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1060,8 +1060,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.8764689, z: 1.1859493}
-  m_Center: {x: 0, y: 0.87347686, z: 0.09297466}
+  m_Size: {x: 0.9581162, y: 1.8764689, z: 0.8220335}
+  m_Center: {x: 0.020941913, y: 0.87347686, z: 0.09322977}
 --- !u!82 &8050113819841256225
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1073,7 +1073,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

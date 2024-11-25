@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public float attack;          //攻撃力
     public bool isAttack = false; //攻撃中
     public float notAttack = 0;   //動けるようになるまでの時間
+    public float hitWeapon = 0.0f;//当たり判定表示時間
     //ダメージ関連
     public float damage;          //受けるダメージ
     public bool isDamage;         //被弾確認
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
         knifeCollider.enabled = false;
         swordCollider.enabled = false;
         spearCollider.enabled = false;
+        hitWeapon = 1.0f;
         weapon = Random.Range(1, 4);
         skill = Random.Range(1, 100);
         damage = 10.0f;
@@ -200,12 +202,7 @@ public class PlayerController : MonoBehaviour
             //現在のAPから消費APを引く
             currentAp = currentAp - use_Ap;
             Invoke("NotAttack", notAttack);
-        }
-        else
-        {
-            knifeCollider.enabled = false;
-            swordCollider.enabled = false;
-            spearCollider.enabled = false;
+            Invoke("HitWeapon", hitWeapon);
         }
 
         //長押し禁止用
@@ -234,7 +231,7 @@ public class PlayerController : MonoBehaviour
     {
         attack = 20.0f;
         use_Ap = 50.0f;
-        notAttack = 2.0f;
+        notAttack = 1.8f;
         spear.SetActive(true);
     }
     //クールタイム
@@ -336,6 +333,12 @@ public class PlayerController : MonoBehaviour
     void NotAttack()
     {
         isAttack = false;
+    }
+    void HitWeapon()
+    {
+        knifeCollider.enabled = false;
+        swordCollider.enabled = false;
+        spearCollider.enabled = false;
     }
 
     public enum Weapon
