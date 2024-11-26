@@ -266,13 +266,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 61 && skill <= 70)//ˆÚ“®1.5”{EUŒ‚—Í0.75”{
         {
-            speed *= 0.75f;
+            speed *= 1.5f;
             attack   *= 0.75f;
             Debug.Log("ˆÚ“®1.5”{EUŒ‚—Í0.75”{");
         }
         else if (skill >= 71 && skill <= 80)//ˆÚ“®0.75”{EUŒ‚—Í1.5”{
         {
-            speed *= 1.5f;
+            speed *= 0.75f;
             attack *= 1.5f;
             Debug.Log("ˆÚ“®0.75”{EUŒ‚—Í1.5”{");
         }
@@ -296,11 +296,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag=="Wall")
+        //Enemyƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚ÉG‚ê‚é‚Æ”­“®
+        if (other.CompareTag("enemyweapon") && !isDamage)
         {
-            Debug.Log("•Ç“–‚½‚Á‚½");
+            //Œ»İ‚ÌHP‚©‚çƒ_ƒ[ƒW‚ğˆø‚­
+            currentHp -= damage;
+            se.PlayOneShot(damage_se);
+            isDamage = true;
+            Invoke("NotDamage", 3.0f);
         }
     }
 
@@ -315,15 +320,7 @@ public class PlayerController : MonoBehaviour
             gameManager.gamePlay = false;
         }
 
-        //Enemyƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚ÉG‚ê‚é‚Æ”­“®
-        if (other.CompareTag("Enemy") && !isDamage) 
-        {
-            //Œ»İ‚ÌHP‚©‚çƒ_ƒ[ƒW‚ğˆø‚­
-            currentHp -= damage;
-            se.PlayOneShot(damage_se);
-            isDamage = true;
-            Invoke("NotDamage", 3.0f);
-        }
+        
     }
 
     void NotDamage()
