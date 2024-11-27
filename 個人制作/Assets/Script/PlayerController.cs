@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         hitWeapon = 1.0f;
         weapon = Random.Range(1, 4);
         skill = Random.Range(1, 100);
-        damage = 10.0f;
+        damage = 15.0f;
         speed = 7.5f;
         kill_enemy = 0;
         goalspawn = 5;
@@ -298,14 +298,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        GameManager gameManager = GetComponent<GameManager>();
+
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage)
+        if (other.CompareTag("enemyweapon") && !isDamage && !gameManager.gamePlay) 
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
             se.PlayOneShot(damage_se);
             isDamage = true;
-            Invoke("NotDamage", 3.0f);
+            Invoke("NotDamage", 1.0f);
         }
     }
 

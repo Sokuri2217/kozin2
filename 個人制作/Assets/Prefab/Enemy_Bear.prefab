@@ -1028,11 +1028,12 @@ MonoBehaviour:
   player: {fileID: 0}
   camera: {fileID: 0}
   hpSlider: {fileID: 263289611}
-  maxHp: 100
+  maxHp: 30
   currentHp: 0
   knife_SE: {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
   sword_SE: {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
   spear_SE: {fileID: 8300000, guid: 44c768ad5fbff4249956bd72e32d3492, type: 3}
+  weaponCollider: {fileID: 6348376833643489706}
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1056,7 +1057,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2788726836488354371}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7a9006b4dbae10249b026243ceeda20b, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -2328,16 +2329,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 8671270355029118734}
     m_Modifications:
     - target: {fileID: 7143295045267779717, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 12.500002
-      objectReference: {fileID: 0}
-    - target: {fileID: 7143295045267779717, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 12.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7143295045267779717, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 12.5
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7143295045267779717, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2383,32 +2376,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: monster_bear01_weapon01
       objectReference: {fileID: 0}
-    - target: {fileID: 7523760516084148799, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
-      propertyPath: m_TagString
-      value: enemyweapon
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
---- !u!1 &188038862038014716 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7523760516084148799, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
-  m_PrefabInstance: {fileID: 7707286286615228611}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &3669377146068081001
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188038862038014716}
-  m_Material: {fileID: 13400000, guid: 7a9006b4dbae10249b026243ceeda20b, type: 2}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.0054689837, y: 0.0061188005, z: 0.0114532905}
-  m_Center: {x: 0.001191434, y: -0.00020486399, z: 0.0016637661}
 --- !u!4 &709278414867972166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7143295045267779717, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
+  m_PrefabInstance: {fileID: 7707286286615228611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6348376833643489706 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3669377146068081001, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
   m_PrefabInstance: {fileID: 7707286286615228611}
   m_PrefabAsset: {fileID: 0}

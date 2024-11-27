@@ -11,7 +11,10 @@ public class GameManager : MonoBehaviour
     public GameObject clearPanel;
     public GameObject overPanel;
     public GameObject spawnGoal;
-    public GameObject goal;
+    public GameObject[] goal;
+    private int goalNum = 0;
+    private bool spawnDAYO = false;
+    private bool uyoku = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +25,10 @@ public class GameManager : MonoBehaviour
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
-        goal.SetActive(false);
+        for(int i=0;i<5;i++)
+        {
+            goal[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -48,9 +54,18 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if (playerController.kill_enemy >= 5)
+        if (playerController.kill_enemy >= 5 && !spawnDAYO) 
         {
-            goal.SetActive(true);
+            spawnDAYO = true;
+            goalNum = Random.Range(0, 5);
+            goal[goalNum].SetActive(true);
+            spawnGoal.SetActive(true);
+        }
+        if (Input.GetMouseButton(1) && !uyoku)  
+        {
+           uyoku = true;
+            goalNum = Random.Range(0, 5);
+            goal[goalNum].SetActive(true);
             spawnGoal.SetActive(true);
         }
     }

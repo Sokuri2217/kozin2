@@ -15,16 +15,19 @@ public class EnemyBear : MonoBehaviour
     public new Transform  camera; //カメラの位置
     private int destNum = 0;　　　//向かう場所
     public Slider hpSlider;       //HPバー
-    public float maxHp = 50;      //最大のHP
+    public float maxHp = 30;      //最大のHP
     public float currentHp;       //現在のHP
     bool death = false;           //死亡フラグ
     bool isDamage = false;        //ダメージ中フラグ
+    bool isStop = false;        //停止フラグ
     bool attack = false;          //攻撃フラグ
 
     private AudioSource weapon_SE = null;
     public AudioClip knife_SE;
     public AudioClip sword_SE;
     public AudioClip spear_SE;
+
+    public Collider weaponCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,7 @@ public class EnemyBear : MonoBehaviour
         agent.destination = goals[destNum].position;
         animator = GetComponent<Animator>();
         weapon_SE = GetComponent<AudioSource>();
+        weaponCollider.enabled = false;
 
         //Sliderを満タンにする。
         hpSlider.value = 1;
@@ -51,12 +55,20 @@ public class EnemyBear : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        //Debug.Log(agent.remainingDistance);
-        if (agent.remainingDistance < 0.5f)
+        if(!isStop)
         {
-            nextGoal();
+            //Debug.Log(agent.remainingDistance);
+            if (agent.remainingDistance < 0.5f)
+            {
+                nextGoal();
+            }
+        }
+        else
+        {
+            Debug.Log("isDamege");
+            
         }
 
         //最大HPにおける現在のHPをSliderに反映
@@ -75,11 +87,17 @@ public class EnemyBear : MonoBehaviour
     public void OnDetectObject(Collider collider)
     {
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" && !isStop) 
         {
-            animator.SetBool("search", true);
             // 対象のオブジェクトを追いかける
             agent.destination = collider.gameObject.transform.position;
+
+            if (agent.remainingDistance < 0.5f)
+            {
+                animator.SetTrigger("attack");
+                weaponCollider.enabled = true;
+                Invoke("NotAttack", 0.2f);
+            }
         }
         
     }
@@ -88,7 +106,7 @@ public class EnemyBear : MonoBehaviour
     public void OnLoseObject(Collider collider)
     {
         // 検知したオブジェクトに"Player"タグが付いてれば、その場で止まる
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" && !isStop) 
         {
             // その場で止まる（目的地を今の自分自身の場所にすることにより止めている）
             agent.destination = this.gameObject.transform.position;
@@ -101,10 +119,11 @@ public class EnemyBear : MonoBehaviour
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
-        //Enemyタグのオブジェクトに触れると発動
+        //weaponタグのオブジェクトに触れると発動
         if (other.CompareTag("weapon") && !isDamage) 
         {
             isDamage = true;
+            isStop = true;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
             GetComponent<Animator>().SetTrigger("damage");
@@ -120,7 +139,9 @@ public class EnemyBear : MonoBehaviour
                     weapon_SE.PlayOneShot(spear_SE);
                     break;
             }
+            Invoke("NotStop", 0.5f);
             Invoke("NotDamage", 1.0f);
+
         }
     }
 
@@ -137,6 +158,15 @@ public class EnemyBear : MonoBehaviour
     void NotDamage()
     {
         isDamage = false;
+    }
+
+    void NotStop()
+    {
+        isStop = false;
+    }
+    void NotAttack()
+    {
+        weaponCollider.enabled = false;
     }
 
     public enum Weapon{
