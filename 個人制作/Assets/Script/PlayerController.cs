@@ -45,13 +45,9 @@ public class PlayerController : MonoBehaviour
     public Slider hpSlider;       //HPバー
     public Slider apSlider;       //Apバー
     //武器
-    public GameObject knife;      //ナイフ
-    public GameObject sword;      //ソード
-    public GameObject spear;      //スピアー
+    public GameObject[] use_weapon;      //使用中の武器
     //武器の当たり判定
-    public Collider knifeCollider;
-    public Collider swordCollider;
-    public Collider spearCollider;
+    public Collider[] weaponCollider;   //武器のコライダー
 
     void Awake()
     {
@@ -59,14 +55,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         se = GetComponent<AudioSource>();
         targetRotation = transform.rotation;
-        knife.SetActive(false);
-        sword.SetActive(false);
-        spear.SetActive(false);
-        knifeCollider.enabled = false;
-        swordCollider.enabled = false;
-        spearCollider.enabled = false;
         hitWeapon = 1.0f;
-        weapon = Random.Range(1, 4);
+        weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
         damage = 15.0f;
         speed = 7.5f;
@@ -74,16 +64,22 @@ public class PlayerController : MonoBehaviour
         goalspawn = 5;
         isDamage = false;
 
+        for (int i = 0; i < 3; i++) 
+        {
+            use_weapon[i].SetActive(false);
+            weaponCollider[i].enabled = false;
+        }
+
         //攻撃手段を分岐
         switch (weapon)
         {
-            case (int)Weapon.Knife:
+            case (int)Weapon.KNIFE:
                 Knife();
                 break;
-            case (int)Weapon.Sword:
+            case (int)Weapon.SWORD:
                 Sword();
                 break;
-            case (int)Weapon.Spear:
+            case (int)Weapon.SPEAR:
                 Spear();
                 break;
         }
@@ -105,23 +101,20 @@ public class PlayerController : MonoBehaviour
         //プレイ中のみ動く
         if (gameManager.gamePlay)
         {
-            if(!isAttack)
-                Move3D();  //移動
+            //攻撃中はその場から移動できない
+            if(!isAttack) Move3D();
 
-            Attack();  //攻撃
+            Attack();
 
             //キルカウントの制御
-            if(kill_enemy>=5)
-            {
-                kill_enemy = 5;
-            }
+            if(kill_enemy>=5) kill_enemy = 5;
 
             //APの自動回復
             if (currentAp < maxAp)
             {
                 currentTime += Time.deltaTime;
 
-                if (currentTime >= 2.0f)
+                if (currentTime >= 1.0f)
                 {
                     currentAp += 5.0f;
                     currentTime = 0.0f;
@@ -129,14 +122,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (currentAp < use_Ap)
-        {
-            apLost = true;
-        }
-        else
-        {
-            apLost = false;
-        }
+        if (currentAp < use_Ap) apLost = true;
+        else apLost = false;
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
@@ -156,13 +143,11 @@ public class PlayerController : MonoBehaviour
         //速度の取得
         move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         rotationSpeed = 600 * Time.deltaTime;
-
         transform.position += velocity * Time.deltaTime * speed * move;
 
-        if (velocity.magnitude > 0.5f)
-        {
+        if (velocity.magnitude > 0.5f) 
             targetRotation = Quaternion.LookRotation(velocity, Vector3.up);
-        }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
         animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
@@ -178,24 +163,24 @@ public class PlayerController : MonoBehaviour
             interval = true;
             //入力フラグ
             input = true;
+            ////攻撃中フラグ
             isAttack = true;
-
             //攻撃処理
             switch (weapon)
             {
-                case (int)Weapon.Knife:
+                case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
-                    knifeCollider.enabled = true;
+                    weaponCollider[(int)Weapon.KNIFE].enabled = true;
                     Invoke("Interval", 2.0f);
                     break;
-                case (int)Weapon.Sword:
+                case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
-                    swordCollider.enabled = true;
+                    weaponCollider[(int)Weapon.SWORD].enabled = true;
                     Invoke("Interval", 5.0f);
                     break;
-                case (int)Weapon.Spear:
+                case (int)Weapon.SPEAR:
                     animator.SetTrigger("spear");
-                    spearCollider.enabled = true;
+                    weaponCollider[(int)Weapon.SPEAR].enabled = true;
                     Invoke("Interval", 8.0f);
                     break;
             }
@@ -204,12 +189,9 @@ public class PlayerController : MonoBehaviour
             Invoke("NotAttack", notAttack);
             Invoke("HitWeapon", hitWeapon);
         }
-
         //長押し禁止用
-            if (Input.GetMouseButtonUp(0))
-        {
+        if (Input.GetMouseButtonUp(0))
             input = false;
-        }
     }
 
     //武器
@@ -218,26 +200,25 @@ public class PlayerController : MonoBehaviour
         attack = 5.0f;
         use_Ap = 10.0f;
         notAttack = 1.0f;
-        knife.SetActive(true);
+        use_weapon[(int)Weapon.KNIFE].SetActive(true);
     }
     void Sword()
     {
         attack = 10.0f;
         use_Ap = 25.0f;
         notAttack = 1.0f;
-        sword.SetActive(true);
+        use_weapon[(int)Weapon.SWORD].SetActive(true);
     }
     void Spear()
     {
         attack = 20.0f;
         use_Ap = 50.0f;
         notAttack = 1.8f;
-        spear.SetActive(true);
+        use_weapon[(int)Weapon.SPEAR].SetActive(true);
     }
     //クールタイム
     void Interval()
     {
-        Debug.Log("攻撃可能です");
         interval = false;
     }
 
@@ -247,59 +228,49 @@ public class PlayerController : MonoBehaviour
         if(skill>=1&&skill<=20)//AP2倍
         {
             maxAp *= 2;
-            Debug.Log("AP2倍");
         }
         else if (skill >= 21 && skill <= 40)//HP2倍
         {
             maxHp *= 2;
-            Debug.Log("HP2倍");
         }
         else if (skill >= 41 && skill <= 50)//攻撃力2倍
         {
             attack *= 2.0f;
-            Debug.Log("攻撃力2倍");
         }
         else if (skill >= 51 && skill <= 60)//被ダメージ2倍
         {
             damage *= 2.0f;
-            Debug.Log("被ダメージ2倍");
         }
         else if (skill >= 61 && skill <= 70)//移動1.5倍・攻撃力0.75倍
         {
             speed *= 1.5f;
             attack   *= 0.75f;
-            Debug.Log("移動1.5倍・攻撃力0.75倍");
         }
         else if (skill >= 71 && skill <= 80)//移動0.75倍・攻撃力1.5倍
         {
             speed *= 0.75f;
             attack *= 1.5f;
-            Debug.Log("移動0.75倍・攻撃力1.5倍");
         }
         else if (skill >= 81 && skill <= 90)//消費AP・攻撃力2倍
         {
             use_Ap *= 2.0f;
             attack *= 2.0f;
-            Debug.Log("消費AP・攻撃力2倍");
         }
         else if (skill >= 91 && skill <= 95)//被ダメージ2倍・与ダメージ0.5倍
         {
             damage *= 2.0f;
             attack *= 0.5f;
-            Debug.Log("被ダメージ2倍・与ダメージ0.5倍");
         }
         else if (skill >= 96 && skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
         {
             damage *= 0.5f;
             attack *= 2.0f;
-            Debug.Log("被ダメージ0.5倍・与ダメージ2倍");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         GameManager gameManager = GetComponent<GameManager>();
-
         //Enemyタグのオブジェクトに触れると発動
         if (other.CompareTag("enemyweapon") && !isDamage && !gameManager.gamePlay) 
         {
@@ -317,12 +288,9 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Goal"))
         {
             GameManager gameManager = GetComponent<GameManager>();
-
             gameManager.gameClear = true;
             gameManager.gamePlay = false;
         }
-
-        
     }
 
     void NotDamage()
@@ -335,15 +303,14 @@ public class PlayerController : MonoBehaviour
     }
     void HitWeapon()
     {
-        knifeCollider.enabled = false;
-        swordCollider.enabled = false;
-        spearCollider.enabled = false;
+        for (int i = 0; i < 3; i++)
+            weaponCollider[i].enabled = false;
     }
 
     public enum Weapon
     {
-        Knife = 1,
-        Sword,
-        Spear
+        KNIFE,
+        SWORD,
+        SPEAR
     }
 }

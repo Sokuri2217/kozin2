@@ -12,24 +12,11 @@ public class MainUIScript : MonoBehaviour
     public GameObject killCounter;
     //ïêäÌÉAÉCÉRÉì
     public Image weapon_icon;
-    public Sprite wepon_knife;
-    public Sprite wepon_knife_interval;
-    public Sprite wepon_sword;
-    public Sprite wepon_sword_interval;
-    public Sprite wepon_spear;
-    public Sprite wepon_spear_interval;
+    public Sprite[] wepon;
+    public Sprite[] wepon_interval;
     //ÉXÉLÉãÉAÉCÉRÉì
     public  Image skill_icon;
-    public Sprite ap_x2;
-    public Sprite hp_x2;
-    public Sprite attack_x2;
-    public Sprite defense_x05;
-    public Sprite speed15_attck075;
-    public Sprite speed075_attack15;
-    public Sprite useap2_attack2;
-    public Sprite defense05_attack05;
-    public Sprite defense2_attack2;
-    
+    public Sprite[] skill;
 
     //ÉQÅ[ÉÄèÛë‘
     public bool open_Option = false;
@@ -131,14 +118,14 @@ public class MainUIScript : MonoBehaviour
             //ïêäÌ
             switch (playerController.weapon)
             {
-                case (int)Weapon.Knife:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knife_interval;
+                case (int)Weapon.KNIFE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.KNIFE];
                     break;
-                case (int)Weapon.Sword:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_sword_interval;
+                case (int)Weapon.SWORD:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.SWORD];
                     break;
-                case (int)Weapon.Spear:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_spear_interval;
+                case (int)Weapon.SPEAR:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.SPEAR];
                     break;
             }
         }
@@ -147,14 +134,14 @@ public class MainUIScript : MonoBehaviour
             //ïêäÌ
             switch (playerController.weapon)
             {
-                case (int)Weapon.Knife:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_knife;
+                case (int)Weapon.KNIFE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.KNIFE];
                     break;
-                case (int)Weapon.Sword:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_sword;
+                case (int)Weapon.SWORD:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.SWORD];
                     break;
-                case (int)Weapon.Spear:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_spear;
+                case (int)Weapon.SPEAR:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.SPEAR];
                     break;
             }
         }
@@ -163,54 +150,54 @@ public class MainUIScript : MonoBehaviour
         //AP2î{
         if (playerController.skill >= 1 && playerController.skill <= 20)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = ap_x2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[0];
         }
         //HP2î{
         else if (playerController.skill >= 21 && playerController.skill <= 40)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = hp_x2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[1];
         }
         //çUåÇóÕ2î{
         else if (playerController.skill >= 41 && playerController.skill <= 50)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = attack_x2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[2];
         }
         //îÌÉ_ÉÅÅ[ÉW2î{
         else if (playerController.skill >= 51 && playerController.skill <= 60)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = defense_x05;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[3];
         }
         //à⁄ìÆ1.5î{ÅEçUåÇóÕ0.75î{
         else if (playerController.skill >= 61 && playerController.skill <= 70)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = speed15_attck075;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[4];
         }
         //à⁄ìÆ0.75î{ÅEçUåÇóÕ1.5î{
         else if (playerController.skill >= 71 && playerController.skill <= 80)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = speed075_attack15;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[5];
         }
         //è¡îÔAPÅEçUåÇóÕ2î{
         else if (playerController.skill >= 81 && playerController.skill <= 90)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = useap2_attack2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[6];
         }
         //îÌÉ_ÉÅÅ[ÉW2î{ÅEó^É_ÉÅÅ[ÉW0.5î{
         else if (playerController.skill >= 91 && playerController.skill <= 95)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = defense05_attack05;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[7];
         }
         //îÌÉ_ÉÅÅ[ÉW0.5î{ÅEó^É_ÉÅÅ[ÉW2î{ 0
         else if (playerController.skill >= 96 && playerController.skill <= 100)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = defense2_attack2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[8];
         }
     }
 
     public enum Weapon
     {
-        Knife = 1,
-        Sword,
-        Spear
+        KNIFE,
+        SWORD,
+        SPEAR
     }
 }
