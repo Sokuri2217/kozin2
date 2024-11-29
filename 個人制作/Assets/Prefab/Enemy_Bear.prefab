@@ -33,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 263289610}
   m_Father: {fileID: 3312499663655723257}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -499,7 +499,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442345434339544117}
-  m_LocalRotation: {x: 0.5904848, y: -0.16408491, z: 0.78902113, w: -0.043005276}
+  m_LocalRotation: {x: 0.5904848, y: -0.16408494, z: 0.78902113, w: -0.043005284}
   m_LocalPosition: {x: -0.010158777, y: 0.010720336, z: 0.022787856}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000002}
   m_ConstrainProportionsScale: 0
@@ -571,7 +571,7 @@ Transform:
   - {fileID: 1655051546537155838}
   - {fileID: 6174591537405838172}
   m_Father: {fileID: 3312499663655723257}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &675909096443109129
 GameObject:
@@ -960,10 +960,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 88810840}
   - {fileID: 6005139744528426076}
   - {fileID: 8891745647087151557}
   - {fileID: 5405685092422384681}
+  - {fileID: 88810840}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1047,7 +1047,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
@@ -1886,7 +1886,7 @@ Transform:
   m_Children:
   - {fileID: 5294973319670884316}
   m_Father: {fileID: 3312499663655723257}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6378295534284259339
 GameObject:
@@ -2168,12 +2168,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463216850972275919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.04, y: 0, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3312499663655723257}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2016582376
 MonoBehaviour:
@@ -2376,6 +2376,10 @@ PrefabInstance:
     - target: {fileID: 7523760516084148799, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
       propertyPath: m_Name
       value: monster_bear01_weapon01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8316239912556923882, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5879c5ba37769a44cb61e58de0d83304, type: 3}

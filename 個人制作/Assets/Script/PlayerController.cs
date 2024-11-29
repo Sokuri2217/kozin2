@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
             currentHp -= damage;
             se.PlayOneShot(damage_se);
             isDamage = true;
-            Invoke("NotDamage", 1.0f);
+            Invoke("NotDamage", 0.7f);
         }
     }
 
