@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     Quaternion targetRotation;
     Rigidbody rb;
-    public AudioSource se;
+    private AudioSource se;
     public AudioClip damage_se;
 
     //基礎能力
@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage && !gameManager.gamePlay) 
+        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay) 
         {
             //現在のHPからダメージを引く
             currentHp -= damage;

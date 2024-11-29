@@ -65,17 +65,15 @@ public class EnemyBear : MonoBehaviour
             {
                 nextGoal(); 
             }
-            else if(agent.remainingDistance > 0.5f && isChase)
-            {
-                animator.SetTrigger("attack");
-                weaponCollider.enabled = true;
-                Invoke("NotAttack", 1.0f);
-            }
         }
-        else
+
+        if (agent.remainingDistance > 0.5f && isChase && !attack) 
         {
-            Debug.Log("isDamege");
-            
+            attack = true;
+            animator.SetTrigger("attack");
+            weaponCollider.enabled = true;
+            Invoke("NotAttack", 2.0f);
+            Invoke("NotWeapon", 0.3f);
         }
 
         //最大HPにおける現在のHPをSliderに反映
@@ -167,6 +165,10 @@ public class EnemyBear : MonoBehaviour
         isStop = false;
     }
     void NotAttack()
+    {
+        attack = false;
+    }
+    void NotWeapon()
     {
         weaponCollider.enabled = false;
     }

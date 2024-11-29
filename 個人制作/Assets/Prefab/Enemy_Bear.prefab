@@ -1030,6 +1030,7 @@ MonoBehaviour:
   hpSlider: {fileID: 263289611}
   maxHp: 30
   currentHp: 0
+  isChase: 0
   knife_SE: {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
   sword_SE: {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
   spear_SE: {fileID: 8300000, guid: 44c768ad5fbff4249956bd72e32d3492, type: 3}
@@ -2150,8 +2151,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5405685092422384681}
-  - component: {fileID: 2016582377}
   - component: {fileID: 2016582376}
+  - component: {fileID: 6641712731407648369}
   m_Layer: 0
   m_Name: SearchArea
   m_TagString: Untagged
@@ -2174,19 +2175,6 @@ Transform:
   m_Father: {fileID: 3312499663655723257}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2016582377
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463216850972275919}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2016582376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2229,6 +2217,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!65 &6641712731407648369
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463216850972275919}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.718952, y: 0.60980654, z: 5.6579742}
+  m_Center: {x: -0.025800705, y: 1.473007, z: 2.8908043}
 --- !u!1 &8526752186785321144
 GameObject:
   m_ObjectHideFlags: 0
