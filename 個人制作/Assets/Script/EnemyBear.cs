@@ -19,8 +19,9 @@ public class EnemyBear : MonoBehaviour
     public float currentHp;       //現在のHP
     bool death = false;           //死亡フラグ
     bool isDamage = false;        //ダメージ中フラグ
-    bool isStop = false;        //停止フラグ
+    bool isStop = false;          //停止フラグ
     bool attack = false;          //攻撃フラグ
+    public bool isChase = false;  //追跡フラグ
 
     private AudioSource weapon_SE = null;
     public AudioClip knife_SE;
@@ -60,9 +61,15 @@ public class EnemyBear : MonoBehaviour
         if(!isStop)
         {
             //Debug.Log(agent.remainingDistance);
-            if (agent.remainingDistance < 0.5f)
+            if (agent.remainingDistance < 0.5f && !isChase)  
             {
-                nextGoal();
+                nextGoal(); 
+            }
+            else if(agent.remainingDistance > 0.5f && isChase)
+            {
+                animator.SetTrigger("attack");
+                weaponCollider.enabled = true;
+                Invoke("NotAttack", 1.0f);
             }
         }
         else
@@ -91,13 +98,7 @@ public class EnemyBear : MonoBehaviour
         {
             // 対象のオブジェクトを追いかける
             agent.destination = collider.gameObject.transform.position;
-
-            if (agent.remainingDistance < 0.5f)
-            {
-                animator.SetTrigger("attack");
-                weaponCollider.enabled = true;
-                Invoke("NotAttack", 0.2f);
-            }
+            isChase = true;
         }
         
     }
@@ -110,6 +111,7 @@ public class EnemyBear : MonoBehaviour
         {
             // その場で止まる（目的地を今の自分自身の場所にすることにより止めている）
             agent.destination = this.gameObject.transform.position;
+            isChase = false;
         }
     }
 

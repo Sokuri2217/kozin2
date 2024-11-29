@@ -171,17 +171,17 @@ public class PlayerController : MonoBehaviour
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
                     weaponCollider[(int)Weapon.KNIFE].enabled = true;
-                    Invoke("Interval", 2.0f);
+                    Invoke("Interval", 1.5f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
                     weaponCollider[(int)Weapon.SWORD].enabled = true;
-                    Invoke("Interval", 5.0f);
+                    Invoke("Interval", 4.5f);
                     break;
                 case (int)Weapon.SPEAR:
                     animator.SetTrigger("spear");
                     weaponCollider[(int)Weapon.SPEAR].enabled = true;
-                    Invoke("Interval", 8.0f);
+                    Invoke("Interval", 7.0f);
                     break;
             }
             //Œ»İ‚ÌAP‚©‚çÁ”ïAP‚ğˆø‚­
@@ -251,10 +251,10 @@ public class PlayerController : MonoBehaviour
             speed *= 0.75f;
             attack *= 1.5f;
         }
-        else if (skill >= 81 && skill <= 90)//Á”ïAPEUŒ‚—Í2”{
+        else if (skill >= 81 && skill <= 90)//Á”ïAP2”{EUŒ‚—Í3”{
         {
             use_Ap *= 2.0f;
-            attack *= 2.0f;
+            attack *= 3.0f;
         }
         else if (skill >= 91 && skill <= 95)//”íƒ_ƒ[ƒW2”{E—^ƒ_ƒ[ƒW0.5”{
         {
