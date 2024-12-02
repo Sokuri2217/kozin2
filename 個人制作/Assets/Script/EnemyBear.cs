@@ -59,7 +59,20 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!isStop)
+        GameManager gameManager;
+        GameObject obj = GameObject.Find("Player");
+        gameManager = obj.GetComponent<GameManager>();
+
+        if(gameManager.gamePlay)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
+
+        if (!isStop)
         {
             //Debug.Log(agent.remainingDistance);
             if (agent.remainingDistance < 0.5f && !isChase)  
@@ -73,7 +86,7 @@ public class EnemyBear : MonoBehaviour
             attack = true;
             animator.SetTrigger("attack");
             
-            Invoke("IsAttack", 0.05f);
+            Invoke("IsAttack", 0.1f);
             Invoke("NotAttack", 2.0f);
             Invoke("NotWeapon", 0.3f);
         }

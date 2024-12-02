@@ -101,8 +101,10 @@ public class PlayerController : MonoBehaviour
         //ƒvƒŒƒC’†‚Ì‚İ“®‚­
         if (gameManager.gamePlay)
         {
+            Time.timeScale = 1;
+
             //UŒ‚’†‚Í‚»‚Ìê‚©‚çˆÚ“®‚Å‚«‚È‚¢
-            if(!isAttack) Move3D();
+            if (!isAttack) Move3D();
 
             Attack();
 
@@ -120,6 +122,10 @@ public class PlayerController : MonoBehaviour
                     currentTime = 0.0f;
                 }
             }
+        }
+        else
+        {
+            Time.timeScale = 0;
         }
 
         if (currentAp < use_Ap) apLost = true;
