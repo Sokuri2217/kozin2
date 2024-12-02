@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviour
             case (int)Weapon.SWORD:
                 Sword();
                 break;
-            case (int)Weapon.SPEAR:
-                Spear();
+            case (int)Weapon.KNUCKLE:
+                Knuckle();
                 break;
         }
 
@@ -100,16 +100,14 @@ public class PlayerController : MonoBehaviour
         GameManager gameManager = GetComponent<GameManager>();
         //プレイ中のみ動く
         if (gameManager.gamePlay)
-        {
-            Time.timeScale = 1;
-
+        { 
             //攻撃中はその場から移動できない
             if (!isAttack) Move3D();
 
             Attack();
 
             //キルカウントの制御
-            if(kill_enemy>=5) kill_enemy = 5;
+            if (kill_enemy >= 5)  kill_enemy = 5;
 
             //APの自動回復
             if (currentAp < maxAp)
@@ -122,10 +120,10 @@ public class PlayerController : MonoBehaviour
                     currentTime = 0.0f;
                 }
             }
-        }
-        else
-        {
-            Time.timeScale = 0;
+            if (gameManager.gameOver) 
+            {
+                animator.SetBool("death", true);
+            }
         }
 
         if (currentAp < use_Ap) apLost = true;
@@ -177,17 +175,17 @@ public class PlayerController : MonoBehaviour
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
                     weaponCollider[(int)Weapon.KNIFE].enabled = true;
-                    Invoke("Interval", 1.5f);
+                    Invoke("Interval", 3.5f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
                     weaponCollider[(int)Weapon.SWORD].enabled = true;
                     Invoke("Interval", 4.5f);
                     break;
-                case (int)Weapon.SPEAR:
-                    animator.SetTrigger("spear");
-                    weaponCollider[(int)Weapon.SPEAR].enabled = true;
-                    Invoke("Interval", 7.0f);
+                case (int)Weapon.KNUCKLE:
+                    animator.SetTrigger("knuckle");
+                    weaponCollider[(int)Weapon.KNUCKLE].enabled = true;
+                    Invoke("Interval", 1.0f);
                     break;
             }
             //現在のAPから消費APを引く
@@ -203,24 +201,24 @@ public class PlayerController : MonoBehaviour
     //武器
     void Knife()
     {
-        attack = 5.0f;
-        use_Ap = 10.0f;
-        notAttack = 1.0f;
+        attack = 10.0f;
+        use_Ap = 20.0f;
+        notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
     }
     void Sword()
     {
-        attack = 10.0f;
-        use_Ap = 25.0f;
+        attack = 20.0f;
+        use_Ap = 30.0f;
         notAttack = 1.0f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
     }
-    void Spear()
+    void Knuckle()
     {
-        attack = 20.0f;
-        use_Ap = 50.0f;
-        notAttack = 1.8f;
-        use_weapon[(int)Weapon.SPEAR].SetActive(true);
+        attack = 2.5f;
+        use_Ap = 10.0f;
+        notAttack = 0.3f;
+        use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
     }
     //クールタイム
     void Interval()
@@ -284,7 +282,10 @@ public class PlayerController : MonoBehaviour
             currentHp -= damage;
             se.PlayOneShot(damage_se);
             isDamage = true;
+            animator.SetTrigger("damage");
             Invoke("NotDamage", 0.7f);
+            for (int i = 0; i < 3; i++)
+                weaponCollider[i].enabled = false;
         }
     }
 
@@ -317,6 +318,6 @@ public class PlayerController : MonoBehaviour
     {
         KNIFE,
         SWORD,
-        SPEAR
+        KNUCKLE
     }
 }

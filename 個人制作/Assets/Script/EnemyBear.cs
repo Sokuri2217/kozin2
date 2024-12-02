@@ -24,10 +24,10 @@ public class EnemyBear : MonoBehaviour
     public bool isChase = false;  //追跡フラグ
     private int chaseTime = 0;    //追跡解除用のカウント
 
-    private AudioSource weapon_SE = null;
+    private AudioSource sound = null;
     public AudioClip knife_SE;
     public AudioClip sword_SE;
-    public AudioClip spear_SE;
+    public AudioClip Knuckle_SE;
 
     public Collider weaponCollider;
 
@@ -37,7 +37,7 @@ public class EnemyBear : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.destination = goals[destNum].position;
         animator = GetComponent<Animator>();
-        weapon_SE = GetComponent<AudioSource>();
+        sound = GetComponent<AudioSource>();
         weaponCollider.enabled = false;
 
         //Sliderを満タンにする。
@@ -62,15 +62,6 @@ public class EnemyBear : MonoBehaviour
         GameManager gameManager;
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
-
-        if(gameManager.gamePlay)
-        {
-            Time.timeScale = 1;
-        }
-        else
-        {
-            Time.timeScale = 0;
-        }
 
         if (!isStop)
         {
@@ -137,19 +128,20 @@ public class EnemyBear : MonoBehaviour
         {
             isDamage = true;
             isStop = true;
+            weaponCollider.enabled = false;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
             GetComponent<Animator>().SetTrigger("damage");
             switch(playerController.weapon)
             {
                 case (int)Weapon.Knife:
-                    weapon_SE.PlayOneShot(knife_SE);
+                    sound.PlayOneShot(knife_SE);
                     break;
                 case (int)Weapon.Sword:
-                    weapon_SE.PlayOneShot(sword_SE);
+                    sound.PlayOneShot(sword_SE);
                     break;
-                case (int)Weapon.Spear:
-                    weapon_SE.PlayOneShot(spear_SE);
+                case (int)Weapon.Knuckle:
+                    sound.PlayOneShot(Knuckle_SE);
                     break;
             }
             Invoke("NotStop", 0.5f);
@@ -191,8 +183,8 @@ public class EnemyBear : MonoBehaviour
     }
 
     public enum Weapon{
-        Knife = 1,
+        Knife,
         Sword,
-        Spear,
+        Knuckle
     }
 }

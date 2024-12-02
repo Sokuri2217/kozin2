@@ -124,8 +124,8 @@ public class MainUIScript : MonoBehaviour
                 case (int)Weapon.SWORD:
                     GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.SWORD];
                     break;
-                case (int)Weapon.SPEAR:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.SPEAR];
+                case (int)Weapon.KNUCKLE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.KNUCKLE];
                     break;
             }
         }
@@ -140,8 +140,8 @@ public class MainUIScript : MonoBehaviour
                 case (int)Weapon.SWORD:
                     GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.SWORD];
                     break;
-                case (int)Weapon.SPEAR:
-                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.SPEAR];
+                case (int)Weapon.KNUCKLE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.KNUCKLE];
                     break;
             }
         }
@@ -198,6 +198,6 @@ public class MainUIScript : MonoBehaviour
     {
         KNIFE,
         SWORD,
-        SPEAR
+        KNUCKLE
     }
 }

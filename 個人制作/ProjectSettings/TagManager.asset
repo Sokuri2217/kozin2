@@ -12,6 +12,7 @@ TagManager:
   - spear
   - weapon
   - enemyweapon
+  - knuckle
   layers:
   - Default
   - TransparentFX
