@@ -997,7 +997,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.53
-  m_Speed: 5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1034,8 +1034,6 @@ MonoBehaviour:
   knife_SE: {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
   sword_SE: {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
   Knuckle_SE: {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
-  bgm: {fileID: 0}
-  battle: {fileID: 0}
   weaponCollider: {fileID: 6348376833643489706}
 --- !u!54 &436630831
 Rigidbody:
@@ -2230,8 +2228,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.718952, y: 0.60980654, z: 5.6579742}
-  m_Center: {x: -0.025800705, y: 1.473007, z: 2.8908043}
+  m_Size: {x: 7.3712845, y: 0.60980654, z: 7.2941055}
+  m_Center: {x: -0.016468048, y: 1.473007, z: 3.70887}
 --- !u!1 &8526752186785321144
 GameObject:
   m_ObjectHideFlags: 0

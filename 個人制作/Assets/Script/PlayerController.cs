@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
         damage = 15.0f;
-        speed = 7.5f;
+        speed = 7.0f;
         kill_enemy = 0;
         goalspawn = 5;
         isDamage = false;
@@ -120,10 +120,7 @@ public class PlayerController : MonoBehaviour
                     currentTime = 0.0f;
                 }
             }
-            if (gameManager.gameOver) 
-            {
-                animator.SetBool("death", true);
-            }
+            
         }
 
         if (currentAp < use_Ap) apLost = true;
@@ -175,12 +172,12 @@ public class PlayerController : MonoBehaviour
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
                     weaponCollider[(int)Weapon.KNIFE].enabled = true;
-                    Invoke("Interval", 3.5f);
+                    Invoke("Interval", 2.5f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
                     weaponCollider[(int)Weapon.SWORD].enabled = true;
-                    Invoke("Interval", 4.5f);
+                    Invoke("Interval", 3.5f);
                     break;
                 case (int)Weapon.KNUCKLE:
                     animator.SetTrigger("knuckle");
@@ -210,7 +207,7 @@ public class PlayerController : MonoBehaviour
     {
         attack = 20.0f;
         use_Ap = 30.0f;
-        notAttack = 1.0f;
+        notAttack = 0.5f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
     }
     void Knuckle()
@@ -276,16 +273,23 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay) 
+        if(other.CompareTag("enemyweapon"))
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
             se.PlayOneShot(damage_se);
             isDamage = true;
-            animator.SetTrigger("damage");
-            Invoke("NotDamage", 0.7f);
-            for (int i = 0; i < 3; i++)
-                weaponCollider[i].enabled = false;
+            if (currentHp <= 0.0f)
+            {
+                animator.SetBool("death", true);
+            }
+            else if (!isDamage && gameManager.gamePlay)
+            {
+                animator.SetTrigger("damage");
+                Invoke("NotDamage", 0.5f);
+                for (int i = 0; i < 3; i++)
+                    weaponCollider[i].enabled = false;
+            }
         }
     }
 

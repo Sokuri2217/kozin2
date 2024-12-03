@@ -29,6 +29,9 @@ public class EnemyBear : MonoBehaviour
     public AudioClip sword_SE;
     public AudioClip Knuckle_SE;
 
+    //public AudioSource main_Bgm;
+    //public AudioSource battle_Bgm;
+
     public Collider weaponCollider;
 
     // Start is called before the first frame update
@@ -144,6 +147,7 @@ public class EnemyBear : MonoBehaviour
                     sound.PlayOneShot(Knuckle_SE);
                     break;
             }
+            transform.LookAt(player.transform);
             Invoke("NotStop", 0.5f);
             Invoke("NotDamage", 1.0f);
 
