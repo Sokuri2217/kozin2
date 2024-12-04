@@ -23,6 +23,10 @@ public class MainUIScript : MonoBehaviour
     public bool gameset = false;
     public Text currentKill;
     public Text goalSpawnKill;
+    public Text now_hpNum;
+    public Text max_hpNum;
+    public Text now_apNum;
+    public Text max_apNum;
 
     //’·‰Ÿ‚µ–hŽ~
     public bool input = false;
@@ -97,6 +101,11 @@ public class MainUIScript : MonoBehaviour
 
         currentKill.text = playerController.kill_enemy.ToString();
         goalSpawnKill.text = playerController.goalspawn.ToString();
+
+        now_hpNum.text = playerController.currentHp.ToString();
+        max_hpNum.text = playerController.maxHp.ToString();
+        now_apNum.text = playerController.currentAp.ToString();
+        max_apNum.text = playerController.maxAp.ToString();
 
         if (playerController.kill_enemy >= 5) 
         {

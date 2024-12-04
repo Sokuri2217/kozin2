@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip damage_se;
 
     //Šî‘b”\—Í
-    public float maxHp = 100;     //Å‘å‚ÌHP
-    public float currentHp;       //Œ»İ‚ÌHP
-    public float maxAp = 100;     //Å‘å‚ÌAP
-    public float currentAp;       //Œ»İ‚ÌAP
-    public float use_Ap;          //Á”ïAP
+    public int maxHp = 100;     //Å‘å‚ÌHP
+    public int currentHp;       //Œ»İ‚ÌHP
+    public int maxAp = 100;     //Å‘å‚ÌAP
+    public int currentAp;       //Œ»İ‚ÌAP
+    public int use_Ap;          //Á”ïAP
     //ˆÚ“®ŠÖ˜A
     float horizontal;             //‰¡ˆÚ“®
     float vertical;               //cˆÚ“®
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public float notAttack = 0;   //“®‚¯‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚ÌŠÔ
     public float hitWeapon = 0.0f;//“–‚½‚è”»’è•\¦ŠÔ
     //ƒ_ƒ[ƒWŠÖ˜A
-    public float damage;          //ó‚¯‚éƒ_ƒ[ƒW
+    public int damage;          //ó‚¯‚éƒ_ƒ[ƒW
     public bool isDamage;         //”í’eŠm”F
     float currentTime = 0.0f;     //Œ»İ‚ÌŠÔæ“¾
     public int kill_enemy;        //“|‚µ‚½“G”
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         hitWeapon = 1.0f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        damage = 15.0f;
+        damage = 10;
         speed = 7.0f;
         kill_enemy = 0;
         goalspawn = 5;
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
                 if (currentTime >= 1.0f)
                 {
-                    currentAp += 5.0f;
+                    currentAp += 5;
                     currentTime = 0.0f;
                 }
             }
@@ -199,21 +199,21 @@ public class PlayerController : MonoBehaviour
     void Knife()
     {
         attack = 10.0f;
-        use_Ap = 20.0f;
+        use_Ap = 20;
         notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
     }
     void Sword()
     {
         attack = 20.0f;
-        use_Ap = 30.0f;
+        use_Ap = 30;
         notAttack = 0.5f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
     }
     void Knuckle()
     {
         attack = 2.5f;
-        use_Ap = 10.0f;
+        use_Ap = 10;
         notAttack = 0.3f;
         use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
     }
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 51 && skill <= 60)//”íƒ_ƒ[ƒW2”{
         {
-            damage *= 2.0f;
+            damage *= 2;
         }
         else if (skill >= 61 && skill <= 70)//ˆÚ“®1.5”{EUŒ‚—Í0.75”{
         {
@@ -254,17 +254,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 81 && skill <= 90)//Á”ïAP2”{EUŒ‚—Í3”{
         {
-            use_Ap *= 2.0f;
+            use_Ap *= 2;
             attack *= 3.0f;
         }
         else if (skill >= 91 && skill <= 95)//”íƒ_ƒ[ƒW2”{E—^ƒ_ƒ[ƒW0.5”{
         {
-            damage *= 2.0f;
+            damage *= 2;
             attack *= 0.5f;
         }
         else if (skill >= 96 && skill <= 100)//”íƒ_ƒ[ƒW0.5”{E—^ƒ_ƒ[ƒW2”{
         {
-            damage *= 0.5f;
+            damage /= 2;
             attack *= 2.0f;
         }
     }
