@@ -14,11 +14,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] goal;
     private int goalNum = 0;
     private bool spawn = false;
-    //private bool bgm;
+    private bool bgm;
 
-    //private AudioSource result_Bgm;
-    //public AudioClip over_Bgm;
-    //public AudioClip clear_Bgm;
+    private AudioSource result_Bgm;
+    public AudioClip over_Bgm;
+    public AudioClip clear_Bgm;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +26,11 @@ public class GameManager : MonoBehaviour
         gamePlay = true;
         gameOver = false;
         gameClear = false;
-        //bgm = false;
+        bgm = false;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
-        //result_Bgm = GetComponent<AudioSource>();
+        result_Bgm = GetComponent<AudioSource>();
         for (int i = 0; i < 5; i++) 
         {
             goal[i].SetActive(false);
@@ -42,26 +42,29 @@ public class GameManager : MonoBehaviour
     {
         PlayerController playerController = GetComponent<PlayerController>();
 
-        if (playerController.currentHp <= 0.0f/* && !bgm*/) 
+        if (playerController.currentHp <= 0 && !bgm) 
         {
+
             gameOver = true;
             gamePlay = false;
             overPanel.SetActive(true);
-            spawnGoal.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
-            //result_Bgm.PlayOneShot(over_Bgm);
-            //bgm = true;
+            Debug.Log("GameOver");
+            result_Bgm.PlayOneShot(over_Bgm);
+            bgm = true;
         }
 
-        if (gameClear/* && !bgm*/) 
+        if (gameClear && !bgm) 
         {
+
+
             gameClear = true;
             gamePlay = false;
             clearPanel.SetActive(true);
-            spawnGoal.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
-            //result_Bgm.PlayOneShot(clear_Bgm);
-            //bgm = true;
+            Debug.Log("GameClear");
+            result_Bgm.PlayOneShot(clear_Bgm);
+            bgm = true;
         }
 
         if (playerController.kill_enemy >= 5 && !spawn) 

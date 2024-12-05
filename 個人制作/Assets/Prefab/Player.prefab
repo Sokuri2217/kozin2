@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 1709546638320068609}
   m_Layer: 0
   m_Name: Knuckle
-  m_TagString: Untagged
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,8 +180,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.63163054, y: 0.4024074, z: 0.8114353}
-  m_Center: {x: 0.11656851, y: -0.004377321, z: -0.026324876}
+  m_Size: {x: 0.5222854, y: 0.4024074, z: 0.8114353}
+  m_Center: {x: 0.06189591, y: -0.004377321, z: -0.026324874}
 --- !u!1 &7789700593292643437
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,11 +312,11 @@ MonoBehaviour:
   use_weapon:
   - {fileID: 2306109422064394573}
   - {fileID: 1302312261297104362}
-  - {fileID: 0}
+  - {fileID: 7017837248220575111}
   weaponCollider:
   - {fileID: 412259482}
   - {fileID: 1288762191}
-  - {fileID: 0}
+  - {fileID: 1709546638320068609}
 --- !u!114 &7789700593328585062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10912,8 +10912,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.18790767, y: 0.059876796, z: 0.64060485}
-  m_Center: {x: 0.0000082595, y: 0.00000016497712, z: 0.6803671}
+  m_Size: {x: 0.18790767, y: 0.059876796, z: 0.7666343}
+  m_Center: {x: 0.0000082595, y: 0.00000016497712, z: 0.7433818}
 --- !u!1001 &7789700595181651817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11026,5 +11026,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2213682, y: 0.08925299, z: 1.5702763}
-  m_Center: {x: -0.0012134227, y: 0.00000009845485, z: 1.2111675}
+  m_Size: {x: 0.2213682, y: 0.08925299, z: 2.0531542}
+  m_Center: {x: -0.0012134227, y: 0.00000009845493, z: 1.4526064}

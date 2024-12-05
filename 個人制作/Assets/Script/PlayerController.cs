@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip damage_se;
 
     //基礎能力
-    public int maxHp = 100;     //最大のHP
-    public int currentHp;       //現在のHP
-    public int maxAp = 100;     //最大のAP
-    public int currentAp;       //現在のAP
-    public int use_Ap;          //消費AP
+    public float maxHp = 100.0f;  //最大のHP
+    public float currentHp;       //現在のHP
+    public float maxAp = 100.0f;  //最大のAP
+    public float currentAp;       //現在のAP
+    public float use_Ap;          //消費AP
     //移動関連
     float horizontal;             //横移動
     float vertical;               //縦移動
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public float notAttack = 0;   //動けるようになるまでの時間
     public float hitWeapon = 0.0f;//当たり判定表示時間
     //ダメージ関連
-    public int damage;          //受けるダメージ
+    public float damage;          //受けるダメージ
     public bool isDamage;         //被弾確認
     float currentTime = 0.0f;     //現在の時間取得
     public int kill_enemy;        //倒した敵数
@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
     public Slider hpSlider;       //HPバー
     public Slider apSlider;       //Apバー
     //武器
-    public GameObject[] use_weapon;      //使用中の武器
+    public GameObject[] use_weapon;     //使用中の武器
+    int weapon_num;
     //武器の当たり判定
     public Collider[] weaponCollider;   //武器のコライダー
 
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
         hitWeapon = 1.0f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        damage = 10;
+        damage = 10.0f;
         speed = 7.0f;
         kill_enemy = 0;
         goalspawn = 5;
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
+        //追加効果付与
         RandomSkill();
 
         //Sliderを満タンにする。
@@ -102,34 +104,42 @@ public class PlayerController : MonoBehaviour
         if (gameManager.gamePlay)
         { 
             //攻撃中はその場から移動できない
-            if (!isAttack) Move3D();
+            if (!isAttack)
+            {
+                Move3D();
+            }
 
+            //攻撃用関数
             Attack();
 
             //キルカウントの制御
-            if (kill_enemy >= 5)  kill_enemy = 5;
+            if (kill_enemy >= 5)  
+                kill_enemy = 5;
+
+            //HPの制御
+            if (currentHp <= 0.0f)
+                currentHp = 0.0f;
 
             //APの自動回復
             if (currentAp < maxAp)
             {
                 currentTime += Time.deltaTime;
 
-                if (currentTime >= 1.0f)
+                if (currentTime >= 2.0f)
                 {
-                    currentAp += 5;
+                    currentAp += 5.0f;
                     currentTime = 0.0f;
                 }
             }
-            
+            //最大HPにおける現在のHPをSliderに反映
+            hpSlider.value = currentHp / maxHp;
+            //最大APにおける現在のAPをSliderに反映。
+            apSlider.value = currentAp / maxAp;
         }
 
+        //残りAPが0になったらフラグをたてる
         if (currentAp < use_Ap) apLost = true;
         else apLost = false;
-
-        //最大HPにおける現在のHPをSliderに反映
-        hpSlider.value = currentHp / maxHp;
-        //最大APにおける現在のAPをSliderに反映。
-        apSlider.value = currentAp / maxAp;
     }
 
     //移動関連
@@ -171,17 +181,17 @@ public class PlayerController : MonoBehaviour
             {
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
-                    weaponCollider[(int)Weapon.KNIFE].enabled = true;
+                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 2.5f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
-                    weaponCollider[(int)Weapon.SWORD].enabled = true;
+                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 3.5f);
                     break;
                 case (int)Weapon.KNUCKLE:
                     animator.SetTrigger("knuckle");
-                    weaponCollider[(int)Weapon.KNUCKLE].enabled = true;
+                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 1.0f);
                     break;
             }
@@ -199,23 +209,26 @@ public class PlayerController : MonoBehaviour
     void Knife()
     {
         attack = 10.0f;
-        use_Ap = 20;
+        use_Ap = 20.0f;
         notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
+        weapon_num = (int)Weapon.KNIFE;
     }
     void Sword()
     {
         attack = 20.0f;
-        use_Ap = 30;
+        use_Ap = 30.0f;
         notAttack = 0.5f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
+        weapon_num = (int)Weapon.SWORD;
     }
     void Knuckle()
     {
         attack = 2.5f;
-        use_Ap = 10;
+        use_Ap = 10.0f;
         notAttack = 0.3f;
         use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
+        weapon_num = (int)Weapon.KNUCKLE;
     }
     //クールタイム
     void Interval()
@@ -228,11 +241,11 @@ public class PlayerController : MonoBehaviour
     {
         if(skill>=1&&skill<=20)//AP2倍
         {
-            maxAp *= 2;
+            maxAp *= 2.0f;
         }
         else if (skill >= 21 && skill <= 40)//HP2倍
         {
-            maxHp *= 2;
+            maxHp *= 2.0f;
         }
         else if (skill >= 41 && skill <= 50)//攻撃力2倍
         {
@@ -240,12 +253,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 51 && skill <= 60)//被ダメージ2倍
         {
-            damage *= 2;
+            damage *= 2.0f;
         }
         else if (skill >= 61 && skill <= 70)//移動1.5倍・攻撃力0.75倍
         {
             speed *= 1.5f;
-            attack   *= 0.75f;
+            attack *= 0.75f;
         }
         else if (skill >= 71 && skill <= 80)//移動0.75倍・攻撃力1.5倍
         {
@@ -254,17 +267,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (skill >= 81 && skill <= 90)//消費AP2倍・攻撃力3倍
         {
-            use_Ap *= 2;
+            use_Ap *= 2.0f;
             attack *= 3.0f;
         }
         else if (skill >= 91 && skill <= 95)//被ダメージ2倍・与ダメージ0.5倍
         {
-            damage *= 2;
+            damage *= 2.0f;
             attack *= 0.5f;
         }
         else if (skill >= 96 && skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
         {
-            damage /= 2;
+            damage /= 2.0f;
             attack *= 2.0f;
         }
     }
@@ -273,22 +286,28 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
         //Enemyタグのオブジェクトに触れると発動
-        if(other.CompareTag("enemyweapon"))
+        if (other.CompareTag("enemyweapon") && !isDamage) 
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
+            //ダメージSEを鳴らす
             se.PlayOneShot(damage_se);
             isDamage = true;
-            if (currentHp <= 0.0f)
-            {
-                animator.SetBool("death", true);
-            }
-            else if (!isDamage && gameManager.gamePlay)
+            HitWeapon();
+            if (currentHp > 0.0f)
             {
                 animator.SetTrigger("damage");
-                Invoke("NotDamage", 0.5f);
-                for (int i = 0; i < 3; i++)
-                    weaponCollider[i].enabled = false;
+                Invoke("NotDamage", 0.4f);
+            }
+            else
+            {
+                //死亡アニメーション再生
+                if (currentHp <= 0.0f)
+                {
+                    animator.SetTrigger("death");
+                    gameManager.gameOver = true;
+                    gameManager.gamePlay = false;
+                }
             }
         }
     }
@@ -308,14 +327,17 @@ public class PlayerController : MonoBehaviour
     {
         isDamage = false;
     }
+    void IsAttack()
+    {
+        weaponCollider[weapon_num].enabled = true;
+    }
     void NotAttack()
     {
         isAttack = false;
     }
     void HitWeapon()
     {
-        for (int i = 0; i < 3; i++)
-            weaponCollider[i].enabled = false;
+        weaponCollider[weapon_num].enabled = false;
     }
 
     public enum Weapon

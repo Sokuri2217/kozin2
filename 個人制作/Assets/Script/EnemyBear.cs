@@ -21,8 +21,10 @@ public class EnemyBear : MonoBehaviour
     bool isDamage = false;        //ダメージ中フラグ
     bool isStop = false;          //停止フラグ
     bool attack = false;          //攻撃フラグ
+    bool isAttack = false;        //攻撃フラグ
     public bool isChase = false;  //追跡フラグ
-    private int chaseTime = 0;    //追跡解除用のカウント
+    private float chaseTime = 0;  //追跡解除用のカウント
+    private int speed;            //アニメーション管理用
 
     private AudioSource sound = null;
     public AudioClip knife_SE;
@@ -42,6 +44,7 @@ public class EnemyBear : MonoBehaviour
         animator = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
         weaponCollider.enabled = false;
+        speed = 0;
 
         //Sliderを満タンにする。
         hpSlider.value = 1;
@@ -68,20 +71,41 @@ public class EnemyBear : MonoBehaviour
 
         if (!isStop)
         {
-            //Debug.Log(agent.remainingDistance);
             if (agent.remainingDistance < 0.5f && !isChase)  
             {
+                speed = 1;
                 nextGoal(); 
             }
         }
+        if (isAttack)
+        {
+            agent.speed = 0;
+        }
+        else if (isChase && chaseTime < 3.0f)
+        {
+            speed = 2;
+            agent.speed = 15;
+            // 対象のオブジェクトを追いかける
+            agent.destination = player.transform.position;
+        }
+        else if (chaseTime >= 3.0f) 
+        {
+            isChase = false;
+            speed = 1;
+            agent.speed = 2;
+        }
 
-        if (agent.remainingDistance > 0.5f && isChase && !attack) 
+        if ((transform.position.x - player.transform.position.x) < 1.0f &&
+            (transform.position.z - player.transform.position.z) < 1.0f &&
+            isChase && !attack && !isAttack) 
         {
             attack = true;
+            isAttack = true;
             animator.SetTrigger("attack");
             
             Invoke("IsAttack", 0.1f);
-            Invoke("NotAttack", 2.0f);
+            Invoke("NotAttack", 0.5f);
+            Invoke("CanAttack", 2.0f);
             Invoke("NotWeapon", 0.3f);
         }
 
@@ -91,9 +115,11 @@ public class EnemyBear : MonoBehaviour
         if (currentHp <= 0.0f && !death) 
         {
             animator.SetTrigger("death");
+            agent.speed = 0;
             death = true;
             Invoke("Death", 0.6f);
         }
+        animator.SetFloat("EnemySpeed", speed, 0.1f, Time.deltaTime);
         hpSlider.transform.LookAt(camera.transform);
     }
 
@@ -103,9 +129,8 @@ public class EnemyBear : MonoBehaviour
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
         if (collider.gameObject.tag == "Player" && !isStop) 
         {
-            // 対象のオブジェクトを追いかける
-            agent.destination = collider.gameObject.transform.position;
             isChase = true;
+            chaseTime = 0;
         }
         
     }
@@ -113,10 +138,10 @@ public class EnemyBear : MonoBehaviour
     // CollisionDetectorクラスに作ったonTriggerExitEventにセットする。 
     public void OnLoseObject(Collider collider)
     {
-        // 検知したオブジェクトに"Player"タグが付いてれば、その場で止まる
+        // 検知したオブジェクトが範囲外から出ても、しばらく追いかけ一定秒数が経つと徘徊する
         if (collider.gameObject.tag == "Player" && !isStop) 
         {
-            isChase = false;
+            chaseTime = Time.deltaTime;
         }
     }
 
@@ -135,6 +160,7 @@ public class EnemyBear : MonoBehaviour
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
             GetComponent<Animator>().SetTrigger("damage");
+            //武器ごとに被弾SEを鳴らす
             switch(playerController.weapon)
             {
                 case (int)Weapon.Knife:
@@ -147,6 +173,7 @@ public class EnemyBear : MonoBehaviour
                     sound.PlayOneShot(Knuckle_SE);
                     break;
             }
+            //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
             transform.LookAt(player.transform);
             Invoke("NotStop", 0.5f);
             Invoke("NotDamage", 1.0f);
@@ -160,27 +187,39 @@ public class EnemyBear : MonoBehaviour
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
+        //死亡処理
+        //KILLカウントを増やす
         playerController.kill_enemy++;
+        //オブジェクトを消去する
         Destroy(gameObject);
     }
 
+    //ダメージを受けるようになる
     void NotDamage()
     {
         isDamage = false;
     }
-
+    //再移動可能
     void NotStop()
     {
         isStop = false;
     }
+    //再攻撃可能
     void NotAttack()
+    {
+        isAttack = false;
+    }
+    //攻撃可能
+    void CanAttack()
     {
         attack = false;
     }
+    //武器コライダーつける
     void IsAttack()
     {
         weaponCollider.enabled = true;
     }
+    //武器コライダー消す
     void NotWeapon()
     {
         weaponCollider.enabled = false;

@@ -20,13 +20,21 @@ public class MainUIScript : MonoBehaviour
 
     //ゲーム状態
     public bool open_Option = false;
-    public bool gameset = false;
+
+    //ゴール条件
     public Text currentKill;
     public Text goalSpawnKill;
+    //ステータス表記
     public Text now_hpNum;
     public Text max_hpNum;
     public Text now_apNum;
     public Text max_apNum;
+    public RectTransform hp;
+    bool hpSlide;
+    bool hpSlide2;
+    public RectTransform ap;
+    bool apSlide;
+    bool apSlide2;
 
     //長押し防止
     public bool input = false;
@@ -41,6 +49,11 @@ public class MainUIScript : MonoBehaviour
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
         open_Option = false;
+
+        hpSlide = false;
+        hpSlide2 = false;
+        apSlide = false;
+        apSlide2 = false;
 
         Icon();
     }
@@ -57,24 +70,27 @@ public class MainUIScript : MonoBehaviour
 
         //オプション管理
         //Escで操作
-        if (Input.GetKeyDown(KeyCode.Escape) && !input && gameManager.gamePlay)  
+        if(gameManager.gamePlay)
         {
-            switch (open_Option)
+            if (Input.GetKeyDown(KeyCode.Escape) && !input)
             {
-                case false:
-                    menuPanel.SetActive(true);
-                    camera.SetActive(false);
-                    gameManager.gamePlay = false;
-                    open_Option = true;
-                    break;
-                case true:
-                    menuPanel.SetActive(false);
-                    camera.SetActive(true);
-                    gameManager.gamePlay = true;
-                    open_Option = false;
-                    break;
+                switch (open_Option)
+                {
+                    case false:
+                        menuPanel.SetActive(true);
+                        camera.SetActive(false);
+                        gameManager.gamePlay = false;
+                        open_Option = true;
+                        break;
+                    case true:
+                        menuPanel.SetActive(false);
+                        camera.SetActive(true);
+                        gameManager.gamePlay = true;
+                        open_Option = false;
+                        break;
+                }
+                input = true;
             }
-            input = true;
         }
         //ボタンで操作
         if(!open_Option)
@@ -97,6 +113,28 @@ public class MainUIScript : MonoBehaviour
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (playerController.currentHp < 100.0f && !hpSlide)
+        {
+            hp.position += new Vector3(0.01f, 0, 0);
+            hpSlide = true;
+        }
+        else if (playerController.currentHp >= 100.0f && hpSlide)
+        {
+            hp.position -= new Vector3(0.01f, 0, 0);
+            hpSlide = false;
+        }
+
+        if (playerController.currentAp < 100.0f && !apSlide)
+        {
+            ap.position += new Vector3(0.01f, 0, 0);
+            apSlide = true;
+        }
+        else if (playerController.currentAp >= 100.0f && apSlide)
+        {
+            ap.position -= new Vector3(0.01f, 0, 0);
+            apSlide = false;
         }
 
         currentKill.text = playerController.kill_enemy.ToString();

@@ -11,6 +11,8 @@ public class ButtonController : MonoBehaviour
     //タイトルに移動
     public void LoadTitle()
     {
+        
+
         StartCoroutine("MoveDelay", 0.5f);
         mode = (int)Mode.Title;
 
@@ -18,6 +20,8 @@ public class ButtonController : MonoBehaviour
     //ステージ1に移動
     public void LoadMain1()
     {
+       
+
         StartCoroutine("MoveDelay", 0.5f);
         mode = (int)Mode.Main1;
 
@@ -25,6 +29,8 @@ public class ButtonController : MonoBehaviour
     //ゲームを再開する
     public void BackGame()
     {
+        
+
         StartCoroutine("MoveDelay", 0.1f);
         mode = (int)Mode.Back;
     }
