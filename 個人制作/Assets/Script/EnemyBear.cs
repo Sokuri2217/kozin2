@@ -9,6 +9,7 @@ public class EnemyBear : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator animator;
+    public Collider searchArea;
 
     public Transform[] goals;     //徘徊ポイント
     public Transform player;      //プレイヤーの位置
@@ -81,7 +82,7 @@ public class EnemyBear : MonoBehaviour
         {
             agent.speed = 0;
         }
-        else if (isChase && chaseTime < 3.0f)
+        else if (isChase && chaseTime < 2.0f)
         {
             speed = 2;
             agent.speed = 15;
@@ -93,6 +94,15 @@ public class EnemyBear : MonoBehaviour
             isChase = false;
             speed = 1;
             agent.speed = 2;
+        }
+
+        if(isChase)
+        {
+            searchArea.enabled = false;
+        }
+        else
+        {
+            searchArea.enabled = true;
         }
 
         if ((transform.position.x - player.transform.position.x) < 1.0f &&

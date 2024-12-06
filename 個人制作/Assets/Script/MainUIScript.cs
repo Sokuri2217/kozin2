@@ -61,7 +61,6 @@ public class MainUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         GameManager gameManager;
         PlayerController playerController;
         GameObject obj = GameObject.Find("Player");
@@ -77,28 +76,30 @@ public class MainUIScript : MonoBehaviour
                 switch (open_Option)
                 {
                     case false:
-                        menuPanel.SetActive(true);
-                        camera.SetActive(false);
-                        gameManager.gamePlay = false;
                         open_Option = true;
                         break;
                     case true:
-                        menuPanel.SetActive(false);
-                        camera.SetActive(true);
-                        gameManager.gamePlay = true;
                         open_Option = false;
                         break;
                 }
                 input = true;
             }
+
+            //ボタンで操作
+            if (!open_Option)
+            {
+                menuPanel.SetActive(false);
+                camera.SetActive(true);
+                Time.timeScale = 1;
+            }
+            else
+            {
+                menuPanel.SetActive(true);
+                camera.SetActive(false);
+                Time.timeScale = 0;
+            }
         }
-        //ボタンで操作
-        if(!open_Option)
-        {
-            menuPanel.SetActive(false);
-            camera.SetActive(true);
-            gameManager.gamePlay = true;
-        } 
+        
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape)&&input)
         {
@@ -108,11 +109,6 @@ public class MainUIScript : MonoBehaviour
         if(!gameManager.gamePlay)
         {
             camera.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         if (playerController.currentHp < 100.0f && !hpSlide)
@@ -145,10 +141,8 @@ public class MainUIScript : MonoBehaviour
         now_apNum.text = playerController.currentAp.ToString();
         max_apNum.text = playerController.maxAp.ToString();
 
-        if (playerController.kill_enemy >= 5) 
-        {
+        if (playerController.kill_enemy >= 5)
             killCounter.SetActive(false);
-        }
 
         Icon();
     }

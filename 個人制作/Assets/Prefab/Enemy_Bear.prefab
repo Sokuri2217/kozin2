@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 8050113819841256225}
   m_Layer: 0
   m_Name: Enemy_Bear
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1021,6 +1021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e99088d8180cf498dc5baadda68400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  searchArea: {fileID: 6641712731407648369}
   goals:
   - {fileID: 0}
   - {fileID: 0}

@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         hitWeapon = 1.0f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        damage = 10.0f;
+        damage = 5.0f;
         speed = 7.0f;
         kill_enemy = 0;
         goalspawn = 5;
@@ -99,6 +99,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButton(1))
+        {
+            currentHp = 0.0f;
+        }
+
         GameManager gameManager = GetComponent<GameManager>();
         //プレイ中のみ動く
         if (gameManager.gamePlay)
@@ -208,7 +213,7 @@ public class PlayerController : MonoBehaviour
     //武器
     void Knife()
     {
-        attack = 10.0f;
+        attack = 15.0f;
         use_Ap = 20.0f;
         notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
@@ -224,7 +229,7 @@ public class PlayerController : MonoBehaviour
     }
     void Knuckle()
     {
-        attack = 2.5f;
+        attack = 10.0f;
         use_Ap = 10.0f;
         notAttack = 0.3f;
         use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
@@ -301,13 +306,13 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //死亡アニメーション再生
-                if (currentHp <= 0.0f)
-                {
-                    animator.SetTrigger("death");
-                    gameManager.gameOver = true;
-                    gameManager.gamePlay = false;
-                }
+                ////死亡アニメーション再生
+                //if (currentHp <= 0.0f)
+                //{
+                //    animator.SetTrigger("death");
+                //    gameManager.gameOver = true;
+                //    gameManager.gamePlay = false;
+                //}
             }
         }
     }

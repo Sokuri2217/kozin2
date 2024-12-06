@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private bool spawn = false;
     private bool bgm;
 
+    public AudioSource mainBgm;
     private AudioSource result_Bgm;
     public AudioClip over_Bgm;
     public AudioClip clear_Bgm;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
         result_Bgm = GetComponent<AudioSource>();
+        mainBgm = GetComponent<AudioSource>();
         for (int i = 0; i < 5; i++) 
         {
             goal[i].SetActive(false);
@@ -42,32 +44,31 @@ public class GameManager : MonoBehaviour
     {
         PlayerController playerController = GetComponent<PlayerController>();
 
-        if (playerController.currentHp <= 0 && !bgm) 
+        if (playerController.currentHp <= 0) 
         {
-
             gameOver = true;
             gamePlay = false;
             overPanel.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Debug.Log("GameOver");
-            result_Bgm.PlayOneShot(over_Bgm);
-            bgm = true;
+            Time.timeScale = 0;
         }
 
-        if (gameClear && !bgm) 
+        if (gameClear) 
         {
-
-
             gameClear = true;
             gamePlay = false;
             clearPanel.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Debug.Log("GameClear");
-            result_Bgm.PlayOneShot(clear_Bgm);
-            bgm = true;
+            Time.timeScale = 0;
         }
 
-        if (playerController.kill_enemy >= 5 && !spawn) 
+        //if (playerController.kill_enemy >= 5 && !spawn||
+        //    Input.GetMouseButton(1)) 
+        //{
+        //    spawn = true;
+        //    goalNum = Random.Range(0, 5);
+        //    goal[goalNum].SetActive(true);
+        //    spawnGoal.SetActive(true);
+        //}
+        if (playerController.kill_enemy >= 5 && !spawn)
         {
             spawn = true;
             goalNum = Random.Range(0, 5);
