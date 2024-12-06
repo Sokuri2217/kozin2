@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     public GameObject[] goal;
     private int goalNum = 0;
     private bool spawn = false;
-    private bool bgm;
 
-    public AudioSource mainBgm;
+    public AudioSource main_Bgm;
+
     private AudioSource result_Bgm;
-    public AudioClip over_Bgm;
     public AudioClip clear_Bgm;
+    public AudioClip over_Bgm;
+
+    public bool isBgm;
 
     // Start is called before the first frame update
     void Start()
@@ -27,16 +29,16 @@ public class GameManager : MonoBehaviour
         gamePlay = true;
         gameOver = false;
         gameClear = false;
-        bgm = false;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
+        main_Bgm = GetComponent<AudioSource>();
         result_Bgm = GetComponent<AudioSource>();
-        mainBgm = GetComponent<AudioSource>();
-        for (int i = 0; i < 5; i++) 
-        {
+
+        isBgm = false;
+
+        for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
-        }
     }
 
     // Update is called once per frame
@@ -44,30 +46,27 @@ public class GameManager : MonoBehaviour
     {
         PlayerController playerController = GetComponent<PlayerController>();
 
-        if (playerController.currentHp <= 0) 
+        if (playerController.currentHp <= 0 && !isBgm)  
         {
             gameOver = true;
             gamePlay = false;
             overPanel.SetActive(true);
+            result_Bgm.PlayOneShot(over_Bgm);
+            main_Bgm.Stop();
+            isBgm = true;
             Time.timeScale = 0;
         }
-
-        if (gameClear) 
+        if (gameClear && !isBgm) 
         {
             gameClear = true;
             gamePlay = false;
             clearPanel.SetActive(true);
+            result_Bgm.PlayOneShot(clear_Bgm);
+            main_Bgm.Stop();
+            isBgm = true;
             Time.timeScale = 0;
         }
 
-        //if (playerController.kill_enemy >= 5 && !spawn||
-        //    Input.GetMouseButton(1)) 
-        //{
-        //    spawn = true;
-        //    goalNum = Random.Range(0, 5);
-        //    goal[goalNum].SetActive(true);
-        //    spawnGoal.SetActive(true);
-        //}
         if (playerController.kill_enemy >= 5 && !spawn)
         {
             spawn = true;

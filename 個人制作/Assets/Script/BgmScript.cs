@@ -15,11 +15,7 @@ public class BgmScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        main_Bgm = GetComponent<AudioSource>();
-        result_Bgm = GetComponent<AudioSource>();
-
-        main_Bgm.Play();
-
+        
         bgm = false;
     }
 
@@ -28,17 +24,6 @@ public class BgmScript : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
 
-        if (gameManager.gameClear && !bgm) 
-        {
-            result_Bgm.PlayOneShot(clear_Bgm);
-            main_Bgm.Stop();
-            bgm = true;
-        }
-        if (gameManager.gameOver && bgm)
-        {
-            result_Bgm.PlayOneShot(over_Bgm);
-            main_Bgm.Stop();
-            bgm = true;
-        }   
+        
     }
 }
