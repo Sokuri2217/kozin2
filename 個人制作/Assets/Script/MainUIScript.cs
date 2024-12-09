@@ -18,8 +18,7 @@ public class MainUIScript : MonoBehaviour
     public  Image skill_icon;
     public Sprite[] skill;
 
-    //ÉQÅ[ÉÄèÛë‘
-    public bool open_Option = false;
+    public bool input = false;
 
     //ÉSÅ[Éãèåè
     public Text currentKill;
@@ -29,15 +28,8 @@ public class MainUIScript : MonoBehaviour
     public Text max_hpNum;
     public Text now_apNum;
     public Text max_apNum;
-    public RectTransform hp;
-    bool hpSlide;
-    bool hpSlide2;
-    public RectTransform ap;
-    bool apSlide;
-    bool apSlide2;
 
-    //í∑âüÇµñhé~
-    public bool input = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -48,12 +40,6 @@ public class MainUIScript : MonoBehaviour
 
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
-        open_Option = false;
-
-        hpSlide = false;
-        hpSlide2 = false;
-        apSlide = false;
-        apSlide2 = false;
 
         Icon();
     }
@@ -71,26 +57,12 @@ public class MainUIScript : MonoBehaviour
         //EscÇ≈ëÄçÏ
         if(gameManager.gamePlay)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && !input)
-            {
-                switch (open_Option)
-                {
-                    case false:
-                        open_Option = true;
-                        break;
-                    case true:
-                        open_Option = false;
-                        break;
-                }
-                input = true;
-            }
-
             //É{É^ÉìÇ≈ëÄçÏ
-            if (!open_Option)
+            if (!gameManager.open_Option)
             {
+                Time.timeScale = 1;
                 menuPanel.SetActive(false);
                 camera.SetActive(true);
-                Time.timeScale = 1;
             }
             else
             {
@@ -109,28 +81,6 @@ public class MainUIScript : MonoBehaviour
         if(!gameManager.gamePlay)
         {
             camera.SetActive(false);
-        }
-
-        if (playerController.currentHp < 100.0f && !hpSlide)
-        {
-            hp.position += new Vector3(0.01f, 0, 0);
-            hpSlide = true;
-        }
-        else if (playerController.currentHp >= 100.0f && hpSlide)
-        {
-            hp.position -= new Vector3(0.01f, 0, 0);
-            hpSlide = false;
-        }
-
-        if (playerController.currentAp < 100.0f && !apSlide)
-        {
-            ap.position += new Vector3(0.01f, 0, 0);
-            apSlide = true;
-        }
-        else if (playerController.currentAp >= 100.0f && apSlide)
-        {
-            ap.position -= new Vector3(0.01f, 0, 0);
-            apSlide = false;
         }
 
         currentKill.text = playerController.kill_enemy.ToString();

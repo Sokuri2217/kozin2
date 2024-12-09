@@ -103,6 +103,11 @@ public class ButtonController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        
+    }
+
     //‰Ÿ‚µ‚½ƒ{ƒ^ƒ“‚Ì”»•Ê—p
     public enum Mode
     {

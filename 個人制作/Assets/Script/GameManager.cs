@@ -23,6 +23,11 @@ public class GameManager : MonoBehaviour
 
     public bool isBgm;
 
+
+    //ÉQÅ[ÉÄèÛë‘
+    public bool open_Option;
+    //í∑âüÇµñhé~
+    public bool input;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +42,9 @@ public class GameManager : MonoBehaviour
 
         isBgm = false;
 
+        open_Option = false;
+        input = false;
+
         for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
     }
@@ -45,6 +53,20 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         PlayerController playerController = GetComponent<PlayerController>();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !input)
+        {
+            switch (open_Option)
+            {
+                case false:
+                    open_Option = true;
+                    break;
+                case true:
+                    open_Option = false;
+                    break;
+            }
+            input = true;
+        }
 
         if (playerController.currentHp <= 0 && !isBgm)  
         {

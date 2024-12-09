@@ -66,9 +66,10 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //徘徊モード
+        
         if (!isStop)
         {
+            //徘徊モード
             //目的地に一定距離近づくと、再度目的地の抽選と行う
             if (agent.remainingDistance < 0.5f && !isChase)  
             {

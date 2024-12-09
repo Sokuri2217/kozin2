@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
     //ïêäÌ
     void Knife()
     {
-        attack = 15.0f;
+        attack = 9.0f;
         use_Ap = 20.0f;
         notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
     }
     void Sword()
     {
-        attack = 20.0f;
+        attack = 14.0f;
         use_Ap = 30.0f;
         notAttack = 0.5f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour
     }
     void Knuckle()
     {
-        attack = 10.0f;
+        attack = 5.0f;
         use_Ap = 10.0f;
         notAttack = 0.3f;
         use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
