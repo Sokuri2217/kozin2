@@ -55,9 +55,9 @@ public class EnemyBear : MonoBehaviour
 
     void nextGoal()
     {
-
+        //目的地を抽選
         destNum = Random.Range(0, 3);
-
+        //目的地まで移動
         agent.destination = goals[destNum].position;
 
         Debug.Log(destNum);
@@ -66,30 +66,31 @@ public class EnemyBear : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameManager gameManager;
-        GameObject obj = GameObject.Find("Player");
-        gameManager = obj.GetComponent<GameManager>();
-
+        //徘徊モード
         if (!isStop)
         {
+            //目的地に一定距離近づくと、再度目的地の抽選と行う
             if (agent.remainingDistance < 0.5f && !isChase)  
             {
                 speed = 1;
                 nextGoal(); 
             }
         }
+        //攻撃中はその場で停止
         if (isAttack)
         {
             agent.speed = 0;
         }
-        else if (isChase && chaseTime < 2.0f)
+        //チェイス中は、移動速度と移動アニメーションを変更
+        else if (isChase && chaseTime < 2.0f && !isAttack) 
         {
             speed = 2;
             agent.speed = 15;
             // 対象のオブジェクトを追いかける
             agent.destination = player.transform.position;
         }
-        else if (chaseTime >= 3.0f) 
+        //チェイススタートから一定時間が経つと、徘徊モードに戻る
+        else if (chaseTime >= 1.0f) 
         {
             isChase = false;
             speed = 1;
@@ -98,19 +99,23 @@ public class EnemyBear : MonoBehaviour
 
         if(isChase)
         {
+            //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
         }
         else
         {
+            //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
         }
 
+        //プレイヤーに一定距離近づくと、攻撃する
         if ((transform.position.x - player.transform.position.x) < 1.0f &&
             (transform.position.z - player.transform.position.z) < 1.0f &&
             isChase && !attack && !isAttack) 
         {
             attack = true;
             isAttack = true;
+            agent.speed = 0;
             animator.SetTrigger("attack");
             
             Invoke("IsAttack", 0.1f);
@@ -122,6 +127,7 @@ public class EnemyBear : MonoBehaviour
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
 
+        ////体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
         if (currentHp <= 0.0f && !death) 
         {
             animator.SetTrigger("death");
