@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     float currentTime = 0.0f;     //現在の時間取得
     public int kill_enemy;        //倒した敵数
     public int goalspawn;         //ゴール出現に必要な敵数
+    public bool isStop;           //ダメージを受けると一時的に動きを止める
+    public bool death;
     //Sliderを入れる
     public Slider hpSlider;       //HPバー
     public Slider apSlider;       //Apバー
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
     int weapon_num;
     //武器の当たり判定
     public Collider[] weaponCollider;   //武器のコライダー
+
+    bool a;
 
     void Awake()
     {
@@ -64,6 +68,9 @@ public class PlayerController : MonoBehaviour
         kill_enemy = 0;
         goalspawn = 5;
         isDamage = false;
+        death = false;
+
+        a = false;
 
         for (int i = 0; i < 3; i++) 
         {
@@ -96,55 +103,59 @@ public class PlayerController : MonoBehaviour
         currentAp = maxAp;
 
     }
-    // Update is called once per frame
-    void Update()
+
+    private void FixedUpdate()
     {
+        GameManager gameManager = GetComponent<GameManager>();
+
         if (Input.GetMouseButton(1))
         {
             currentHp = 0.0f;
         }
 
-        GameManager gameManager = GetComponent<GameManager>();
-        //プレイ中のみ動く
-        if (gameManager.gamePlay)
-        { 
-            //攻撃中はその場から移動できない
-            if (!isAttack)
-            {
-                Move3D();
-            }
-
-            //攻撃用関数
-            Attack();
-
-            //キルカウントの制御
-            if (kill_enemy >= 5)  
-                kill_enemy = 5;
-
-            //HPの制御
-            if (currentHp <= 0.0f)
-                currentHp = 0.0f;
-
-            //APの自動回復
-            if (currentAp < maxAp)
-            {
-                currentTime += Time.deltaTime;
-
-                if (currentTime >= 2.0f)
-                {
-                    currentAp += 5.0f;
-                    currentTime = 0.0f;
-                }
-            }
-            //最大HPにおける現在のHPをSliderに反映
-            hpSlider.value = currentHp / maxHp;
-            //最大APにおける現在のAPをSliderに反映。
-            apSlider.value = currentAp / maxAp;
+        if (currentHp <= 0.0f && !a) 
+        {
+            a = true;
+            death = true;
+            animator.SetTrigger("death");
         }
 
+        //攻撃中はその場から移動できない
+        if (!isAttack && !isStop && gameManager.gamePlay) 
+        {
+            Move3D();
+        }
+
+        //攻撃用関数
+        Attack();
+
+        //キルカウントの制御
+        if (kill_enemy >= 5)
+            kill_enemy = 5;
+
+        //HPの制御
+        if (currentHp <= 0.0f)
+            currentHp = 0.0f;
+
+        //APの自動回復
+        if (currentAp < maxAp)
+        {
+            currentTime += Time.deltaTime;
+
+            if (currentTime >= 2.0f)
+            {
+                currentAp += 5.0f;
+                currentTime = 0.0f;
+            }
+        }
         //残りAPが0になったらフラグをたてる
         if (currentAp < use_Ap) apLost = true;
         else apLost = false;
+
+        //最大HPにおける現在のHPをSliderに反映
+        hpSlider.value = currentHp / maxHp;
+        //最大APにおける現在のAPをSliderに反映。
+        apSlider.value = currentAp / maxAp;
     }
 
     //移動関連
@@ -291,28 +302,24 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage) 
+        if (other.CompareTag("enemyweapon") && !isDamage && !death)  
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
             //ダメージSEを鳴らす
             se.PlayOneShot(damage_se);
             isDamage = true;
+            isStop = true;
             HitWeapon();
-            if (currentHp > 0.0f)
+            if (currentHp <= 0.0f)
             {
-                animator.SetTrigger("damage");
-                Invoke("NotDamage", 0.4f);
+                animator.SetTrigger("death");
             }
             else
             {
-                ////死亡アニメーション再生
-                //if (currentHp <= 0.0f)
-                //{
-                //    animator.SetTrigger("death");
-                //    gameManager.gameOver = true;
-                //    gameManager.gamePlay = false;
-                //}
+                animator.SetTrigger("damage");
+                Invoke("NotDamage", 0.4f);
+                Invoke("CanMove", 0.5f);
             }
         }
     }
@@ -331,6 +338,10 @@ public class PlayerController : MonoBehaviour
     void NotDamage()
     {
         isDamage = false;
+    }
+    void CanMove()
+    {
+        isStop = false;
     }
     void IsAttack()
     {

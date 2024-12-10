@@ -6,8 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
-    int mode = 0;
+    int mode;
 
+    private void Start()
+    {
+        mode = 0;
+    }
     //ƒ^ƒCƒgƒ‹‚ÉˆÚ“®
     public void LoadTitle()
     {
@@ -87,11 +91,11 @@ public class ButtonController : MonoBehaviour
             SceneManager.LoadScene("main1");
         if (mode == (int)Mode.Back)
         {
-            MainUIScript mainUIScript;
-            GameObject obj = GameObject.Find("MainUI");
-            mainUIScript = obj.GetComponent<MainUIScript>();
+            GameManager gameManager;
+            GameObject player = GameObject.Find("Player");
+            gameManager = player.GetComponent<GameManager>();
 
-            mainUIScript.open_Option = false;
+            gameManager.open_Option = false;
         }
         if (mode == (int)Mode.GameEnd)
         {

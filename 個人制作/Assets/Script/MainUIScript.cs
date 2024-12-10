@@ -41,6 +41,7 @@ public class MainUIScript : MonoBehaviour
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
 
+        //初回表示
         Icon();
     }
 
@@ -54,46 +55,36 @@ public class MainUIScript : MonoBehaviour
         playerController = obj.GetComponent<PlayerController>();
 
         //オプション管理
-        //Escで操作
-        if(gameManager.gamePlay)
+        //ボタンで操作
+        if (gameManager.open_Option)
         {
-            //ボタンで操作
-            if (!gameManager.open_Option)
-            {
-                Time.timeScale = 1;
-                menuPanel.SetActive(false);
-                camera.SetActive(true);
-            }
-            else
-            {
-                menuPanel.SetActive(true);
-                camera.SetActive(false);
-                Time.timeScale = 0;
-            }
+            menuPanel.SetActive(true);
+            camera.SetActive(false);
         }
-        
-        //長押し防止
-        if (Input.GetKeyUp(KeyCode.Escape)&&input)
+        else
         {
-            input = false;
+            menuPanel.SetActive(false);
+            camera.SetActive(true);
         }
+        //KILLカウントを表示させる
+        currentKill.text = playerController.kill_enemy.ToString();
+        goalSpawnKill.text = playerController.goalspawn.ToString();
+        //HPとAPの最大値と現在値を表示する
+        now_hpNum.text = playerController.currentHp.ToString();
+        max_hpNum.text = playerController.maxHp.ToString();
+        now_apNum.text = playerController.currentAp.ToString();
+        max_apNum.text = playerController.maxAp.ToString();
+
+        //ゴール出現時にKILLカウントを非表示にする
+        if (playerController.kill_enemy >= 5)
+            killCounter.SetActive(false);
 
         if(!gameManager.gamePlay)
         {
             camera.SetActive(false);
         }
 
-        currentKill.text = playerController.kill_enemy.ToString();
-        goalSpawnKill.text = playerController.goalspawn.ToString();
-
-        now_hpNum.text = playerController.currentHp.ToString();
-        max_hpNum.text = playerController.maxHp.ToString();
-        now_apNum.text = playerController.currentAp.ToString();
-        max_apNum.text = playerController.maxAp.ToString();
-
-        if (playerController.kill_enemy >= 5)
-            killCounter.SetActive(false);
-
+        //インターバル中のアイコン制御
         Icon();
     }
 

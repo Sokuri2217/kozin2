@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour
 
     public bool isBgm;
 
-
     //ÉQÅ[ÉÄèÛë‘
     public bool open_Option;
     //í∑âüÇµñhé~
     public bool input;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,47 +54,74 @@ public class GameManager : MonoBehaviour
     {
         PlayerController playerController = GetComponent<PlayerController>();
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !input)
+        //åàíÖÇ™Ç¬Ç≠Ç∆ìÆÇ©Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
+        if (!gameClear && !gameOver) 
         {
-            switch (open_Option)
+            //EscÇ≈àÍéûí‚é~Ç≥ÇπÇÈ
+            if (Input.GetKeyDown(KeyCode.Escape) && !input)
             {
-                case false:
-                    open_Option = true;
-                    break;
-                case true:
-                    open_Option = false;
-                    break;
+                switch (open_Option)
+                {
+                    case false:
+                        open_Option = true;
+                        gamePlay = false;
+                        Time.timeScale = 0;
+                        break;
+                    case true:
+                        Time.timeScale = 1;
+                        open_Option = false;
+                        gamePlay = true;
+                        break;
+                }
+                input = true;
             }
-            input = true;
         }
 
+        //í∑âüÇµñhé~
+        if (Input.GetKeyUp(KeyCode.Escape) && input)
+        {
+            input = false;
+        }
+        //ÉQÅ[ÉÄÉIÅ[ÉoÅ[
         if (playerController.currentHp <= 0 && !isBgm)  
         {
-            gameOver = true;
             gamePlay = false;
-            overPanel.SetActive(true);
             result_Bgm.PlayOneShot(over_Bgm);
             main_Bgm.Stop();
             isBgm = true;
-            Time.timeScale = 0;
+            Invoke("Death", 3.0f);
         }
+        //ÉQÅ[ÉÄÉNÉäÉA
         if (gameClear && !isBgm) 
         {
-            gameClear = true;
             gamePlay = false;
-            clearPanel.SetActive(true);
             result_Bgm.PlayOneShot(clear_Bgm);
             main_Bgm.Stop();
             isBgm = true;
-            Time.timeScale = 0;
-        }
+            Invoke("Clear", 1.0f);
 
-        if (playerController.kill_enemy >= 5 && !spawn)
+        }
+        //èåèÇñûÇΩÇ∑Ç∆ÉSÅ[ÉãÇèoÇ∑
+        if (playerController.kill_enemy >= 5 && !spawn) 
         {
             spawn = true;
             goalNum = Random.Range(0, 5);
             goal[goalNum].SetActive(true);
             spawnGoal.SetActive(true);
         }
+    }
+
+    void Death()
+    {
+        gameOver = true;
+        overPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    void Clear()
+    {
+        gameClear = true;
+        clearPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 }

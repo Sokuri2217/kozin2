@@ -24,16 +24,15 @@ public class EnemyBear : MonoBehaviour
     bool attack = false;          //攻撃フラグ
     bool isAttack = false;        //攻撃フラグ
     public bool isChase = false;  //追跡フラグ
-    private float chaseTime = 0;  //追跡解除用のカウント
+    private int chaseTime = 0;  //追跡解除用のカウント
     private int speed;            //アニメーション管理用
 
     private AudioSource sound = null;
+
+    //ダメージSE
     public AudioClip knife_SE;
     public AudioClip sword_SE;
     public AudioClip Knuckle_SE;
-
-    //public AudioSource main_Bgm;
-    //public AudioSource battle_Bgm;
 
     public Collider weaponCollider;
 
@@ -62,51 +61,47 @@ public class EnemyBear : MonoBehaviour
 
         Debug.Log(destNum);
     }
-
+    private void Update()
+    {
+        Debug.Log(chaseTime);
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        if (!isStop)
-        {
-            //徘徊モード
-            //目的地に一定距離近づくと、再度目的地の抽選と行う
-            if (agent.remainingDistance < 0.5f && !isChase)  
-            {
-                speed = 1;
-                nextGoal(); 
-            }
-        }
         //攻撃中はその場で停止
         if (isAttack)
         {
             agent.speed = 0;
         }
         //チェイス中は、移動速度と移動アニメーションを変更
-        else if (isChase && chaseTime < 2.0f && !isAttack) 
-        {
-            speed = 2;
-            agent.speed = 15;
-            // 対象のオブジェクトを追いかける
-            agent.destination = player.transform.position;
-        }
-        //チェイススタートから一定時間が経つと、徘徊モードに戻る
-        else if (chaseTime >= 1.0f) 
-        {
-            isChase = false;
-            speed = 1;
-            agent.speed = 2;
-        }
-
-        if(isChase)
+        else if (isChase) 
         {
             //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
+            speed = 2;
+            agent.speed = 15;
+            chaseTime++;
+            // 対象のオブジェクトを追いかける
+            agent.destination = player.transform.position;
         }
-        else
+        //徘徊モード
+        //目的地に一定距離近づくと、再度目的地の抽選を行う
+        else if (agent.remainingDistance < 0.5f && !isStop) 
         {
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
+            chaseTime = 0;
+            speed = 1;
+            agent.speed = 2;
+            nextGoal();
+        }
+
+        //チェイススタートから一定時間が経つと、徘徊モードに戻る
+        if (chaseTime >= 300)
+        {
+            Debug.Log("徘徊");
+            isChase = false;
+
         }
 
         //プレイヤーに一定距離近づくと、攻撃する
@@ -119,7 +114,7 @@ public class EnemyBear : MonoBehaviour
             agent.speed = 0;
             animator.SetTrigger("attack");
             
-            Invoke("IsAttack", 0.1f);
+            Invoke("IsAttack", 0.5f);
             Invoke("NotAttack", 0.5f);
             Invoke("CanAttack", 2.0f);
             Invoke("NotWeapon", 0.3f);
@@ -152,15 +147,15 @@ public class EnemyBear : MonoBehaviour
         
     }
 
-    // CollisionDetectorクラスに作ったonTriggerExitEventにセットする。 
-    public void OnLoseObject(Collider collider)
-    {
-        // 検知したオブジェクトが範囲外から出ても、しばらく追いかけ一定秒数が経つと徘徊する
-        if (collider.gameObject.tag == "Player" && !isStop) 
-        {
-            chaseTime = Time.deltaTime;
-        }
-    }
+    ////CollisionDetectorクラスに作ったonTriggerExitEventにセットする。 
+    //public void OnLoseObject(Collider collider)
+    //{
+    //   // 検知したオブジェクトが範囲外から出ても、しばらく追いかけ一定秒数が経つと徘徊する
+    //    if (collider.gameObject.tag == "Player" && !isStop)
+    //    {
+
+    //    }
+    //}
 
     void OnTriggerEnter(Collider other)
     {
