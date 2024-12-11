@@ -81,7 +81,7 @@ public class EnemyBear : MonoBehaviour
             Invoke("NotWeapon", 0.3f);
         }
         //チェイス中は、移動速度と移動アニメーションを変更
-        else if (isChase && !isAttack)  
+        else if (isChase && !isAttack)
         {
             //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
@@ -93,7 +93,7 @@ public class EnemyBear : MonoBehaviour
         }
         //徘徊モード
         //目的地に一定距離近づくと、再度目的地の抽選を行う
-        else if (agent.remainingDistance < 0.5f && !isStop) 
+        else if (agent.remainingDistance < 0.5f && !isStop)
         {
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
@@ -107,13 +107,11 @@ public class EnemyBear : MonoBehaviour
         if (chaseTime >= 300)
             isChase = false;
 
-       
-
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
 
         ////体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
-        if (currentHp <= 0.0f && !death) 
+        if (currentHp <= 0.0f && !death)
         {
             animator.SetTrigger("death");
             agent.speed = 0;

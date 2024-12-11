@@ -39,11 +39,11 @@ public class GameManager : MonoBehaviour
         spawnGoal.SetActive(false);
         main_Bgm = GetComponent<AudioSource>();
         result_Bgm = GetComponent<AudioSource>();
-
         isBgm = false;
-
         open_Option = false;
         input = false;
+        //カーソル非表示
+        Cursor.visible = false;
 
         for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         PlayerController playerController = GetComponent<PlayerController>();
 
         //決着がつくと動かないようにする
-        if (!gameClear && !gameOver) 
+        if (!gameClear && !gameOver)
         {
             //Escで一時停止させる
             if (Input.GetKeyDown(KeyCode.Escape) && !input)
@@ -63,11 +63,13 @@ public class GameManager : MonoBehaviour
                 switch (open_Option)
                 {
                     case false:
+                        Cursor.visible = true;//カーソル表示
                         open_Option = true;
                         gamePlay = false;
                         Time.timeScale = 0;
                         break;
                     case true:
+                        Cursor.visible = false;//カーソル非表示
                         Time.timeScale = 1;
                         open_Option = false;
                         gamePlay = true;
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour
             input = false;
         }
         //ゲームオーバー
-        if (playerController.currentHp <= 0 && !isBgm)  
+        if (playerController.death && !isBgm)  
         {
             gamePlay = false;
             result_Bgm.PlayOneShot(over_Bgm);
@@ -102,7 +104,7 @@ public class GameManager : MonoBehaviour
 
         }
         //条件を満たすとゴールを出す
-        if (playerController.kill_enemy >= 5 && !spawn) 
+        if (playerController.kill_enemy >= 5 && !spawn)
         {
             spawn = true;
             goalNum = Random.Range(0, 5);
@@ -113,6 +115,7 @@ public class GameManager : MonoBehaviour
 
     void Death()
     {
+        Cursor.visible = true;//カーソル表示
         gameOver = true;
         overPanel.SetActive(true);
         Time.timeScale = 0;
@@ -120,6 +123,7 @@ public class GameManager : MonoBehaviour
 
     void Clear()
     {
+        Cursor.visible = true;//カーソル表示
         gameClear = true;
         clearPanel.SetActive(true);
         Time.timeScale = 0;

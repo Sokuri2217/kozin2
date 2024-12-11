@@ -23,13 +23,6 @@ public class MainUIScript : MonoBehaviour
     //ゴール条件
     public Text currentKill;
     public Text goalSpawnKill;
-    //ステータス表記
-    public Text now_hpNum;
-    public Text max_hpNum;
-    public Text now_apNum;
-    public Text max_apNum;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -69,20 +62,10 @@ public class MainUIScript : MonoBehaviour
         //KILLカウントを表示させる
         currentKill.text = playerController.kill_enemy.ToString();
         goalSpawnKill.text = playerController.goalspawn.ToString();
-        //HPとAPの最大値と現在値を表示する
-        now_hpNum.text = playerController.currentHp.ToString();
-        max_hpNum.text = playerController.maxHp.ToString();
-        now_apNum.text = playerController.currentAp.ToString();
-        max_apNum.text = playerController.maxAp.ToString();
 
         //ゴール出現時にKILLカウントを非表示にする
         if (playerController.kill_enemy >= 5)
             killCounter.SetActive(false);
-
-        if(!gameManager.gamePlay)
-        {
-            camera.SetActive(false);
-        }
 
         //インターバル中のアイコン制御
         Icon();

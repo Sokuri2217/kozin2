@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     bool a;
 
-    void Awake()
+    void Start()
     {
         //‰Šú‰»
         animator = GetComponent<Animator>();
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //UŒ‚’†‚Í‚»‚Ìê‚©‚çˆÚ“®‚Å‚«‚È‚¢
-        if (!isAttack && !isStop && gameManager.gamePlay) 
+        if (!isAttack && !isStop) 
         {
             Move3D();
         }

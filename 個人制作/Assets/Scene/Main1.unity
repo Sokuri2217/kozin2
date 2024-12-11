@@ -2559,11 +2559,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3014306029008838122, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
       propertyPath: m_VerticalAxis.m_MaxSpeed
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3014306029008838122, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
       propertyPath: m_HorizontalAxis.m_MaxSpeed
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
@@ -2682,6 +2682,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1793099661}
+    - target: {fileID: 5398883722959804518, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 5398883722959804537, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
       propertyPath: m_Name
       value: MainUI
