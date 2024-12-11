@@ -30,42 +30,42 @@ public class ButtonController : MonoBehaviour
         mode = (int)Mode.Main1;
 
     }
-    //ステージ2に移動
-    public void LoadMain2()
-    {
-        Time.timeScale = 1;
+    ////ステージ2に移動
+    //public void LoadMain2()
+    //{
+    //    Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main2;
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main2;
 
-    }
-    //ステージ3に移動
-    public void LoadMain3()
-    {
-        Time.timeScale = 1;
+    //}
+    ////ステージ3に移動
+    //public void LoadMain3()
+    //{
+    //    Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main3;
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main3;
 
-    }
-    //ステージ4に移動
-    public void LoadMain4()
-    {
-        Time.timeScale = 1;
+    //}
+    ////ステージ4に移動
+    //public void LoadMain4()
+    //{
+    //    Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main4;
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main4;
 
-    }
-    //ステージ5に移動
-    public void LoadMain5()
-    {
-        Time.timeScale = 1;
+    //}
+    ////ステージ5に移動
+    //public void LoadMain5()
+    //{
+    //    Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
-        mode = (int)Mode.Main5;
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main5;
 
-    }
+    //}
     //ゲームを再開する
     public void BackGame()
     {
@@ -107,11 +107,6 @@ public class ButtonController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
-
     //押したボタンの判別用
     public enum Mode
     {
@@ -124,4 +119,9 @@ public class ButtonController : MonoBehaviour
         Back,
         GameEnd
     }
+    //public enum GameMode
+    //{
+    //    NORMAL,
+    //    HARD
+    //}
 }

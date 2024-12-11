@@ -18,7 +18,7 @@ public class EnemyBear : MonoBehaviour
     public Slider hpSlider;       //HPバー
     public float maxHp = 30;      //最大のHP
     public float currentHp;       //現在のHP
-    bool death = false;           //死亡フラグ
+    bool death;           //死亡フラグ
     bool isDamage = false;        //ダメージ中フラグ
     bool isStop = false;          //停止フラグ
     bool attack = false;          //攻撃フラグ
@@ -45,6 +45,8 @@ public class EnemyBear : MonoBehaviour
         sound = GetComponent<AudioSource>();
         weaponCollider.enabled = false;
         speed = 0;
+        death = false;
+        speed = 0;
 
         //Sliderを満タンにする。
         hpSlider.value = 1;
@@ -58,23 +60,28 @@ public class EnemyBear : MonoBehaviour
         destNum = Random.Range(0, 3);
         //目的地まで移動
         agent.destination = goals[destNum].position;
+    }
 
-        Debug.Log(destNum);
-    }
-    private void Update()
-    {
-        Debug.Log(chaseTime);
-    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        //攻撃中はその場で停止
-        if (isAttack)
+        //プレイヤーに一定距離近づくと、攻撃する
+        if ((transform.position.x - player.transform.position.x) < 1.0f &&
+            (transform.position.z - player.transform.position.z) < 1.0f &&
+            isChase && !attack && !isAttack)
         {
+            attack = true;
+            isAttack = true;
             agent.speed = 0;
+            animator.SetTrigger("attack");
+
+            Invoke("IsAttack", 0.5f);
+            Invoke("NotAttack", 0.5f);
+            Invoke("CanAttack", 2.0f);
+            Invoke("NotWeapon", 0.3f);
         }
         //チェイス中は、移動速度と移動アニメーションを変更
-        else if (isChase) 
+        else if (isChase && !isAttack)  
         {
             //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
@@ -98,27 +105,9 @@ public class EnemyBear : MonoBehaviour
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
         if (chaseTime >= 300)
-        {
-            Debug.Log("徘徊");
             isChase = false;
 
-        }
-
-        //プレイヤーに一定距離近づくと、攻撃する
-        if ((transform.position.x - player.transform.position.x) < 1.0f &&
-            (transform.position.z - player.transform.position.z) < 1.0f &&
-            isChase && !attack && !isAttack) 
-        {
-            attack = true;
-            isAttack = true;
-            agent.speed = 0;
-            animator.SetTrigger("attack");
-            
-            Invoke("IsAttack", 0.5f);
-            Invoke("NotAttack", 0.5f);
-            Invoke("CanAttack", 2.0f);
-            Invoke("NotWeapon", 0.3f);
-        }
+       
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
@@ -146,16 +135,6 @@ public class EnemyBear : MonoBehaviour
         }
         
     }
-
-    ////CollisionDetectorクラスに作ったonTriggerExitEventにセットする。 
-    //public void OnLoseObject(Collider collider)
-    //{
-    //   // 検知したオブジェクトが範囲外から出ても、しばらく追いかけ一定秒数が経つと徘徊する
-    //    if (collider.gameObject.tag == "Player" && !isStop)
-    //    {
-
-    //    }
-    //}
 
     void OnTriggerEnter(Collider other)
     {
@@ -186,7 +165,7 @@ public class EnemyBear : MonoBehaviour
                     break;
             }
             //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
-            transform.LookAt(player.transform);
+            isChase=true;
             Invoke("NotStop", 0.5f);
             Invoke("NotDamage", 1.0f);
 
