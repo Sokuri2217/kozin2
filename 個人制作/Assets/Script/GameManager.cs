@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         open_Option = false;
         input = false;
         //カーソル非表示
-        Cursor.visible = false;
+        //Cursor.visible = false;
 
         for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
@@ -63,13 +63,13 @@ public class GameManager : MonoBehaviour
                 switch (open_Option)
                 {
                     case false:
-                        Cursor.visible = true;//カーソル表示
+                        //Cursor.visible = true;//カーソル表示
                         open_Option = true;
                         gamePlay = false;
                         Time.timeScale = 0;
                         break;
                     case true:
-                        Cursor.visible = false;//カーソル非表示
+                        //Cursor.visible = false;//カーソル非表示
                         Time.timeScale = 1;
                         open_Option = false;
                         gamePlay = true;
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     void Death()
     {
-        Cursor.visible = true;//カーソル表示
+        //Cursor.visible = true;//カーソル表示
         gameOver = true;
         overPanel.SetActive(true);
         Time.timeScale = 0;
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     void Clear()
     {
-        Cursor.visible = true;//カーソル表示
+        //Cursor.visible = true;//カーソル表示
         gameClear = true;
         clearPanel.SetActive(true);
         Time.timeScale = 0;
