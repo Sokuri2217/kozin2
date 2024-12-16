@@ -52,8 +52,6 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定
     public Collider[] weaponCollider;   //武器のコライダー
 
-    bool a;
-
     void Start()
     {
         //初期化
@@ -69,8 +67,6 @@ public class PlayerController : MonoBehaviour
         goalspawn = 5;
         isDamage = false;
         death = false;
-
-        a = false;
 
         for (int i = 0; i < 3; i++) 
         {
@@ -111,23 +107,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             currentHp = 0.0f;
+           // kill_enemy = 5;
         }
 
-        if (currentHp <= 0.0f && !a) 
+        if (currentHp <= 0.0f && !death) 
         {
-            a = true;
             death = true;
             animator.SetTrigger("death");
         }
 
         //攻撃中はその場から移動できない
-        if (!isAttack && !isStop) 
+        if (!isAttack && !isStop && !death)  
         {
             Move3D();
         }
 
-        //攻撃用関数
-        Attack();
+        if(currentAp >= use_Ap)
+        {
+            //攻撃用関数
+            Attack();
+        }
 
         //キルカウントの制御
         if (kill_enemy >= 5)
@@ -184,7 +183,7 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         //左クリックしたときに実行
-        if (Input.GetMouseButton(0) && !interval && !input && currentAp >= use_Ap)  
+        if (Input.GetMouseButton(0) && !interval && !input)  
         {
             //クールタイムフラグ
             interval = true;
@@ -331,7 +330,6 @@ public class PlayerController : MonoBehaviour
         {
             GameManager gameManager = GetComponent<GameManager>();
             gameManager.gameClear = true;
-            gameManager.gamePlay = false;
         }
     }
 

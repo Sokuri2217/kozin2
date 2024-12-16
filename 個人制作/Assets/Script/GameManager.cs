@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool gamePlay;
     public bool gameOver;
     public bool gameClear;
 
@@ -15,14 +14,6 @@ public class GameManager : MonoBehaviour
     private int goalNum = 0;
     private bool spawn = false;
 
-    public AudioSource main_Bgm;
-
-    private AudioSource result_Bgm;
-    public AudioClip clear_Bgm;
-    public AudioClip over_Bgm;
-
-    public bool isBgm;
-
     //ゲーム状態
     public bool open_Option;
     //長押し防止
@@ -31,19 +22,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gamePlay = true;
         gameOver = false;
         gameClear = false;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
-        main_Bgm = GetComponent<AudioSource>();
-        result_Bgm = GetComponent<AudioSource>();
-        isBgm = false;
         open_Option = false;
         input = false;
         //カーソル非表示
-        //Cursor.visible = false;
+        Cursor.visible = false;
 
         for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
@@ -63,16 +50,14 @@ public class GameManager : MonoBehaviour
                 switch (open_Option)
                 {
                     case false:
-                        //Cursor.visible = true;//カーソル表示
+                        Cursor.visible = true;//カーソル表示
                         open_Option = true;
-                        gamePlay = false;
                         Time.timeScale = 0;
                         break;
                     case true:
-                        //Cursor.visible = false;//カーソル非表示
+                        Cursor.visible = false;//カーソル非表示
                         Time.timeScale = 1;
                         open_Option = false;
-                        gamePlay = true;
                         break;
                 }
                 input = true;
@@ -85,23 +70,20 @@ public class GameManager : MonoBehaviour
             input = false;
         }
         //ゲームオーバー
-        if (playerController.death && !isBgm)  
+        if (playerController.death)  
         {
-            gamePlay = false;
-            result_Bgm.PlayOneShot(over_Bgm);
-            main_Bgm.Stop();
-            isBgm = true;
-            Invoke("Death", 3.0f);
+            gameOver = true;
+            Cursor.visible = true;//カーソル表示
+            overPanel.SetActive(true);
+            Time.timeScale = 0;
         }
         //ゲームクリア
-        if (gameClear && !isBgm) 
+        if (gameClear) 
         {
-            gamePlay = false;
-            result_Bgm.PlayOneShot(clear_Bgm);
-            main_Bgm.Stop();
-            isBgm = true;
-            Invoke("Clear", 1.0f);
-
+            gameClear = true;
+            Cursor.visible = true;//カーソル表示
+            clearPanel.SetActive(true);
+            Time.timeScale = 0;
         }
         //条件を満たすとゴールを出す
         if (playerController.kill_enemy >= 5 && !spawn)
@@ -111,21 +93,21 @@ public class GameManager : MonoBehaviour
             goal[goalNum].SetActive(true);
             spawnGoal.SetActive(true);
         }
+
+        //クリアかゲームオーバーになるとspawnGoalを非表示にする
+        if(gameClear||gameOver)
+        {
+            spawnGoal.SetActive(false);
+        }
     }
 
     void Death()
     {
-        //Cursor.visible = true;//カーソル表示
-        gameOver = true;
-        overPanel.SetActive(true);
-        Time.timeScale = 0;
+        
     }
 
     void Clear()
     {
-        //Cursor.visible = true;//カーソル表示
-        gameClear = true;
-        clearPanel.SetActive(true);
-        Time.timeScale = 0;
+        
     }
 }

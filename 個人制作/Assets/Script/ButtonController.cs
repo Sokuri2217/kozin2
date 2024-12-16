@@ -86,10 +86,10 @@ public class ButtonController : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         if (mode == (int)Mode.Title)
-            SceneManager.LoadScene("title");
-        if (mode == (int)Mode.Main1)
-            SceneManager.LoadScene("main1");
-        if (mode == (int)Mode.Back)
+            SceneManager.LoadScene("Title");
+        else if (mode == (int)Mode.Main1)
+            SceneManager.LoadScene("Main1");
+        else if (mode == (int)Mode.Back)
         {
             GameManager gameManager;
             GameObject player = GameObject.Find("Player");
@@ -97,7 +97,7 @@ public class ButtonController : MonoBehaviour
 
             gameManager.open_Option = false;
         }
-        if (mode == (int)Mode.GameEnd)
+        else if (mode == (int)Mode.GameEnd)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
@@ -119,9 +119,5 @@ public class ButtonController : MonoBehaviour
         Back,
         GameEnd
     }
-    //public enum GameMode
-    //{
-    //    NORMAL,
-    //    HARD
-    //}
+    
 }
