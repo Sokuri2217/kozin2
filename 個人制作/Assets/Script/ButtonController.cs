@@ -84,7 +84,6 @@ public class ButtonController : MonoBehaviour
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-
         if (mode == (int)Mode.Title)
             SceneManager.LoadScene("Title");
         else if (mode == (int)Mode.Main1)
@@ -97,10 +96,11 @@ public class ButtonController : MonoBehaviour
 
             gameManager.open_Option = false;
         }
+        //ゲームプレイ終了
         else if (mode == (int)Mode.GameEnd)
         {
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
     Application.Quit();//ゲームプレイ終了
 #endif
@@ -110,7 +110,7 @@ public class ButtonController : MonoBehaviour
     //押したボタンの判別用
     public enum Mode
     {
-        Title,
+        Title = 1,
         Main1,
         Main2,
         Main3,

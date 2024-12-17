@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public bool gameOver;
     public bool gameClear;
+    public bool gamePlay;
 
     public GameObject clearPanel;
     public GameObject overPanel;
@@ -24,13 +25,15 @@ public class GameManager : MonoBehaviour
     {
         gameOver = false;
         gameClear = false;
+        gamePlay = true;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
         open_Option = false;
         input = false;
-        //カーソル非表示
-        Cursor.visible = false;
+
+        // カーソルを画面中央にロックする
+        Cursor.lockState = CursorLockMode.Locked;
 
         for (int i = 0; i < 5; i++)
             goal[i].SetActive(false);
@@ -50,13 +53,15 @@ public class GameManager : MonoBehaviour
                 switch (open_Option)
                 {
                     case false:
-                        Cursor.visible = true;//カーソル表示
                         open_Option = true;
+                        // カーソルを自由に動かせる
+                        Cursor.lockState = CursorLockMode.None;
                         Time.timeScale = 0;
                         break;
                     case true:
-                        Cursor.visible = false;//カーソル非表示
                         Time.timeScale = 1;
+                        // カーソルを画面中央にロックする
+                        Cursor.lockState = CursorLockMode.Locked;
                         open_Option = false;
                         break;
                 }
@@ -70,20 +75,16 @@ public class GameManager : MonoBehaviour
             input = false;
         }
         //ゲームオーバー
-        if (playerController.death)  
+        if (gameOver && gamePlay)   
         {
-            gameOver = true;
-            Cursor.visible = true;//カーソル表示
-            overPanel.SetActive(true);
-            Time.timeScale = 0;
+            gamePlay = false;
+            Invoke("Over", 3.5f);
         }
         //ゲームクリア
-        if (gameClear) 
+        if (gameClear && gamePlay)  
         {
-            gameClear = true;
-            Cursor.visible = true;//カーソル表示
-            clearPanel.SetActive(true);
-            Time.timeScale = 0;
+            gamePlay = false;
+            Invoke("Clear", 0.3f);
         }
         //条件を満たすとゴールを出す
         if (playerController.kill_enemy >= 5 && !spawn)
@@ -101,13 +102,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Death()
+    void Over()
     {
-        
+        overPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
-
     void Clear()
     {
-        
+        clearPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
 }

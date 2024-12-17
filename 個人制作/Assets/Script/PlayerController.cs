@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         se = GetComponent<AudioSource>();
         targetRotation = transform.rotation;
-        hitWeapon = 1.0f;
+        hitWeapon = 0.5f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
         damage = 5.0f;
@@ -104,15 +104,10 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
 
-        if (Input.GetMouseButton(1))
+        if (currentHp <= 0.0f && !gameManager.gameOver)  
         {
-            currentHp = 0.0f;
-           // kill_enemy = 5;
-        }
-
-        if (currentHp <= 0.0f && !death) 
-        {
-            death = true;
+            gameManager.gameOver = true;
+            speed = 0.0f;
             animator.SetTrigger("death");
         }
 
@@ -127,6 +122,10 @@ public class PlayerController : MonoBehaviour
             //攻撃用関数
             Attack();
         }
+
+        //長押し禁止用
+        if (Input.GetMouseButtonUp(0))
+            input = false;
 
         //キルカウントの制御
         if (kill_enemy >= 5)
@@ -196,28 +195,28 @@ public class PlayerController : MonoBehaviour
             {
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
-                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 2.5f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
-                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 3.5f);
                     break;
                 case (int)Weapon.KNUCKLE:
                     animator.SetTrigger("knuckle");
-                    Invoke("IsAttack", 0.05f);
                     Invoke("Interval", 1.0f);
                     break;
             }
+            IsAttack();
             //現在のAPから消費APを引く
             currentAp = currentAp - use_Ap;
             Invoke("NotAttack", notAttack);
             Invoke("HitWeapon", hitWeapon);
         }
-        //長押し禁止用
-        if (Input.GetMouseButtonUp(0))
-            input = false;
+
+        if(!interval)
+        {
+            Debug.Log("攻撃可能");
+        }
     }
 
     //武器
@@ -301,7 +300,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
         //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage && !death)  
+        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay)   
         {
             //現在のHPからダメージを引く
             currentHp -= damage;
@@ -317,7 +316,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 animator.SetTrigger("damage");
-                Invoke("NotDamage", 0.4f);
+                Invoke("NotDamage", 1.0f);
                 Invoke("CanMove", 0.5f);
             }
         }
@@ -329,6 +328,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Goal"))
         {
             GameManager gameManager = GetComponent<GameManager>();
+            speed = 0.0f;
             gameManager.gameClear = true;
         }
     }

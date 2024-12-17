@@ -49,15 +49,27 @@ public class MainUIScript : MonoBehaviour
 
         //オプション管理
         //ボタンで操作
-        if (gameManager.open_Option)
+        if(!gameManager.gameClear && !gameManager.gameOver)
         {
-            menuPanel.SetActive(true);
-            camera.SetActive(false);
+            if (gameManager.open_Option)
+            {
+                // カーソルを自由に動かせる
+                Cursor.lockState = CursorLockMode.None;
+                menuPanel.SetActive(true);
+                camera.SetActive(false);
+            }
+            else
+            {
+                // カーソルを画面中央にロックする
+                Cursor.lockState = CursorLockMode.Locked;
+                menuPanel.SetActive(false);
+                camera.SetActive(true);
+            }
         }
-        else
+
+        if (gameManager.gameClear || gameManager.gameOver) 
         {
-            menuPanel.SetActive(false);
-            camera.SetActive(true);
+            camera.SetActive(false);
         }
         //KILLカウントを表示させる
         currentKill.text = playerController.kill_enemy.ToString();

@@ -18,13 +18,12 @@ public class EnemyBear : MonoBehaviour
     public Slider hpSlider;       //HPバー
     public float maxHp = 30;      //最大のHP
     public float currentHp;       //現在のHP
-    bool death;           //死亡フラグ
+    bool death;                   //死亡フラグ
     bool isDamage = false;        //ダメージ中フラグ
-    bool isStop = false;          //停止フラグ
     bool attack = false;          //攻撃フラグ
     bool isAttack = false;        //攻撃フラグ
     public bool isChase = false;  //追跡フラグ
-    private int chaseTime = 0;  //追跡解除用のカウント
+    private int chaseTime = 0;    //追跡解除用のカウント
     private int speed;            //アニメーション管理用
 
     private AudioSource sound = null;
@@ -72,11 +71,10 @@ public class EnemyBear : MonoBehaviour
         {
             attack = true;
             isAttack = true;
-            agent.speed = 0;
             animator.SetTrigger("attack");
 
             Invoke("IsAttack", 0.5f);
-            Invoke("NotAttack", 0.5f);
+            Invoke("NotAttack", 1.0f);
             Invoke("CanAttack", 2.0f);
             Invoke("NotWeapon", 0.3f);
         }
@@ -93,7 +91,7 @@ public class EnemyBear : MonoBehaviour
         }
         //徘徊モード
         //目的地に一定距離近づくと、再度目的地の抽選を行う
-        else if (agent.remainingDistance < 0.5f && !isStop)
+        else if (agent.remainingDistance < 0.5f)
         {
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
@@ -101,6 +99,21 @@ public class EnemyBear : MonoBehaviour
             speed = 1;
             agent.speed = 2;
             nextGoal();
+        }
+
+        GameManager gameManager;
+        GameObject obj = GameObject.Find("Player");
+        gameManager = obj.GetComponent<GameManager>();
+
+        if(isAttack||isDamage)
+        {
+            agent.speed = 0;
+        }
+
+        if (gameManager.gameOver || gameManager.gameClear)
+        {
+            agent.speed = 0;
+            speed = 0;
         }
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
@@ -126,7 +139,7 @@ public class EnemyBear : MonoBehaviour
     public void OnDetectObject(Collider collider)
     {
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
-        if (collider.gameObject.tag == "Player" && !isStop) 
+        if (collider.gameObject.tag == "Player") 
         {
             isChase = true;
             chaseTime = 0;
@@ -144,7 +157,6 @@ public class EnemyBear : MonoBehaviour
         if (other.CompareTag("weapon") && !isDamage) 
         {
             isDamage = true;
-            isStop = true;
             weaponCollider.enabled = false;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
@@ -164,8 +176,7 @@ public class EnemyBear : MonoBehaviour
             }
             //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
             isChase=true;
-            Invoke("NotStop", 0.5f);
-            Invoke("NotDamage", 1.0f);
+            Invoke("NotDamage", 0.5f);
 
         }
     }
@@ -187,11 +198,6 @@ public class EnemyBear : MonoBehaviour
     void NotDamage()
     {
         isDamage = false;
-    }
-    //再移動可能
-    void NotStop()
-    {
-        isStop = false;
     }
     //再攻撃可能
     void NotAttack()
