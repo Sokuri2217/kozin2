@@ -195,15 +195,15 @@ public class PlayerController : MonoBehaviour
             {
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
-                    Invoke("Interval", 2.5f);
+                    Invoke("Interval", 2.0f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
-                    Invoke("Interval", 3.5f);
+                    Invoke("Interval", 3.0f);
                     break;
                 case (int)Weapon.KNUCKLE:
                     animator.SetTrigger("knuckle");
-                    Invoke("Interval", 1.0f);
+                    Invoke("Interval", 1.2f);
                     break;
             }
             IsAttack();
@@ -223,7 +223,7 @@ public class PlayerController : MonoBehaviour
     void Knife()
     {
         attack = 9.0f;
-        use_Ap = 20.0f;
+        use_Ap = 15.0f;
         notAttack = 0.8f;
         use_weapon[(int)Weapon.KNIFE].SetActive(true);
         weapon_num = (int)Weapon.KNIFE;
@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
     void Sword()
     {
         attack = 14.0f;
-        use_Ap = 30.0f;
+        use_Ap = 25.0f;
         notAttack = 0.5f;
         use_weapon[(int)Weapon.SWORD].SetActive(true);
         weapon_num = (int)Weapon.SWORD;

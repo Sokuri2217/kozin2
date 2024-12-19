@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 7789700593328585060}
   - component: {fileID: 7789700593328585062}
   - component: {fileID: 1657345918}
-  - component: {fileID: 4994125062305931050}
+  - component: {fileID: 5135108299277769920}
   - component: {fileID: 6297217469177603942}
   - component: {fileID: 1657345913}
   - component: {fileID: 4792447925441999805}
@@ -718,10 +718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed65889c8689320418389c7008e44405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamePlay: 0
   gameOver: 0
   gameClear: 0
-  camera: {fileID: 0}
+  gamePlay: 0
   clearPanel: {fileID: 0}
   overPanel: {fileID: 0}
   spawnGoal: {fileID: 0}
@@ -731,10 +730,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  main_Bgm: {fileID: 286826075}
-  clear_Bgm: {fileID: 8300000, guid: 6c0de5429e6537b408140953e4f95f3f, type: 3}
-  over_Bgm: {fileID: 8300000, guid: f08080f1896bd9247a5c1262e2b02157, type: 3}
-  isBgm: 0
   open_Option: 0
   input: 0
 --- !u!54 &1657345918
@@ -753,20 +748,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!136 &4994125062305931050
-CapsuleCollider:
+--- !u!65 &5135108299277769920
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7789700593328585074}
-  m_Material: {fileID: 13400000, guid: 7a9006b4dbae10249b026243ceeda20b, type: 2}
-  m_IsTrigger: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.19558716
-  m_Height: 1.4858938
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.7729427, z: -0.08303833}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6297217469177603942
 MonoBehaviour:
   m_ObjectHideFlags: 0
