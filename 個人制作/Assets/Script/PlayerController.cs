@@ -12,41 +12,41 @@ public class PlayerController : MonoBehaviour
     public AudioClip damage_se;
 
     //基礎能力
-    public float maxHp = 100.0f;  //最大のHP
-    public float currentHp;       //現在のHP
-    public float maxAp = 100.0f;  //最大のAP
-    public float currentAp;       //現在のAP
-    public float use_Ap;          //消費AP
-    //移動関連
-    float horizontal;             //横移動
-    float vertical;               //縦移動
-    Quaternion horizontalRotation;//向き取得
-    Vector3 velocity;             //ベクトル取得
-    float speed;                  //移動速度
-    float move;                   //歩き、走りの切り替え
-    float rotationSpeed;          //向きを変える速度
-    //攻撃関連
-    public int weapon = 0;        //攻撃手段  
-    public int skill = 0;         //付与する効果
-    public bool interval = false; //クールタイム中かどうか
-    public bool apLost = false;   //攻撃に必要なApが残っているかどうか
-    bool input = false;           //長押し防止
-    public float attack;          //攻撃力
-    public bool isAttack = false; //攻撃中
-    public float notAttack = 0;   //動けるようになるまでの時間
-    public float hitWeapon = 0.0f;//当たり判定表示時間
-    //ダメージ関連
-    public float damage;          //受けるダメージ
-    public bool isDamage;         //被弾確認
-    float currentTime = 0.0f;     //現在の時間取得
-    public int kill_enemy;        //倒した敵数
-    public int goalspawn;         //ゴール出現に必要な敵数
-    public bool isStop;           //ダメージを受けると一時的に動きを止める
-    public bool death;
-    //Sliderを入れる
-    public Slider hpSlider;       //HPバー
-    public Slider apSlider;       //Apバー
-    //武器
+    public float maxHp = 100.0f;        //最大のHP
+    public float currentHp;             //現在のHP
+    public float maxAp = 100.0f;        //最大のAP
+    public float currentAp;             //現在のAP
+    public float use_Ap;                //消費AP
+    //移動関連                          
+    float horizontal;                   //横移動
+    float vertical;                     //縦移動
+    Quaternion horizontalRotation;      //向き取得
+    Vector3 velocity;                   //ベクトル取得
+    float speed;                        //移動速度
+    float move;                         //歩き、走りの切り替え
+    float rotationSpeed;                //向きを変える速度
+    //攻撃関連                          
+    public int weapon = 0;              //攻撃手段  
+    public int skill = 0;               //付与する効果
+    public bool interval = false;       //クールタイム中かどうか
+    public bool apLost = false;         //攻撃に必要なApが残っているかどうか
+    bool input = false;                 //長押し防止
+    public float attack;                //攻撃力
+    public bool isAttack = false;       //攻撃中
+    public float notAttack = 0;         //動けるようになるまでの時間
+    public float hitWeapon = 0.0f;      //当たり判定表示時間
+    //ダメージ関連                      
+    public float damage;                //受けるダメージ
+    public bool isDamage;               //被弾確認
+    float currentTime = 0.0f;           //現在の時間取得
+    public int kill_enemy;              //倒した敵数
+    public int goalspawn;               //ゴール出現に必要な敵数
+    public bool isStop;                 //ダメージを受けると一時的に動きを止める
+    public bool death;                  
+    //Sliderを入れる                    
+    public Slider hpSlider;             //HPバー
+    public Slider apSlider;             //Apバー
+    //武器                              
     public GameObject[] use_weapon;     //使用中の武器
     int weapon_num;
     //武器の当たり判定
@@ -211,11 +211,6 @@ public class PlayerController : MonoBehaviour
             currentAp = currentAp - use_Ap;
             Invoke("NotAttack", notAttack);
             Invoke("HitWeapon", hitWeapon);
-        }
-
-        if(!interval)
-        {
-            Debug.Log("攻撃可能");
         }
     }
 
