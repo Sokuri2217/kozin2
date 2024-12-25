@@ -20,11 +20,13 @@ public class PlayerController : MonoBehaviour
     //移動関連                          
     float horizontal;                   //横移動
     float vertical;                     //縦移動
+    float jump;                         //ジャンプ
     Quaternion horizontalRotation;      //向き取得
     Vector3 velocity;                   //ベクトル取得
     float speed;                        //移動速度
     float move;                         //歩き、走りの切り替え
     float rotationSpeed;                //向きを変える速度
+    bool isJump;                        //ジャンプ中
     //攻撃関連                          
     public int weapon = 0;              //攻撃手段  
     public int skill = 0;               //付与する効果
@@ -176,6 +178,20 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
         animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
+
+        //ジャンプ
+        if (Input.GetKey(KeyCode.Space) && !isJump) 
+        {
+            if (Input.GetKey(KeyCode.LeftShift) && horizontal > 0.0f || vertical > 0.0f)
+            {
+                
+            }
+            else
+            {
+                animator.SetTrigger("Jump");
+            }
+            isJump = true;
+        }
     }
 
     //攻撃関連
