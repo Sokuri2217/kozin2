@@ -91,7 +91,7 @@ public class EnemyBear : MonoBehaviour
         }
         //徘徊モード
         //目的地に一定距離近づくと、再度目的地の抽選を行う
-        else if (agent.remainingDistance < 0.5f)
+        else if (agent.remainingDistance < 2.0f)
         {
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;

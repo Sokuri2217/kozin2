@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class ButtonController : MonoBehaviour
 {
     int mode;
+    public Image fadePanel;             // フェード用のUIパネル（Image）
+    public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
 
     private void Start()
     {
@@ -17,7 +19,7 @@ public class ButtonController : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
+        StartCoroutine(FadeOutAndLoadScene());
         mode = (int)Mode.Title;
 
     }
@@ -26,7 +28,7 @@ public class ButtonController : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
+        StartCoroutine(FadeOutAndLoadScene());
         mode = (int)Mode.Main1;
 
     }
@@ -35,37 +37,10 @@ public class ButtonController : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        StartCoroutine("MoveDelay", 0.5f);
+         StartCoroutine(FadeOutAndLoadScene());
         mode = (int)Mode.Main2;
 
     }
-    ////ステージ3に移動
-    //public void LoadMain3()
-    //{
-    //    Time.timeScale = 1;
-
-    //    StartCoroutine("MoveDelay", 0.5f);
-    //    mode = (int)Mode.Main3;
-
-    //}
-    ////ステージ4に移動
-    //public void LoadMain4()
-    //{
-    //    Time.timeScale = 1;
-
-    //    StartCoroutine("MoveDelay", 0.5f);
-    //    mode = (int)Mode.Main4;
-
-    //}
-    ////ステージ5に移動
-    //public void LoadMain5()
-    //{
-    //    Time.timeScale = 1;
-
-    //    StartCoroutine("MoveDelay", 0.5f);
-    //    mode = (int)Mode.Main5;
-
-    //}
     //ゲームを再開する
     public void BackGame()
     {
@@ -84,13 +59,7 @@ public class ButtonController : MonoBehaviour
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        if (mode == (int)Mode.Title)
-            SceneManager.LoadScene("Title");
-        else if (mode == (int)Mode.Main1)
-            SceneManager.LoadScene("Main1");
-        else if (mode == (int)Mode.Main2)
-            SceneManager.LoadScene("Main2");
-        else if (mode == (int)Mode.Back)
+        if (mode == (int)Mode.Back)
         {
             GameManager gameManager;
             GameObject player = GameObject.Find("Player");
@@ -107,6 +76,31 @@ public class ButtonController : MonoBehaviour
     Application.Quit();//ゲームプレイ終了
 #endif
         }
+    }
+
+    public IEnumerator FadeOutAndLoadScene()
+    {
+        fadePanel.enabled = true;                 // パネルを有効化
+        float elapsedTime = 0.0f;                 // 経過時間を初期化
+        Color startColor = fadePanel.color;       // フェードパネルの開始色を取得
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1.0f); // フェードパネルの最終色を設定
+
+        // フェードアウトアニメーションを実行
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;                        // 経過時間を増やす
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);  // フェードの進行度を計算
+            fadePanel.color = Color.Lerp(startColor, endColor, t); // パネルの色を変更してフェードアウト
+            yield return null;                                     // 1フレーム待機
+        }
+
+        fadePanel.color = endColor;  // フェードが完了したら最終色に設定
+        if (mode == (int)Mode.Title)
+            SceneManager.LoadScene("Title");
+        else if (mode == (int)Mode.Main1)
+            SceneManager.LoadScene("Main1");
+        else if (mode == (int)Mode.Main2)
+            SceneManager.LoadScene("Main2");
     }
 
     //押したボタンの判別用

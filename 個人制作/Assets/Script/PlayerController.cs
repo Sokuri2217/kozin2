@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     //攻撃関連                          
     public int weapon = 0;              //攻撃手段  
     public int skill = 0;               //付与する効果
-    public bool interval = false;       //クールタイム中かどうか
     public bool apLost = false;         //攻撃に必要なApが残っているかどうか
     bool input = false;                 //長押し防止
     public float attack;                //攻撃力
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public Slider apSlider;             //Apバー
     //武器                              
     public GameObject[] use_weapon;     //使用中の武器
-    int weapon_num;
+    int weapon_num;                     //武器判別用
     //武器の当たり判定
     public Collider[] weaponCollider;   //武器のコライダー
 
@@ -182,10 +181,8 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         //左クリックしたときに実行
-        if (Input.GetMouseButton(0) && !interval && !input)  
+        if (Input.GetMouseButton(0)&& !input)  
         {
-            //クールタイムフラグ
-            interval = true;
             //入力フラグ
             input = true;
             ////攻撃中フラグ
@@ -195,15 +192,12 @@ public class PlayerController : MonoBehaviour
             {
                 case (int)Weapon.KNIFE:
                     animator.SetTrigger("knife");
-                    Invoke("Interval", 2.0f);
                     break;
                 case (int)Weapon.SWORD:
                     animator.SetTrigger("sword");
-                    Invoke("Interval", 3.0f);
                     break;
                 case (int)Weapon.KNUCKLE:
                     animator.SetTrigger("knuckle");
-                    Invoke("Interval", 1.2f);
                     break;
             }
             IsAttack();
@@ -238,11 +232,6 @@ public class PlayerController : MonoBehaviour
         notAttack = 0.3f;
         use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
         weapon_num = (int)Weapon.KNUCKLE;
-    }
-    //クールタイム
-    void Interval()
-    {
-        interval = false;
     }
 
     //付与効果
@@ -294,26 +283,21 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameManager gameManager = GetComponent<GameManager>();
-        //Enemyタグのオブジェクトに触れると発動
-        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay)   
+
+        //敵の攻撃に当たる
+        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay)
         {
-            //現在のHPからダメージを引く
-            currentHp -= damage;
-            //ダメージSEを鳴らす
-            se.PlayOneShot(damage_se);
-            isDamage = true;
-            isStop = true;
+            currentHp -= damage;   //現在のHPからダメージを引く
+            isDamage = true;       //ダメージ中状態にする
+            isStop = true;         //その場から動けなくする
             HitWeapon();
-            if (currentHp <= 0.0f)
-            {
-                animator.SetTrigger("death");
-            }
-            else
-            {
-                animator.SetTrigger("damage");
-                Invoke("NotDamage", 1.0f);
-                Invoke("CanMove", 0.5f);
-            }
+            animator.SetTrigger("damage");
+            //ダメージSEを鳴らす
+            //se.PlayOneShot(damage_se);
+            //無敵時間
+            Invoke("NotDamage", 2.0f);
+            //被弾してから動けるようになるまでの時間
+            Invoke("CanMove", 0.5f);
         }
     }
 
