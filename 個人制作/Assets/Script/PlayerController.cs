@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     float speed;                        //移動速度
     float move;                         //歩き、走りの切り替え
     float rotationSpeed;                //向きを変える速度
+    public bool isJump;                 //ジャンプ中
+    public float jumpPower;             //ジャンプ力
     //攻撃関連                          
     public int weapon = 0;              //攻撃手段  
     public int skill = 0;               //付与する効果
@@ -56,12 +58,13 @@ public class PlayerController : MonoBehaviour
         //初期化
         animator = GetComponent<Animator>();
         se = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
         targetRotation = transform.rotation;
         hitWeapon = 0.5f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
         damage = 5.0f;
-        speed = 7.0f;
+        speed = 5.0f;
         kill_enemy = 0;
         goalspawn = 5;
         isDamage = false;
@@ -103,6 +106,9 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
 
+        if (Input.GetMouseButtonUp(1))
+            currentHp = 0.0f;
+
         if (currentHp <= 0.0f && !gameManager.gameOver)  
         {
             gameManager.gameOver = true;
@@ -114,6 +120,7 @@ public class PlayerController : MonoBehaviour
         if (!isAttack && !isStop && !death)  
         {
             Move3D();
+            Jump3D();
         }
 
         if(currentAp >= use_Ap)
@@ -165,7 +172,21 @@ public class PlayerController : MonoBehaviour
         velocity = horizontalRotation * new Vector3(horizontal, 0, vertical).normalized;
 
         //速度の取得
-        move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
+        //スニーク
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            move = 1;
+        }
+        //走る
+        else if(Input.GetKey(KeyCode.LeftShift))
+        {
+            move = 3;
+        }
+        //歩く
+        else
+        {
+            move = 2;
+        }
         rotationSpeed = 600 * Time.deltaTime;
         transform.position += velocity * Time.deltaTime * speed * move;
 
@@ -175,6 +196,16 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
         animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
+    }
+
+    //ジャンプ処理
+    void Jump3D()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isJump) 
+        {
+            rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
+            isJump = true;
+        }
     }
 
     //攻撃関連
@@ -291,13 +322,16 @@ public class PlayerController : MonoBehaviour
             isDamage = true;       //ダメージ中状態にする
             isStop = true;         //その場から動けなくする
             HitWeapon();
-            animator.SetTrigger("damage");
-            //ダメージSEを鳴らす
-            //se.PlayOneShot(damage_se);
-            //無敵時間
-            Invoke("NotDamage", 2.0f);
-            //被弾してから動けるようになるまでの時間
-            Invoke("CanMove", 0.5f);
+            if (currentHp > 0.0f)
+            {
+                animator.SetTrigger("damage");
+                //ダメージSEを鳴らす
+                se.PlayOneShot(damage_se);
+                //無敵時間
+                Invoke("NotDamage", 1.5f);
+                //被弾してから動けるようになるまでの時間
+                Invoke("CanMove", 0.5f);
+            }
         }
     }
 
@@ -309,6 +343,17 @@ public class PlayerController : MonoBehaviour
             GameManager gameManager = GetComponent<GameManager>();
             speed = 0.0f;
             gameManager.gameClear = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (isJump)
+        {
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                isJump = false;
+            }
         }
     }
 

@@ -109,9 +109,6 @@ public class ButtonController : MonoBehaviour
         Title = 1,
         Main1,
         Main2,
-        Main3,
-        Main4,
-        Main5,
         Back,
         GameEnd
     }

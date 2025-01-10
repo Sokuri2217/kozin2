@@ -25,6 +25,7 @@ public class EnemyBear : MonoBehaviour
     public bool isChase = false;  //追跡フラグ
     private int chaseTime = 0;    //追跡解除用のカウント
     private int speed;            //アニメーション管理用
+    public float surpriseAttack;  //不意打ち被ダメ倍率
 
     private AudioSource sound = null;
 
@@ -136,10 +137,10 @@ public class EnemyBear : MonoBehaviour
     }
 
     // CollisionDetectorクラスに作ったonTriggerStayEventにセットする。
-    public void OnDetectObject(Collider collider)
+    public void OnDetectObject(Collider other)
     {
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
-        if (collider.gameObject.tag == "Player") 
+        if (other.gameObject.tag == "Player") 
         {
             isChase = true;
             chaseTime = 0;
@@ -154,12 +155,10 @@ public class EnemyBear : MonoBehaviour
         playerController = obj.GetComponent<PlayerController>();
 
         //weaponタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon") && !isDamage) 
+        if (other.CompareTag("weapon") && !isDamage)  
         {
             isDamage = true;
             weaponCollider.enabled = false;
-            //現在のHPからダメージを引く
-            currentHp -= playerController.attack;
             GetComponent<Animator>().SetTrigger("damage");
             //武器ごとに被弾SEを鳴らす
             switch(playerController.weapon)
@@ -174,6 +173,18 @@ public class EnemyBear : MonoBehaviour
                     sound.PlayOneShot(Knuckle_SE);
                     break;
             }
+
+            if(!isChase)
+            {
+                //現在のHPからダメージを引く
+                currentHp -= playerController.attack * surpriseAttack;
+            }
+            else
+            {
+                //現在のHPからダメージを引く
+                currentHp -= playerController.attack;
+            }
+
             //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
             isChase =true;
             Invoke("NotDamage", 0.5f);
