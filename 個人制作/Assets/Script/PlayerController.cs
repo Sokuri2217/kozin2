@@ -102,6 +102,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if(!death)
+        {
+            //攻撃中はその場から移動できない
+            if (!isAttack && !isStop)
+            {
+                Move3D();
+                Jump3D();
+            }
+
+            if (currentAp >= use_Ap)
+            {
+                //攻撃用関数
+                Attack();
+            }
+        }
+
+        //長押し禁止用
+        if (Input.GetMouseButtonUp(0))
+            input = false;
+    }
+
     private void FixedUpdate()
     {
         GameManager gameManager = GetComponent<GameManager>();
@@ -115,23 +138,6 @@ public class PlayerController : MonoBehaviour
             speed = 0.0f;
             animator.SetTrigger("death");
         }
-
-        //攻撃中はその場から移動できない
-        if (!isAttack && !isStop && !death)  
-        {
-            Move3D();
-            Jump3D();
-        }
-
-        if(currentAp >= use_Ap)
-        {
-            //攻撃用関数
-            Attack();
-        }
-
-        //長押し禁止用
-        if (Input.GetMouseButtonUp(0))
-            input = false;
 
         //キルカウントの制御
         if (kill_enemy >= 5)
@@ -162,7 +168,7 @@ public class PlayerController : MonoBehaviour
         apSlider.value = currentAp / maxAp;
     }
 
-    //移動関連
+    //移動処理
     void Move3D()
     {
         //入力ベクトルの取得
@@ -333,14 +339,10 @@ public class PlayerController : MonoBehaviour
                 Invoke("CanMove", 0.5f);
             }
         }
-    }
 
-    void OnTriggerStay(Collider other)
-    {
         //Goalタグのオブジェクトに触れると発動
         if (other.CompareTag("Goal"))
         {
-            GameManager gameManager = GetComponent<GameManager>();
             speed = 0.0f;
             gameManager.gameClear = true;
         }

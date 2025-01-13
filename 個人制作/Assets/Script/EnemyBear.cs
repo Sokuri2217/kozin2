@@ -140,7 +140,7 @@ public class EnemyBear : MonoBehaviour
     public void OnDetectObject(Collider other)
     {
         // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
-        if (other.gameObject.tag == "Player") 
+        if (other.CompareTag("Player")) 
         {
             isChase = true;
             chaseTime = 0;
