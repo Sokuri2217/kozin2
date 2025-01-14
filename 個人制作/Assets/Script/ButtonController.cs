@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-public class ButtonController : MonoBehaviour
+public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    int mode;
+    int mode;                           //シーン判別
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
+
+    private float attention;             //ボタンの拡大率
+
+    private AudioSource sound;
+    public AudioClip onCursor;
+    public AudioClip click;
 
     private void Start()
     {
         mode = 0;
+        attention = 1.3f;
+        sound = GetComponent<AudioSource>();
     }
     //タイトルに移動
     public void LoadTitle()
@@ -42,12 +51,12 @@ public class ButtonController : MonoBehaviour
 
     }
     //ゲームを再開する
-    public void BackGame()
+    public void Check_ExtLuck()
     {
         Time.timeScale = 1;
 
         StartCoroutine("MoveDelay", 0.1f);
-        mode = (int)Mode.Back;
+        mode = (int)Mode.ExtLuck;
     }
     //ゲーム終了
     public void EndGame()
@@ -59,7 +68,7 @@ public class ButtonController : MonoBehaviour
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        if (mode == (int)Mode.Back)
+        if (mode == (int)Mode.ExtLuck)
         {
             GameManager gameManager;
             GameObject player = GameObject.Find("Player");
@@ -103,13 +112,30 @@ public class ButtonController : MonoBehaviour
             SceneManager.LoadScene("Main2");
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        sound.PlayOneShot(onCursor);
+        gameObject.transform.localScale = Vector3.one * attention;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        gameObject.transform.localScale = Vector3.one;
+    }
+
+    //ボタンをクリックした時
+    public void OnClick()
+    {
+        sound.PlayOneShot(click);
+    }
+
     //押したボタンの判別用
     public enum Mode
     {
         Title = 1,
         Main1,
         Main2,
-        Back,
+        ExtLuck,
         GameEnd
     }
     

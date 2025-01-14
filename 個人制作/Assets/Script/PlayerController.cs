@@ -109,7 +109,6 @@ public class PlayerController : MonoBehaviour
             //攻撃中はその場から移動できない
             if (!isAttack && !isStop)
             {
-                Move3D();
                 Jump3D();
             }
 
@@ -137,6 +136,12 @@ public class PlayerController : MonoBehaviour
             gameManager.gameOver = true;
             speed = 0.0f;
             animator.SetTrigger("death");
+        }
+
+        //攻撃中はその場から移動できない
+        if (!isAttack && !isStop)
+        {
+            Move3D();
         }
 
         //キルカウントの制御

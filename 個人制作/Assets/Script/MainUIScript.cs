@@ -10,6 +10,8 @@ public class MainUIScript : MonoBehaviour
     public GameObject menuPanel;
     public new GameObject camera;
     public GameObject killCounter;
+    public GameObject pause;
+    public GameObject reunion;
     //武器アイコン
     public Image weapon_icon;
     public Sprite[] wepon;
@@ -39,6 +41,8 @@ public class MainUIScript : MonoBehaviour
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
 
+        reunion.SetActive(false);
+
         //初回表示
         Icon();
     }
@@ -61,6 +65,8 @@ public class MainUIScript : MonoBehaviour
                 // カーソルを自由に動かせる
                 Cursor.lockState = CursorLockMode.None;
                 menuPanel.SetActive(true);
+                pause.SetActive(false);
+                reunion.SetActive(true);
                 camera.SetActive(false);
             }
             else
@@ -68,6 +74,8 @@ public class MainUIScript : MonoBehaviour
                 // カーソルを画面中央にロックする
                 Cursor.lockState = CursorLockMode.Locked;
                 menuPanel.SetActive(false);
+                reunion.SetActive(false);
+                pause.SetActive(true);
                 camera.SetActive(true);
             }
         }
