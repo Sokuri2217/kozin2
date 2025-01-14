@@ -156,7 +156,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -167,7 +167,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0.4
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -220,7 +220,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &207842427
 PrefabInstance:
@@ -276,7 +276,7 @@ PrefabInstance:
     - target: {fileID: 3014306027732469514, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 373749493}
+      objectReference: {fileID: 0}
     - target: {fileID: 3014306027732469515, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
       propertyPath: m_Name
       value: CM vcam1
@@ -291,11 +291,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
---- !u!4 &373749493 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 405311593190895662, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-  m_PrefabInstance: {fileID: 1252931529}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &374476405
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -496,7 +491,7 @@ PrefabInstance:
     - target: {fileID: 405311593190895635, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: m_Effectors.Array.data[0].m_Transform
       value: 
-      objectReference: {fileID: 373749493}
+      objectReference: {fileID: 0}
     - target: {fileID: 405311593190895635, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: m_Effectors.Array.data[0].m_Style.size
       value: 0.1
@@ -820,7 +815,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2076025314
 MonoBehaviour:
