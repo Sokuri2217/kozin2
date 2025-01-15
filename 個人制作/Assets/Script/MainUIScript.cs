@@ -12,6 +12,7 @@ public class MainUIScript : MonoBehaviour
     public GameObject killCounter;
     public GameObject pause;
     public GameObject reunion;
+    public GameObject esc_icon;
     //武器アイコン
     public Image weapon_icon;
     public Sprite[] wepon;
@@ -83,6 +84,7 @@ public class MainUIScript : MonoBehaviour
         if (gameManager.gameClear || gameManager.gameOver) 
         {
             camera.SetActive(false);
+            esc_icon.SetActive(false);
         }
         //KILLカウントを表示させる
         currentKill.text = playerController.kill_enemy.ToString();

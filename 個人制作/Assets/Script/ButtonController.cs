@@ -13,6 +13,9 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private float attention;             //ボタンの拡大率
 
+    public GameObject option_Panel;
+    bool isOpen;
+
     private AudioSource sound;
     public AudioClip onCursor;
     public AudioClip click;
@@ -22,6 +25,8 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         mode = 0;
         attention = 1.3f;
         sound = GetComponent<AudioSource>();
+        option_Panel.SetActive(false);
+        isOpen = false;
     }
     //タイトルに移動
     public void LoadTitle()
@@ -50,14 +55,22 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         mode = (int)Mode.Main2;
 
     }
-    //ゲームを再開する
-    public void Check_ExtLuck()
+    //オプションを開く
+    public void OpenOption()
     {
         Time.timeScale = 1;
 
         StartCoroutine("MoveDelay", 0.1f);
-        mode = (int)Mode.ExtLuck;
+        mode = (int)Mode.Open;
     }
+    //ゲームを再開する
+    //public void Check_ExtLuck()
+    //{
+    //    Time.timeScale = 1;
+
+    //    StartCoroutine("MoveDelay", 0.1f);
+    //    mode = (int)Mode.ExtLuck;
+    //}
     //ゲーム終了
     public void EndGame()
     {
@@ -84,6 +97,19 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
 #else
     Application.Quit();//ゲームプレイ終了
 #endif
+        }
+        else if(mode == (int)Mode.Open)
+        {
+            if(!isOpen)
+            {
+                option_Panel.SetActive(true);
+                isOpen = true;
+            }
+            else
+            {
+                option_Panel.SetActive(false);
+                isOpen = false;
+            }
         }
     }
 
@@ -136,7 +162,8 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         Main1,
         Main2,
         ExtLuck,
-        GameEnd
+        GameEnd,
+        Open,
     }
     
 }
