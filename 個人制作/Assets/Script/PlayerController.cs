@@ -111,12 +111,6 @@ public class PlayerController : MonoBehaviour
             {
                 Jump3D();
             }
-
-            if (currentAp >= use_Ap)
-            {
-                //攻撃用関数
-                Attack();
-            }
         }
 
         //長押し禁止用
@@ -142,6 +136,12 @@ public class PlayerController : MonoBehaviour
         if (!isAttack && !isStop)
         {
             Move3D();
+        }
+
+        if (currentAp >= use_Ap)
+        {
+            //攻撃用関数
+            Attack();
         }
 
         //キルカウントの制御

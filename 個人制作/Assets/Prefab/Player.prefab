@@ -8313,6 +8313,7 @@ GameObject:
   - component: {fileID: 5676664056568212815}
   - component: {fileID: 5676664056568212812}
   - component: {fileID: 3085483949981718748}
+  - component: {fileID: 1402116781153780637}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -8371,12 +8372,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e636faeda3bba244b9754612754c733b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   damage_se: {fileID: 8300000, guid: 8e5b3d4405098374dbe76b2e9bfb789c, type: 3}
   maxHp: 100
   currentHp: 0
   maxAp: 100
   currentAp: 0
   use_Ap: 0
+  isJump: 0
+  jumpPower: 25
   weapon: 0
   skill: 0
   apLost: 0
@@ -8450,11 +8454,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6751703067119545943}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.50868225, y: 1.6429844, z: 0.5099411}
-  m_Center: {x: -0.032302856, y: 0.82763624, z: -0.0658226}
+  m_Size: {x: 0.50868225, y: 1.6330631, z: 0.5099411}
+  m_Center: {x: -0.032302856, y: 0.8325969, z: -0.0658226}
 --- !u!82 &3085483949981718748
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8466,7 +8470,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -8551,6 +8555,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!195 &1402116781153780637
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751703067119545943}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 0
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 0
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 0
+  m_AutoRepath: 0
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &6751703067119782503
 GameObject:
   m_ObjectHideFlags: 0
