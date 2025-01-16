@@ -2070,6 +2070,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3955221455159732286, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1793099661}
     - target: {fileID: 3955221455200262632, guid: b926453d4a1e97f40901db477dd57272, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2082,8 +2086,40 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3955221455358836147, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455358836147, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455358836147, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455358836147, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3955221455387468463, guid: b926453d4a1e97f40901db477dd57272, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455821181663, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455821181663, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455821181663, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455821181663, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3955221455970380160, guid: b926453d4a1e97f40901db477dd57272, type: 3}
@@ -2475,7 +2511,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1001 &2427341919909055746
