@@ -1986,6 +1986,78 @@ PrefabInstance:
       propertyPath: esc_icon
       value: 
       objectReference: {fileID: 370929258}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8bf902916d65cf74996775332ac982a6, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 451ba15f025c85f4a912b5dcddfc251c, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: eb37784008c05a24ca58c2694b42f47e, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 54da78393fdd5e34c862b353b6648e75, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 161de2f015183ef4983b54ea29aace48, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: f0e878a34b7af3b478adc4b344c9ea7a, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 31f29ac4c6865dc4297d34072af01bda, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300000, guid: a9dd2e176d6f2d14ba067b110e2fd744, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: skills.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300000, guid: efda97d411ad0c9408e144b933ae3b56, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: da4c4d42cdb31e542950e4f8c6f5530f, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: cd894e5ec61177542a313a8274acb8d4, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: f02aa309bcfbb844689f9cd48c470243, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon_interval.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon_interval.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 67ce64ec564eee549ac013bd5c0cea0a, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon_interval.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: b71a7982c98c56746ae768778056794f, type: 3}
+    - target: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
+      propertyPath: weapon_interval.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 45bf650e93a2b7a4595c6928cc8f5e42, type: 3}
     - target: {fileID: 3955221455159732285, guid: b926453d4a1e97f40901db477dd57272, type: 3}
       propertyPath: m_Pivot.x
       value: 0

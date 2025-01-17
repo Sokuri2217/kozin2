@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             Invoke("Clear", 0.3f);
         }
         //ðŒ‚ð–ž‚½‚·‚ÆƒS[ƒ‹‚ðo‚·
-        if (playerController.kill_enemy >= 5 && !spawn)
+        if (playerController.killEnemy >= 5 && !spawn)
         {
             spawn = true;
             goalNum = Random.Range(0, 5);

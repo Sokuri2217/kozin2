@@ -200,7 +200,7 @@ public class EnemyBear : MonoBehaviour
 
         //死亡処理
         //KILLカウントを増やす
-        playerController.kill_enemy++;
+        playerController.killEnemy++;
         //オブジェクトを消去する
         Destroy(gameObject);
     }

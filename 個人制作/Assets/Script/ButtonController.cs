@@ -63,14 +63,6 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         StartCoroutine("MoveDelay", 0.1f);
         mode = (int)Mode.Open;
     }
-    //ゲームを再開する
-    //public void Check_ExtLuck()
-    //{
-    //    Time.timeScale = 1;
-
-    //    StartCoroutine("MoveDelay", 0.1f);
-    //    mode = (int)Mode.ExtLuck;
-    //}
     //ゲーム終了
     public void EndGame()
     {
