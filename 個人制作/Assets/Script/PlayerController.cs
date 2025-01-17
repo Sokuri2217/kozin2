@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
     Animator animator;
-    
     Rigidbody rb;
+    NavMeshAgent agent;
     private AudioSource se;
     public AudioClip damage_se;
 
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;                //縦移動
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
-    private Quaternion targetRotation;     //向きの回転
+    Quaternion targetRotation;     //向きの回転
     public float speed;                    //移動速度
     private float move;                    //歩き、走りの切り替え
     private float rotationSpeed;           //向きを変える速度
@@ -59,12 +60,16 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定                          
     public Collider[] weaponCollider; //武器のコライダー
 
+    //使用武器判定用
+    public enum Weapon { KNIFE, SWORD, KNUCKLE }
+
     void Start()
     {
         //初期化
         animator = GetComponent<Animator>();
         se = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
         targetRotation = transform.rotation;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
@@ -193,6 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Ground"))
             {
+                agent.enabled = true;
                 isJump = false;
             }
         }
@@ -244,6 +250,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
+            agent.enabled = false;
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             isJump = true;
         }
@@ -412,6 +419,4 @@ public class PlayerController : MonoBehaviour
         speed = 0.0f;
         animator.SetTrigger("death");
     }
-    //使用武器判定用
-    public enum Weapon{ KNIFE,SWORD,KNUCKLE }
 }
