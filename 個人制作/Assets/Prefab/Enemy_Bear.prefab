@@ -1026,8 +1026,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  player: {fileID: 0}
-  camera: {fileID: 0}
+  player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
   hpSlider: {fileID: 263289611}
   maxHp: 30
   currentHp: 0

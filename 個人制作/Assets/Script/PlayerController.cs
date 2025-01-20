@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     NavMeshAgent agent;
     private AudioSource se;
     public AudioClip damage_se;
+    public GameObject ground;
 
     //基礎能力
     public float maxHp = 100.0f; //最大のHP
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;                //縦移動
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
-    Quaternion targetRotation;     //向きの回転
+    Quaternion targetRotation;             //向きの回転
     public float speed;                    //移動速度
     private float move;                    //歩き、走りの切り替え
     private float rotationSpeed;           //向きを変える速度
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
             weaponCollider[i].enabled = false;
         }
         //使用武器決定
-        InitializeWeapon();
+        UseWeapon(weapon);
         //ステータス変化
         RandomSkill();
 
@@ -99,17 +100,30 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //関数名
-    //説明
+    //ジャンプ処理
     private void Update()
     {
-        if(!death)
+
+        //攻撃中はその場から移動できない
+        if (!isAttack && !isStop)
+        {
+            Move3D();
+        }
+
+        if (!death)
         {
             //攻撃中はその場から移動できない
             if (!isAttack && !isStop)
             {
                 Jump3D();
             }
+        }
+
+        //攻撃に必要なAPが足りている＆入力時の状態が攻撃中ではない
+        if (currentAp >= useAp && !isAttack && !isStop) 
+        {
+            //攻撃用関数
+            Attack();
         }
     }
 
@@ -118,33 +132,20 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
 
-        //死亡処理
-        if (currentHp <= 0.0f && !gameManager.gameOver)  
-        {
-            gameManager.gameOver = true;
-            Death();
-        }
-
-        //攻撃中はその場から移動できない
-        if (!isAttack && !isStop)
-        {
-            Move3D();
-        }
-
-        //攻撃に必要なAPが足りている＆入力時の状態が攻撃中ではない
-        if (currentAp >= useAp && !isAttack) 
-        {
-            //攻撃用関数
-            Attack();
-        }
-
         //キルカウントの制御
         if (killEnemy >= 5)
             killEnemy = 5;
 
         //HPの制御
         if (currentHp <= 0.0f)
-            currentHp = 0.0f;
+            currentHp = 0.0f; 
+        
+        //死亡処理
+        if (currentHp <= 0.0f && !gameManager.gameOver) 
+        {
+            gameManager.gameOver = true;
+            Death();
+        }
 
         //APの自動回復関数
         AutoRegenAP();
@@ -183,34 +184,22 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //Goalタグのオブジェクトに触れると発動
-        if (other.CompareTag("Goal"))
-        {
-            speed = 0.0f;
-            gameManager.gameClear = true;
-        }
-    }
-
-    //着地したらジャンプ中フラグをfalseにする
-    private void OnCollisionEnter(Collision other)
-    {
+        //着地したらジャンプ中フラグをfalseにする
         if (isJump)
         {
             if (other.gameObject.CompareTag("Ground"))
             {
                 agent.enabled = true;
+                rb.isKinematic = true;
                 isJump = false;
             }
         }
-    }
-    //使用武器決定
-    void InitializeWeapon()
-    {
-        switch (weapon)
+
+        //Goalタグのオブジェクトに触れると発動
+        if (other.CompareTag("Goal"))
         {
-            case (int)Weapon.KNIFE: Knife(); break;
-            case (int)Weapon.SWORD: Sword(); break;
-            case (int)Weapon.KNUCKLE: Knuckle(); break;
+            speed = 0.0f;
+            gameManager.gameClear = true;
         }
     }
 
@@ -251,6 +240,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
             agent.enabled = false;
+            rb.isKinematic = false;
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             isJump = true;
         }
@@ -282,36 +272,58 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             input = false;
     }
+    //使用武器決定
+    void UseWeapon(int a)
+    {
+        
+        if(a==(int)Weapon.KNIFE)//ナイフ
+        {
+            attack = 9.0f;
+            useAp = 15.0f;
+            notAttack = 0.6f;
+        }
+        else if(a==(int)Weapon.SWORD)//ロングソード
+        {
+            attack = 14.0f;
+            useAp = 25.0f;
+            notAttack = 0.5f;
+        }
+        else if(a==(int)Weapon.KNUCKLE)//ナックル
+        {
+            attack = 5.0f;
+            useAp = 10.0f;
+            notAttack = 0.3f;
+        }
 
-
-    //武器
-    //ナイフ
-    void Knife()
-    {
-        attack = 9.0f;
-        useAp = 15.0f;
-        notAttack = 0.6f;
-        useWeapon[(int)Weapon.KNIFE].SetActive(true);
-        weapon_num = (int)Weapon.KNIFE;
+        useWeapon[a].SetActive(true);
     }
-    //ロングソード
-    void Sword()
-    {
-        attack = 14.0f;
-        useAp = 25.0f;
-        notAttack = 0.5f;
-        useWeapon[(int)Weapon.SWORD].SetActive(true);
-        weapon_num = (int)Weapon.SWORD;
-    }
-    //ナックル
-    void Knuckle()
-    {
-        attack = 5.0f;
-        useAp = 10.0f;
-        notAttack = 0.3f;
-        useWeapon[(int)Weapon.KNUCKLE].SetActive(true);
-        weapon_num = (int)Weapon.KNUCKLE;
-    }
+    ////ナイフ
+    //void Knife()
+    //{
+    //    attack = 9.0f;
+    //    useAp = 15.0f;
+    //    notAttack = 0.6f;
+    //    useWeapon[(int)Weapon.KNIFE].SetActive(true);
+    //    weapon_num = (int)Weapon.KNIFE;
+    //}
+    ////ロングソード
+    //void Sword()
+    //{
+    //    attack = 14.0f;
+    //    useAp = 25.0f;
+    //    notAttack = 0.5f;
+    //    useWeapon[(int)Weapon.SWORD].SetActive(true);
+    //    weapon_num = (int)Weapon.SWORD;
+    //}
+    ////ナックル
+    //void Knuckle()
+    //{
+    //    attack = 5.0f;
+    //    useAp = 10.0f;
+    //    notAttack = 0.3f;
+    //    useWeapon[(int)Weapon.KNUCKLE].SetActive(true);
+    //    weapon_num = (int)Weapon.KNUCKLE;
+    //}
 
     //攻撃アニメーション
     string GetWeaponAttackTrigger()
@@ -401,7 +413,7 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定を出す
     void IsAttack()
     {
-        weaponCollider[weapon_num].enabled = true;
+        weaponCollider[weapon].enabled = true;
     }
     //攻撃中フラグをfalseにする
     void NotAttack()
@@ -411,7 +423,7 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定を消す
     void HitWeapon()
     {
-        weaponCollider[weapon_num].enabled = false;
+        weaponCollider[weapon].enabled = false;
     }
     //死亡処理
     void Death()
