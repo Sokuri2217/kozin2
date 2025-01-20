@@ -9,13 +9,20 @@ public class GameManager : MonoBehaviour
     public bool gameClear;
     public bool gamePlay;
 
+    public GameObject createPrefab;
+    public Transform createSpace;
     public GameObject clearPanel;
     public GameObject overPanel;
     public GameObject spawnGoal;
     public GameObject[] goal;
     private int goalNum = 0;
     private bool spawn = false;
+    private int maxEnemy;
+    public int currentEnemy;
 
+    // 経過時間
+    private float time;
+    public float spawnTime;
     //ゲーム状態
     public bool open_Option;
     //長押し防止
@@ -32,6 +39,8 @@ public class GameManager : MonoBehaviour
         spawnGoal.SetActive(false);
         open_Option = false;
         input = false;
+        maxEnemy = 10;
+        currentEnemy = 0;
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,6 +64,7 @@ public class GameManager : MonoBehaviour
                 {
                     case false:
                         open_Option = true;
+                        playerController.isStop = true;
                         // カーソルを自由に動かせる
                         Cursor.lockState = CursorLockMode.None;
                         Time.timeScale = 0;
@@ -64,17 +74,37 @@ public class GameManager : MonoBehaviour
                         // カーソルを画面中央にロックする
                         Cursor.lockState = CursorLockMode.Locked;
                         open_Option = false;
+                        playerController.isStop = false;
                         break;
                 }
                 input = true;
             }
         }
-
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {
             input = false;
         }
+
+        // 前フレームからの時間を加算していく
+        time = time + Time.deltaTime;
+        // 約1秒置きにランダムに生成されるようにする。
+        if (time > spawnTime && currentEnemy <= maxEnemy) 
+        {
+            // rangeAとrangeBのx座標の範囲内でランダムな数値を作成
+            float x = Random.Range(createSpace.position.x, createSpace.position.x);
+            // rangeAとrangeBのy座標の範囲内でランダムな数値を作成
+            float y = Random.Range(createSpace.position.y, createSpace.position.y);
+            // rangeAとrangeBのz座標の範囲内でランダムな数値を作成
+            float z = Random.Range(createSpace.position.z, createSpace.position.z);
+            // GameObjectを上記で決まったランダムな場所に生成
+            Instantiate(createPrefab, new Vector3(x, y, z), createPrefab.transform.rotation);
+            // 経過時間リセット
+            time = 0f;
+            //生成数カウント増加
+            currentEnemy++;
+        }
+
         //ゲームオーバー
         if (gameOver && gamePlay)   
         {
@@ -88,7 +118,7 @@ public class GameManager : MonoBehaviour
             Invoke("Clear", 0.3f);
         }
         //条件を満たすとゴールを出す
-        if (playerController.killEnemy >= 5 && !spawn)
+        if (playerController.killEnemy >= playerController.goalSpawn && !spawn)
         {
             spawn = true;
             goalNum = Random.Range(0, 5);

@@ -7,13 +7,21 @@ using UnityEngine.SceneManagement;
 public class MainUIScript : MonoBehaviour
 {
     // UI要素
-    public GameObject menuPanel, killCounter, pause, reunion, esc_icon;
+    public GameObject menuPanel;
+    public GameObject killCounter;
+    public GameObject pause;
+    public GameObject reunion;
+    public GameObject esc_icon;
     public new GameObject camera;
-    public Image weapon_icon, skill_icon;
-    public Text currentKill, goalSpawnKill;
+    public Image weapon_icon;
+    public Image skill_icon;
+    public Text currentKill;
+    public Text goalSpawnKill;
 
     // 武器とスキルのアイコン
-    public Sprite[] weapon, weapon_interval, skill;
+    public Sprite[] weapon;
+    public Sprite[] weapon_interval;
+    public Sprite[] skill;
 
     // ゲームの状態を管理
     private GameManager gameManager;
@@ -31,7 +39,6 @@ public class MainUIScript : MonoBehaviour
         UpdateSkillIcon(); // アイコンを更新
     }
 
-    // Update is called once per frame
     void Update()
     {
         // ゲームマネージャーとプレイヤーコントローラーを取得
@@ -53,7 +60,7 @@ public class MainUIScript : MonoBehaviour
         UpdateKillCount();
 
         // ゴール条件達成でKILLカウントを非表示に
-        if (playerController.killEnemy >= 5) killCounter.SetActive(false);
+        if (playerController.killEnemy >= playerController.goalSpawn) killCounter.SetActive(false);
 
         //インターバル中のアイコン制御
         UpdateWeaponIcon();
@@ -81,6 +88,9 @@ public class MainUIScript : MonoBehaviour
     // メニューの表示と非表示を切り替える処理
     private void HandleMenu()
     {
+        GameObject obj = GameObject.Find("Player");
+        playerController = obj.GetComponent<PlayerController>();
+
         if (gameManager.open_Option)
         {
             // オプションメニューを表示

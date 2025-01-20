@@ -1022,12 +1022,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   searchArea: {fileID: 6641712731407648369}
-  goals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-  camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+  allGoals:
+  - {fileID: 7120448866373667464, guid: 0b6bf76aa5eb50344bd3e63e1a8b3cca, type: 3}
+  - {fileID: 2606494226789597844, guid: dfc395053f5728d41975e0611ab34e9f, type: 3}
+  - {fileID: 1354619175647408927, guid: 20fb9e95d0d9b904285332e0797e6a21, type: 3}
+  - {fileID: 7637549468594151637, guid: 387acef3e17fced4e94e2d0008e937a8, type: 3}
+  - {fileID: 5534878400987944646, guid: e7b37918d263ecc4992de091a8fedd4c, type: 3}
+  - {fileID: 9058521264549619704, guid: 03a6b392d011f0b4ab5811ade467cd83, type: 3}
+  - {fileID: 5640292281322973681, guid: 524b4d92765539242b5f9bbf24f9a031, type: 3}
+  - {fileID: 6445480538389658266, guid: 364f870cac412624c9827d6d28c7dc24, type: 3}
+  - {fileID: 2937005305938010193, guid: bba49370154e38b49b9d1b628d5264b3, type: 3}
+  - {fileID: 6144663738392771396, guid: 15868d260516cc84c9b2eee4d9b5240f, type: 3}
+  - {fileID: 2758249089601803999, guid: a5cbcf4315ec7ae4ea55c7b3330ee7b4, type: 3}
+  - {fileID: 7099949443007926625, guid: ffd7d0d829dac9f43ab2b167df302a55, type: 3}
+  goals: []
+  goalsNum: 5
+  player: {fileID: 0}
+  camera: {fileID: 0}
   hpSlider: {fileID: 263289611}
   maxHp: 30
   currentHp: 0

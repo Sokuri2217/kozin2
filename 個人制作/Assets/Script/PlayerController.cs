@@ -14,9 +14,9 @@ public class PlayerController : MonoBehaviour
     public GameObject ground;
 
     //基礎能力
-    public float maxHp = 100.0f; //最大のHP
+    public float maxHp; //最大のHP
     public float currentHp;      //現在のHP
-    public float maxAp = 100.0f; //最大のAP
+    public float maxAp; //最大のAP
     public float currentAp;      //現在のAP
     public float useAp;          //消費AP
 
@@ -33,18 +33,18 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;                //ジャンプ力
 
     //攻撃関連                                   
-    public int weapon = 0;       //攻撃手段  
-    public int skill = 0;        //付与する効果
+    public int weapon;       //攻撃手段  
+    public int skill;        //付与する効果
     public bool apLost;          //攻撃に必要なApが残っているかどうか
     private bool input;          //長押し防止
     public float attack;         //攻撃力
     private bool isAttack;       //攻撃中
-    private float notAttack = 0; //動けるようになるまでの時間
+    private float notAttack; //動けるようになるまでの時間
 
     //ダメージ関連                               
     public float damage;              //受けるダメージ
     private bool isDamage;            //被弾確認
-    private float currentTime = 0.0f; //現在の時間取得
+    private float currentTime; //現在の時間取得
     public int killEnemy;             //倒した敵数
     public int goalSpawn;             //ゴール出現に必要な敵数
     public bool isStop;               //ダメージを受けると一時的に動きを止める
@@ -74,10 +74,6 @@ public class PlayerController : MonoBehaviour
         targetRotation = transform.rotation;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        damage = 5.0f;
-        speed = 5.0f;
-        killEnemy = 0;
-        goalSpawn = 5;
         isDamage = false;
         death = false;
         // 武器の初期化
@@ -103,18 +99,12 @@ public class PlayerController : MonoBehaviour
     //ジャンプ処理
     private void Update()
     {
-
-        //攻撃中はその場から移動できない
-        if (!isAttack && !isStop)
-        {
-            Move3D();
-        }
-
+        //攻撃中か被弾時には停止させる
         if (!death)
         {
-            //攻撃中はその場から移動できない
             if (!isAttack && !isStop)
             {
+                Move3D();
                 Jump3D();
             }
         }
@@ -133,8 +123,8 @@ public class PlayerController : MonoBehaviour
         GameManager gameManager = GetComponent<GameManager>();
 
         //キルカウントの制御
-        if (killEnemy >= 5)
-            killEnemy = 5;
+        if (killEnemy >= goalSpawn)
+            killEnemy = goalSpawn;
 
         //HPの制御
         if (currentHp <= 0.0f)
@@ -275,20 +265,20 @@ public class PlayerController : MonoBehaviour
     //使用武器決定
     void UseWeapon(int a)
     {
-        
-        if(a==(int)Weapon.KNIFE)//ナイフ
+
+        if (a == (int)Weapon.KNIFE)//ナイフ
         {
             attack = 9.0f;
             useAp = 15.0f;
             notAttack = 0.6f;
         }
-        else if(a==(int)Weapon.SWORD)//ロングソード
+        else if (a == (int)Weapon.SWORD)//ロングソード
         {
             attack = 14.0f;
             useAp = 25.0f;
             notAttack = 0.5f;
         }
-        else if(a==(int)Weapon.KNUCKLE)//ナックル
+        else if (a == (int)Weapon.KNUCKLE)//ナックル
         {
             attack = 5.0f;
             useAp = 10.0f;
@@ -297,34 +287,6 @@ public class PlayerController : MonoBehaviour
 
         useWeapon[a].SetActive(true);
     }
-    ////ナイフ
-    //void Knife()
-    //{
-    //    attack = 9.0f;
-    //    useAp = 15.0f;
-    //    notAttack = 0.6f;
-    //    useWeapon[(int)Weapon.KNIFE].SetActive(true);
-    //    weapon_num = (int)Weapon.KNIFE;
-    //}
-    ////ロングソード
-    //void Sword()
-    //{
-    //    attack = 14.0f;
-    //    useAp = 25.0f;
-    //    notAttack = 0.5f;
-    //    useWeapon[(int)Weapon.SWORD].SetActive(true);
-    //    weapon_num = (int)Weapon.SWORD;
-    //}
-    ////ナックル
-    //void Knuckle()
-    //{
-    //    attack = 5.0f;
-    //    useAp = 10.0f;
-    //    notAttack = 0.3f;
-    //    useWeapon[(int)Weapon.KNUCKLE].SetActive(true);
-    //    weapon_num = (int)Weapon.KNUCKLE;
-    //}
-
     //攻撃アニメーション
     string GetWeaponAttackTrigger()
     {
