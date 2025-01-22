@@ -42,7 +42,7 @@ public class GolemController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         move = 1;
         // 対象のオブジェクトを追いかける

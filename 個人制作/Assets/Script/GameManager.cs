@@ -9,16 +9,12 @@ public class GameManager : MonoBehaviour
     public bool gameClear;
     public bool gamePlay;
 
-    public GameObject createPrefab;
-    public Transform createSpace;
     public GameObject clearPanel;
     public GameObject overPanel;
     public GameObject spawnGoal;
     public GameObject[] goal;
     private int goalNum = 0;
-    private bool spawn = false;
-    private int maxEnemy;
-    public int currentEnemy;
+    public bool spawn;
 
     // 経過時間
     private float time;
@@ -39,8 +35,7 @@ public class GameManager : MonoBehaviour
         spawnGoal.SetActive(false);
         open_Option = false;
         input = false;
-        maxEnemy = 10;
-        currentEnemy = 0;
+        spawn = false;
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -84,25 +79,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {
             input = false;
-        }
-
-        // 前フレームからの時間を加算していく
-        time = time + Time.deltaTime;
-        // 約1秒置きにランダムに生成されるようにする。
-        if (time > spawnTime && currentEnemy <= maxEnemy) 
-        {
-            // rangeAとrangeBのx座標の範囲内でランダムな数値を作成
-            float x = Random.Range(createSpace.position.x, createSpace.position.x);
-            // rangeAとrangeBのy座標の範囲内でランダムな数値を作成
-            float y = Random.Range(createSpace.position.y, createSpace.position.y);
-            // rangeAとrangeBのz座標の範囲内でランダムな数値を作成
-            float z = Random.Range(createSpace.position.z, createSpace.position.z);
-            // GameObjectを上記で決まったランダムな場所に生成
-            Instantiate(createPrefab, new Vector3(x, y, z), createPrefab.transform.rotation);
-            // 経過時間リセット
-            time = 0f;
-            //生成数カウント増加
-            currentEnemy++;
         }
 
         //ゲームオーバー

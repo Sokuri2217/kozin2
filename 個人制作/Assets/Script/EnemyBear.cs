@@ -11,10 +11,7 @@ public class EnemyBear : MonoBehaviour
     private Animator animator;
     public Collider searchArea;
 
-    public Transform[] allGoals;  //全ての徘徊ポイント
-    public Transform[] goals;     //実際に徘徊するポイント
-    public int goalsNum;         //徘徊ポイントに設定するポイント
-    private int setNum;           //乱数格納用
+    public Transform[] goals;     //徘徊するポイント
     public Transform player;      //プレイヤーの位置
     public new Transform  camera; //カメラの位置
     private int destNum = 0;　　　//向かう場所
@@ -39,14 +36,12 @@ public class EnemyBear : MonoBehaviour
 
     public Collider weaponCollider;
 
+    //ドロップアイテム
+    public GameObject Ap_Heal;
+
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i > goalsNum; i++) 
-        {
-            setNum = Random.Range(0, 10);
-            goals[i] = allGoals[setNum];
-        }
         agent = GetComponent<NavMeshAgent>();
         agent.destination = goals[destNum].position;
         animator = GetComponent<Animator>();
@@ -135,7 +130,6 @@ public class EnemyBear : MonoBehaviour
         {
             animator.SetTrigger("death");
             agent.speed = 0;
-            gameManager.currentEnemy--;
             death = true;
             Invoke("Death", 0.6f);
         }
@@ -208,6 +202,8 @@ public class EnemyBear : MonoBehaviour
         //死亡処理
         //KILLカウントを増やす
         playerController.killEnemy++;
+        //アイテムをドロップさせる
+        Instantiate(Ap_Heal, transform.position, Quaternion.identity);
         //オブジェクトを消去する
         Destroy(gameObject);
     }
