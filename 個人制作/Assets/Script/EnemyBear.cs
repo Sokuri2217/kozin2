@@ -5,55 +5,37 @@ using UnityEngine.AI;//NavMeshagentを使う
 using UnityEngine.UI;
 
 
-public class EnemyBear : MonoBehaviour
+public class EnemyBear : ObjectMove
 {
-    private NavMeshAgent agent;
-    private Animator animator;
+    //索敵範囲
     public Collider searchArea;
 
+    //移動関連
     public Transform[] goals;     //徘徊ポイント
     public Transform player;      //プレイヤーの位置
-    public new Transform  camera; //カメラの位置
     private int destNum = 0;　　　//向かう場所
-    public Slider hpSlider;       //HPバー
-    public float maxHp = 30;      //最大のHP
-    public float currentHp;       //現在のHP
-    bool death;                   //死亡フラグ
-    bool isDamage = false;        //ダメージ中フラグ
-    bool attack = false;          //攻撃フラグ
-    bool isAttack = false;        //攻撃フラグ
     public bool isChase = false;  //追跡フラグ
     private int chaseTime = 0;    //追跡解除用のカウント
-    private int speed;            //アニメーション管理用
+
+    //戦闘関連
+    bool attack = false;          //攻撃フラグ
     public float surpriseAttack;  //不意打ち被ダメ倍率
 
-    private AudioSource sound = null;
-
     //ダメージSE
-    public AudioClip knife_SE;
-    public AudioClip sword_SE;
-    public AudioClip Knuckle_SE;
+    public AudioClip[] damage_Se;
 
+    //武器の当たり判定
     public Collider weaponCollider;
 
-    // ゲームの状態を管理
-    private GameManager gameManager;
-    private PlayerController playerController;
+    //HPバー関連
+    public new Transform camera; //カメラの位置
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.destination = goals[destNum].position;
-        animator = GetComponent<Animator>();
-        sound = GetComponent<AudioSource>();
         weaponCollider.enabled = false;
-        speed = 0;
-        death = false;
-        speed = 0;
+        speed = 0.0f;
 
-        //Sliderを満タンにする。
-        hpSlider.value = 1;
         //現在の値を最大値と同じにする
         currentHp = maxHp;
     }
@@ -88,7 +70,7 @@ public class EnemyBear : MonoBehaviour
         {
             //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
-            speed = 2;
+            speed = 2.0f;
             agent.speed = 15;
             chaseTime++;
             // 対象のオブジェクトを追いかける
@@ -101,7 +83,7 @@ public class EnemyBear : MonoBehaviour
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
             chaseTime = 0;
-            speed = 1;
+            speed = 1.0f;
             agent.speed = 2;
             nextGoal();
         }
@@ -117,15 +99,13 @@ public class EnemyBear : MonoBehaviour
         if (gameManager.gameOver || gameManager.gameClear)
         {
             agent.speed = 0;
-            speed = 0;
+            speed = 0.0f;
         }
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
         if (chaseTime >= 300)
             isChase = false;
 
-        //最大HPにおける現在のHPをSliderに反映
-        hpSlider.value = currentHp / maxHp;
 
         ////体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
         if (currentHp <= 0.0f && !death)
@@ -136,6 +116,9 @@ public class EnemyBear : MonoBehaviour
             Invoke("Death", 0.6f);
         }
         animator.SetFloat("EnemySpeed", speed, 0.1f, Time.deltaTime);
+
+        //最大HPにおける現在のHPをSliderに反映
+        hpSlider.value = currentHp / maxHp;
         hpSlider.transform.LookAt(camera.transform);
     }
 
@@ -163,18 +146,7 @@ public class EnemyBear : MonoBehaviour
             weaponCollider.enabled = false;
             GetComponent<Animator>().SetTrigger("damage");
             //武器ごとに被弾SEを鳴らす
-            switch(playerController.weapon)
-            {
-                case (int)Weapon.Knife:
-                    sound.PlayOneShot(knife_SE);
-                    break;
-                case (int)Weapon.Sword:
-                    sound.PlayOneShot(sword_SE);
-                    break;
-                case (int)Weapon.Knuckle:
-                    sound.PlayOneShot(Knuckle_SE);
-                    break;
-            }
+            se.PlayOneShot(damage_Se[playerController.weapon]);
 
             if(!isChase)
             {
@@ -205,17 +177,6 @@ public class EnemyBear : MonoBehaviour
         //オブジェクトを消去する
         Destroy(gameObject);
     }
-
-    //ダメージを受けるようになる
-    void NotDamage()
-    {
-        isDamage = false;
-    }
-    //再攻撃可能
-    void NotAttack()
-    {
-        isAttack = false;
-    }
     //攻撃可能
     void CanAttack()
     {
@@ -232,9 +193,5 @@ public class EnemyBear : MonoBehaviour
         weaponCollider.enabled = false;
     }
 
-    public enum Weapon{
-        Knife,
-        Sword,
-        Knuckle
-    }
+    
 }
