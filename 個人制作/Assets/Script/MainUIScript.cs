@@ -7,13 +7,19 @@ using UnityEngine.SceneManagement;
 public class MainUIScript : MonoBehaviour
 {
     // UI要素
-    public GameObject menuPanel, killCounter, pause, reunion, esc_icon;
+    public GameObject menuPanel;
+    public GameObject killCounter;
+    public GameObject pause;
+    public GameObject reunion;
+    public GameObject esc_icon;
     public new GameObject camera;
     public Image weapon_icon, skill_icon;
     public Text currentKill, goalSpawnKill;
 
     // 武器とスキルのアイコン
-    public Sprite[] weapon, weapon_interval, skill;
+    public Sprite[] weapon;
+    public Sprite[] weapon_interval;
+    public Sprite[] skill;
 
     // ゲームの状態を管理
     private GameManager gameManager;
@@ -53,7 +59,8 @@ public class MainUIScript : MonoBehaviour
         UpdateKillCount();
 
         // ゴール条件達成でKILLカウントを非表示に
-        if (playerController.killEnemy >= 5) killCounter.SetActive(false);
+        if (gameManager.killEnemy >= gameManager.goalSpawn) 
+            killCounter.SetActive(false);
 
         //インターバル中のアイコン制御
         UpdateWeaponIcon();
@@ -157,8 +164,8 @@ public class MainUIScript : MonoBehaviour
     // KILLカウントを更新する処理
     private void UpdateKillCount()
     {
-        currentKill.text = playerController.killEnemy.ToString(); // 現在のKILL数
-        goalSpawnKill.text = playerController.goalSpawn.ToString(); // ゴール出現に必要なKILL数
+        currentKill.text = gameManager.killEnemy.ToString(); // 現在のKILL数
+        goalSpawnKill.text = gameManager.goalSpawn.ToString(); // ゴール出現に必要なKILL数
     }
 
     public enum Weapon

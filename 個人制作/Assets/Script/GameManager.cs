@@ -15,11 +15,24 @@ public class GameManager : MonoBehaviour
     public GameObject[] goal;
     private int goalNum = 0;
     private bool spawn = false;
+    public int maxCount;
+    public int currentCount;
+    public int killEnemy;             //倒した敵数
+    public int goalSpawn;             //ゴール出現に必要な敵数
+
+    //ボス出現フラグ
+    public bool spawnBoss;
+    //ボスオブジェクト
+    public GameObject boss;
 
     //ゲーム状態
     public bool open_Option;
     //長押し防止
     public bool input;
+
+    public Image fadePanel;             // フェード用のUIパネル（Image）
+    public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +43,10 @@ public class GameManager : MonoBehaviour
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
+        boss.SetActive(false);
         open_Option = false;
         input = false;
+        spawnBoss = false;
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,12 +70,14 @@ public class GameManager : MonoBehaviour
                 {
                     case false:
                         open_Option = true;
+                        playerController.isStop = true;
                         // カーソルを自由に動かせる
                         Cursor.lockState = CursorLockMode.None;
                         Time.timeScale = 0;
                         break;
                     case true:
                         Time.timeScale = 1;
+                        playerController.isStop = false;
                         // カーソルを画面中央にロックする
                         Cursor.lockState = CursorLockMode.Locked;
                         open_Option = false;
@@ -69,11 +86,40 @@ public class GameManager : MonoBehaviour
                 input = true;
             }
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            currentCount = maxCount;
+        }
+
+        //ボス出現
+        if (currentCount >= maxCount)
+        {
+            currentCount = maxCount;
+            if(!spawnBoss)
+            {
+                Time.timeScale = 1;
+                spawnBoss = true;
+                StartCoroutine(FadeOutAndLoadScene());
+            }
+        }
 
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {
             input = false;
+        }
+        //キルカウントの制御
+        if (killEnemy >= goalSpawn) 
+        {
+            killEnemy = goalSpawn;
+            //条件を満たすとゴールを出す
+            if (!spawn)
+            {
+                spawn = true;
+                goalNum = Random.Range(0, 5);
+                goal[goalNum].SetActive(true);
+                spawnGoal.SetActive(true);
+            }
         }
         //ゲームオーバー
         if (gameOver && gamePlay)   
@@ -87,15 +133,6 @@ public class GameManager : MonoBehaviour
             gamePlay = false;
             Invoke("Clear", 0.3f);
         }
-        //条件を満たすとゴールを出す
-        if (playerController.killEnemy >= 5 && !spawn)
-        {
-            spawn = true;
-            goalNum = Random.Range(0, 5);
-            goal[goalNum].SetActive(true);
-            spawnGoal.SetActive(true);
-        }
-
         //クリアかゲームオーバーになるとspawnGoalを非表示にする
         if(gameClear||gameOver)
         {
@@ -114,5 +151,27 @@ public class GameManager : MonoBehaviour
         clearPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
+    }
+
+    public IEnumerator FadeOutAndLoadScene()
+    {
+        fadePanel.enabled = true;                 // パネルを有効化
+        float elapsedTime = 0.0f;                 // 経過時間を初期化
+        Color startColor = fadePanel.color;       // フェードパネルの開始色を取得
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1.0f); // フェードパネルの最終色を設定
+
+        // フェードアウトアニメーションを実行
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;                        // 経過時間を増やす
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);  // フェードの進行度を計算
+            fadePanel.color = Color.Lerp(startColor, endColor, t); // パネルの色を変更してフェードアウト
+            yield return null;                                     // 1フレーム待機
+        }
+
+        fadePanel.color = endColor;  // フェードが完了したら最終色に設定
+        fadePanel.enabled = false;
+        boss.SetActive(true);
+        Time.timeScale = 1;
     }
 }

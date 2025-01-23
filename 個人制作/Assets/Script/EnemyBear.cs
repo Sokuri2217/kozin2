@@ -36,6 +36,10 @@ public class EnemyBear : MonoBehaviour
 
     public Collider weaponCollider;
 
+    // ゲームの状態を管理
+    private GameManager gameManager;
+    private PlayerController playerController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,7 +106,6 @@ public class EnemyBear : MonoBehaviour
             nextGoal();
         }
 
-        GameManager gameManager;
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
 
@@ -150,7 +153,6 @@ public class EnemyBear : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PlayerController playerController;
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
@@ -194,13 +196,12 @@ public class EnemyBear : MonoBehaviour
 
     void Death()
     {
-        PlayerController playerController;
         GameObject obj = GameObject.Find("Player");
         playerController = obj.GetComponent<PlayerController>();
 
         //死亡処理
         //KILLカウントを増やす
-        playerController.killEnemy++;
+        gameManager.killEnemy++;
         //オブジェクトを消去する
         Destroy(gameObject);
     }
