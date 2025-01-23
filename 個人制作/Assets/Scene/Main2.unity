@@ -178,10 +178,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 703589232664249947, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
-      propertyPath: hpSlider
-      value: 
-      objectReference: {fileID: 1725971819}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
 --- !u!1001 &188618663
@@ -195,38 +191,6 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 2111795923}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: da4c4d42cdb31e542950e4f8c6f5530f, type: 3}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: cd894e5ec61177542a313a8274acb8d4, type: 3}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: f02aa309bcfbb844689f9cd48c470243, type: 3}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon_interval.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon_interval.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 67ce64ec564eee549ac013bd5c0cea0a, type: 3}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon_interval.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: b71a7982c98c56746ae768778056794f, type: 3}
-    - target: {fileID: 5398883722959804516, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-      propertyPath: weapon_interval.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 45bf650e93a2b7a4595c6928cc8f5e42, type: 3}
     - target: {fileID: 5398883722959804517, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -638,11 +602,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 840428300, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
   m_PrefabInstance: {fileID: 188618663}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &556177552 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 840428301, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-  m_PrefabInstance: {fileID: 188618663}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1139011835 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5398883723024225182, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
@@ -794,10 +753,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5676664056568212815, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: overPanel
       value: 
@@ -810,14 +765,6 @@ PrefabInstance:
       propertyPath: clearPanel
       value: 
       objectReference: {fileID: 445809787}
-    - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-      propertyPath: createSpace
-      value: 
-      objectReference: {fileID: 556177552}
-    - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-      propertyPath: createPrefab
-      value: 
-      objectReference: {fileID: 556177551}
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: goal.Array.data[0]
       value: 
@@ -839,14 +786,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 556177551}
     - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-      propertyPath: ground
-      value: 
-      objectReference: {fileID: 2071103073}
-    - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: apSlider
       value: 
       objectReference: {fileID: 1139011835}
@@ -856,17 +795,6 @@ PrefabInstance:
       objectReference: {fileID: 290828488}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e24546eac9b1fac4f861364536223cab, type: 3}
---- !u!114 &1725971819 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2172999066150375782, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
-  m_PrefabInstance: {fileID: 188618663}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2071103073
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +808,7 @@ GameObject:
   - component: {fileID: 2071103074}
   m_Layer: 0
   m_Name: Ground2
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

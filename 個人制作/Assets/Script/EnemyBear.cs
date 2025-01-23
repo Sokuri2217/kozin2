@@ -11,7 +11,7 @@ public class EnemyBear : MonoBehaviour
     private Animator animator;
     public Collider searchArea;
 
-    public Transform[] goals;     //徘徊するポイント
+    public Transform[] goals;     //徘徊ポイント
     public Transform player;      //プレイヤーの位置
     public new Transform  camera; //カメラの位置
     private int destNum = 0;　　　//向かう場所
@@ -36,9 +36,6 @@ public class EnemyBear : MonoBehaviour
 
     public Collider weaponCollider;
 
-    //ドロップアイテム
-    public GameObject Ap_Heal;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +46,8 @@ public class EnemyBear : MonoBehaviour
         weaponCollider.enabled = false;
         speed = 0;
         death = false;
+        speed = 0;
+
         //Sliderを満タンにする。
         hpSlider.value = 1;
         //現在の値を最大値と同じにする
@@ -202,8 +201,6 @@ public class EnemyBear : MonoBehaviour
         //死亡処理
         //KILLカウントを増やす
         playerController.killEnemy++;
-        //アイテムをドロップさせる
-        Instantiate(Ap_Heal, transform.position, Quaternion.identity);
         //オブジェクトを消去する
         Destroy(gameObject);
     }

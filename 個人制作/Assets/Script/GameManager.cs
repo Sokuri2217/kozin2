@@ -14,11 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject spawnGoal;
     public GameObject[] goal;
     private int goalNum = 0;
-    public bool spawn;
+    private bool spawn = false;
 
-    // 経過時間
-    private float time;
-    public float spawnTime;
     //ゲーム状態
     public bool open_Option;
     //長押し防止
@@ -35,7 +32,6 @@ public class GameManager : MonoBehaviour
         spawnGoal.SetActive(false);
         open_Option = false;
         input = false;
-        spawn = false;
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,7 +55,6 @@ public class GameManager : MonoBehaviour
                 {
                     case false:
                         open_Option = true;
-                        playerController.isStop = true;
                         // カーソルを自由に動かせる
                         Cursor.lockState = CursorLockMode.None;
                         Time.timeScale = 0;
@@ -69,18 +64,17 @@ public class GameManager : MonoBehaviour
                         // カーソルを画面中央にロックする
                         Cursor.lockState = CursorLockMode.Locked;
                         open_Option = false;
-                        playerController.isStop = false;
                         break;
                 }
                 input = true;
             }
         }
+
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {
             input = false;
         }
-
         //ゲームオーバー
         if (gameOver && gamePlay)   
         {
@@ -94,7 +88,7 @@ public class GameManager : MonoBehaviour
             Invoke("Clear", 0.3f);
         }
         //条件を満たすとゴールを出す
-        if (playerController.killEnemy >= playerController.goalSpawn && !spawn)
+        if (playerController.killEnemy >= 5 && !spawn)
         {
             spawn = true;
             goalNum = Random.Range(0, 5);

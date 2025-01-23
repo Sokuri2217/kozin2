@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
     Animator animator;
+    
     Rigidbody rb;
-    NavMeshAgent agent;
     private AudioSource se;
     public AudioClip damage_se;
-    public GameObject ground;
 
     //基礎能力
-    public float maxHp; //最大のHP
+    public float maxHp = 100.0f; //最大のHP
     public float currentHp;      //現在のHP
-    public float maxAp; //最大のAP
+    public float maxAp = 100.0f; //最大のAP
     public float currentAp;      //現在のAP
     public float useAp;          //消費AP
 
@@ -25,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;                //縦移動
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
-    Quaternion targetRotation;             //向きの回転
+    private Quaternion targetRotation;     //向きの回転
     public float speed;                    //移動速度
     private float move;                    //歩き、走りの切り替え
     private float rotationSpeed;           //向きを変える速度
@@ -33,18 +31,18 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;                //ジャンプ力
 
     //攻撃関連                                   
-    public int weapon;       //攻撃手段  
-    public int skill;        //付与する効果
+    public int weapon = 0;       //攻撃手段  
+    public int skill = 0;        //付与する効果
     public bool apLost;          //攻撃に必要なApが残っているかどうか
     private bool input;          //長押し防止
     public float attack;         //攻撃力
     private bool isAttack;       //攻撃中
-    private float notAttack; //動けるようになるまでの時間
+    private float notAttack = 0; //動けるようになるまでの時間
 
     //ダメージ関連                               
     public float damage;              //受けるダメージ
     private bool isDamage;            //被弾確認
-    private float currentTime; //現在の時間取得
+    private float currentTime = 0.0f; //現在の時間取得
     public int killEnemy;             //倒した敵数
     public int goalSpawn;             //ゴール出現に必要な敵数
     public bool isStop;               //ダメージを受けると一時的に動きを止める
@@ -61,19 +59,19 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定                          
     public Collider[] weaponCollider; //武器のコライダー
 
-    //使用武器判定用
-    public enum Weapon { KNIFE, SWORD, KNUCKLE }
-
     void Start()
     {
         //初期化
         animator = GetComponent<Animator>();
         se = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
-        agent = GetComponent<NavMeshAgent>();
         targetRotation = transform.rotation;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
+        damage = 5.0f;
+        speed = 5.0f;
+        killEnemy = 0;
+        goalSpawn = 5;
         isDamage = false;
         death = false;
         // 武器の初期化
@@ -83,7 +81,7 @@ public class PlayerController : MonoBehaviour
             weaponCollider[i].enabled = false;
         }
         //使用武器決定
-        UseWeapon(weapon);
+        InitializeWeapon();
         //ステータス変化
         RandomSkill();
 
@@ -96,24 +94,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //ジャンプ処理
+    //関数名
+    //説明
     private void Update()
     {
-        //攻撃中か被弾時には停止させる
-        if (!death)
+        if(!death)
         {
+            //攻撃中はその場から移動できない
             if (!isAttack && !isStop)
             {
-                Move3D();
                 Jump3D();
             }
-        }
-
-        //攻撃に必要なAPが足りている＆入力時の状態が攻撃中ではない
-        if (currentAp >= useAp && !isAttack && !isStop) 
-        {
-            //攻撃用関数
-            Attack();
         }
     }
 
@@ -122,20 +113,33 @@ public class PlayerController : MonoBehaviour
     {
         GameManager gameManager = GetComponent<GameManager>();
 
-        //キルカウントの制御
-        if (killEnemy >= goalSpawn)
-            killEnemy = goalSpawn;
-
-        //HPの制御
-        if (currentHp <= 0.0f)
-            currentHp = 0.0f; 
-        
         //死亡処理
-        if (currentHp <= 0.0f && !gameManager.gameOver) 
+        if (currentHp <= 0.0f && !gameManager.gameOver)  
         {
             gameManager.gameOver = true;
             Death();
         }
+
+        //攻撃中はその場から移動できない
+        if (!isAttack && !isStop)
+        {
+            Move3D();
+        }
+
+        //攻撃に必要なAPが足りている＆入力時の状態が攻撃中ではない
+        if (currentAp >= useAp && !isAttack) 
+        {
+            //攻撃用関数
+            Attack();
+        }
+
+        //キルカウントの制御
+        if (killEnemy >= 5)
+            killEnemy = 5;
+
+        //HPの制御
+        if (currentHp <= 0.0f)
+            currentHp = 0.0f;
 
         //APの自動回復関数
         AutoRegenAP();
@@ -174,22 +178,33 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //着地したらジャンプ中フラグをfalseにする
-        if (isJump)
-        {
-            if (other.gameObject.CompareTag("Ground"))
-            {
-                agent.enabled = true;
-                rb.isKinematic = true;
-                isJump = false;
-            }
-        }
-
         //Goalタグのオブジェクトに触れると発動
         if (other.CompareTag("Goal"))
         {
             speed = 0.0f;
             gameManager.gameClear = true;
+        }
+    }
+
+    //着地したらジャンプ中フラグをfalseにする
+    private void OnCollisionEnter(Collision other)
+    {
+        if (isJump)
+        {
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                isJump = false;
+            }
+        }
+    }
+    //使用武器決定
+    void InitializeWeapon()
+    {
+        switch (weapon)
+        {
+            case (int)Weapon.KNIFE: Knife(); break;
+            case (int)Weapon.SWORD: Sword(); break;
+            case (int)Weapon.KNUCKLE: Knuckle(); break;
         }
     }
 
@@ -229,8 +244,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
-            agent.enabled = false;
-            rb.isKinematic = false;
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             isJump = true;
         }
@@ -262,31 +275,37 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             input = false;
     }
-    //使用武器決定
-    void UseWeapon(int a)
+
+
+    //武器
+    //ナイフ
+    void Knife()
     {
-
-        if (a == (int)Weapon.KNIFE)//ナイフ
-        {
-            attack = 9.0f;
-            useAp = 15.0f;
-            notAttack = 0.6f;
-        }
-        else if (a == (int)Weapon.SWORD)//ロングソード
-        {
-            attack = 14.0f;
-            useAp = 25.0f;
-            notAttack = 0.5f;
-        }
-        else if (a == (int)Weapon.KNUCKLE)//ナックル
-        {
-            attack = 5.0f;
-            useAp = 10.0f;
-            notAttack = 0.3f;
-        }
-
-        useWeapon[a].SetActive(true);
+        attack = 9.0f;
+        useAp = 15.0f;
+        notAttack = 0.6f;
+        useWeapon[(int)Weapon.KNIFE].SetActive(true);
+        weapon_num = (int)Weapon.KNIFE;
     }
+    //ロングソード
+    void Sword()
+    {
+        attack = 14.0f;
+        useAp = 25.0f;
+        notAttack = 0.5f;
+        useWeapon[(int)Weapon.SWORD].SetActive(true);
+        weapon_num = (int)Weapon.SWORD;
+    }
+    //ナックル
+    void Knuckle()
+    {
+        attack = 5.0f;
+        useAp = 10.0f;
+        notAttack = 0.3f;
+        useWeapon[(int)Weapon.KNUCKLE].SetActive(true);
+        weapon_num = (int)Weapon.KNUCKLE;
+    }
+
     //攻撃アニメーション
     string GetWeaponAttackTrigger()
     {
@@ -375,7 +394,7 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定を出す
     void IsAttack()
     {
-        weaponCollider[weapon].enabled = true;
+        weaponCollider[weapon_num].enabled = true;
     }
     //攻撃中フラグをfalseにする
     void NotAttack()
@@ -385,7 +404,7 @@ public class PlayerController : MonoBehaviour
     //武器の当たり判定を消す
     void HitWeapon()
     {
-        weaponCollider[weapon].enabled = false;
+        weaponCollider[weapon_num].enabled = false;
     }
     //死亡処理
     void Death()
@@ -393,4 +412,6 @@ public class PlayerController : MonoBehaviour
         speed = 0.0f;
         animator.SetTrigger("death");
     }
+    //使用武器判定用
+    public enum Weapon{ KNIFE,SWORD,KNUCKLE }
 }
