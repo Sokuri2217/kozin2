@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3341914381557047587, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+      propertyPath: m_Speed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
       propertyPath: rb
       value: 
@@ -186,6 +190,10 @@ PrefabInstance:
       propertyPath: se
       value: 
       objectReference: {fileID: 1251770708}
+    - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+      propertyPath: rock
+      value: 
+      objectReference: {fileID: 1375754531036840, guid: 71497ec4178769a4c8cdb38563f01fc0, type: 3}
     - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
       propertyPath: agent
       value: 
@@ -207,6 +215,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 468080484}
     - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+      propertyPath: shotPos
+      value: 
+      objectReference: {fileID: 2058529918}
+    - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1251770713}
@@ -215,8 +227,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1049284984}
     - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+      propertyPath: rockSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
       propertyPath: attackStart
-      value: 300
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
       propertyPath: farCollider
@@ -246,6 +262,10 @@ PrefabInstance:
       propertyPath: damage_Se.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
+    - target: {fileID: 7087339555125666720, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 7a9006b4dbae10249b026243ceeda20b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
 --- !u!1001 &188618663
@@ -1182,6 +1202,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 556177551}
     - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+      propertyPath: move
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: speed
       value: 5
       objectReference: {fileID: 0}
@@ -1244,6 +1268,11 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6751703067153212541, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   m_PrefabInstance: {fileID: 1252931529}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2058529918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1620575693851942, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+  m_PrefabInstance: {fileID: 112924495}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2071103073
 GameObject:

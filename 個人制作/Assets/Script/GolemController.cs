@@ -9,8 +9,12 @@ public class GolemController : ObjectMove
 {
     //移動関連
     public Transform player;      //プレイヤーの位置
+    public int speed;              //移動速度
 
     //戦闘関連
+    public GameObject shotPos;   //遠距離オブジェクトを発射する位置
+    public GameObject rock;      //遠距離攻撃の岩オブジェクト
+    public float rockSpeed;      //岩の速度
     public bool attack = false;  //攻撃フラグ
     private float attackTime;    //攻撃するまでの時間
     public float attackStart;    //攻撃を始める時間
@@ -21,26 +25,25 @@ public class GolemController : ObjectMove
     public AudioClip[] damage_Se;
 
     //武器の当たり判定
-    public Collider nearCollider;
-    public Collider farCollider;
+    public Collider nearCollider;  //近距離攻撃用コライダー
 
     // Start is called before the first frame update
     private new void Start()
     {
-        //weaponCollider.enabled = false;
-        speed = 0.0f;
-
+        //移動速度の設定
+        agent.speed = speed;
+        //ボスの右手を取得（遠距離の発射位置のため）
+        shotPos = GameObject.Find("Index_Proximal_R");
         //現在の値を最大値と同じにする
         currentHp = maxHp;
-
+        //近距離攻撃の当たり判定を消す
         nearCollider.enabled = false;
-        farCollider.enabled = false;
     }
 
 
     private new void Update()
     {
-        speed = 1.0f;
+        move = 1.0f;
         // 対象のオブジェクトを追いかける
         agent.destination = player.transform.position;
 
@@ -69,32 +72,31 @@ public class GolemController : ObjectMove
         //移動開始から一定時間経つと、その場で止まりプレイヤーとの距離に適した攻撃をする
         if (attackTime >= attackStart)  
         {
-            speed = 0.0f;
+            move = 0.0f;
             agent.speed = 0;
 
-            //近距離
-            if (!isAttack && attackNear)
+            if(!isAttack)
             {
-                animator.SetTrigger("nearattack");
-                nearCollider.enabled = true;
+                transform.LookAt(player.transform);
+                //近距離
+                if (attackNear) 
+                {
+                    animator.SetTrigger("nearattack");
+                    nearCollider.enabled = true;
+                }
+                //遠距離
+                else if (attackFar)
+                {
+                    animator.SetTrigger("farattack");
+                    rock = (GameObject)Instantiate(rock, this.transform.position, Quaternion.identity);
+                    rock.transform.parent = shotPos.transform;
+                    Invoke("RockShot", 1.6f);
+                }
+                isAttack = true;
+                attackTime = 0.0f;
+                Invoke("NotWeapon", 3.0f);
             }
-            //遠距離
-            else if (attackFar) 
-            {
-                animator.SetTrigger("farattack");
-                farCollider.enabled = true;
-            }
-            isAttack = true;
-            attackTime = 0.0f;
-            Invoke("NotWeapon", 10.0f);
         }
-        else
-        {
-            speed = 1.0f;
-            agent.speed = 10;
-        }
-
-        
 
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
@@ -102,7 +104,7 @@ public class GolemController : ObjectMove
         if (gameManager.gameOver)
         {
             agent.speed = 0;
-            speed = 0.0f;
+            move = 0.0f;
         }
 
         //体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
@@ -139,6 +141,12 @@ public class GolemController : ObjectMove
         }
     }
 
+    void RockShot()
+    {
+        
+        rock.GetComponent<Rigidbody>().velocity = shotPos.transform.forward * rockSpeed;
+    }
+
     void Death()
     {
         //死亡処理
@@ -149,8 +157,8 @@ public class GolemController : ObjectMove
     void NotWeapon()
     {
         isAttack = false;
+        agent.speed = speed;
         nearCollider.enabled = false;
-        farCollider.enabled = false;
     }
 
 

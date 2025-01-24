@@ -18,7 +18,7 @@ public class PlayerController : ObjectMove
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
     private Quaternion targetRotation;     //向きの回転
-    private float move;                    //歩き、走りの切り替え
+    private float speed;                    //歩き、走りの切り替え
     private float rotationSpeed;           //向きを変える速度
     private bool isJump;                   //ジャンプ中
     public float jumpPower;                //ジャンプ力
@@ -147,7 +147,7 @@ public class PlayerController : ObjectMove
         //Goalタグのオブジェクトに触れると発動
         if (other.CompareTag("Goal"))
         {
-            speed = 0.0f;
+            move = 0.0f;
             gameManager.gameClear = true;
         }
     }
@@ -164,23 +164,23 @@ public class PlayerController : ObjectMove
         //速度の取得
         //スニーク
         if (Input.GetKey(KeyCode.LeftControl))
-            move = 1;
+            speed = 1;
         //走る
         else if (Input.GetKey(KeyCode.LeftShift))
-            move = 3;
+            speed = 3;
         //歩く
         else
-            move = 2;
+            speed = 2;
 
         rotationSpeed = 600 * Time.deltaTime;
-        transform.position += velocity * Time.deltaTime * speed * move;
+        transform.position += velocity * Time.deltaTime * move * speed;
 
         if (velocity.magnitude > 0.5f)
             targetRotation = Quaternion.LookRotation(velocity, Vector3.up);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
-        animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
     }
 
     //ジャンプ処理
@@ -283,12 +283,12 @@ public class PlayerController : ObjectMove
         }
         else if (skill <= 70)//移動1.5倍・攻撃力0.75倍
         {
-            speed *= 1.5f;
+            move *= 1.5f;
             attack *= 0.75f;
         }
         else if (skill <= 80)//移動0.75倍・攻撃力1.5倍
         {
-            speed *= 0.75f;
+            move *= 0.75f;
             attack *= 1.5f;
         }
         else if (skill <= 90)//消費AP2倍・攻撃力3倍
@@ -337,7 +337,7 @@ public class PlayerController : ObjectMove
     //死亡処理
     public void Death()
     {
-        speed = 0.0f;
+        move = 0.0f;
         animator.SetTrigger("death");
     }
 }

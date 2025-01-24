@@ -8,6 +8,7 @@ public class ObjectMove : MonoBehaviour
 {
     //コンポーネント管理
     public Animator animator;  //アニメーション
+    public float move;         //アニメーション管理
     public NavMeshAgent agent; //移動範囲設定
     public AudioSource se;     //音設定
     public Rigidbody rb;       //重力設定
@@ -15,7 +16,6 @@ public class ObjectMove : MonoBehaviour
     //基本能力
     public float maxHp;      //最大のHP
     public float currentHp;  //現在のHP
-    public float speed;      //移動速度
     public float damage;     //受けるダメージ
 
     //フラグ管理

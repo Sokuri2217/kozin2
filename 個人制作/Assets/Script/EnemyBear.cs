@@ -34,7 +34,7 @@ public class EnemyBear : ObjectMove
     new void Start()
     {
         weaponCollider.enabled = false;
-        speed = 0.0f;
+        move = 0.0f;
 
         //現在の値を最大値と同じにする
         currentHp = maxHp;
@@ -70,7 +70,7 @@ public class EnemyBear : ObjectMove
         {
             //チェイス中は、索敵範囲を消去
             searchArea.enabled = false;
-            speed = 2.0f;
+            move = 2.0f;
             agent.speed = 15;
             chaseTime++;
             // 対象のオブジェクトを追いかける
@@ -83,7 +83,7 @@ public class EnemyBear : ObjectMove
             //徘徊時は、索敵範囲を出す
             searchArea.enabled = true;
             chaseTime = 0;
-            speed = 1.0f;
+            move = 1.0f;
             agent.speed = 2;
             nextGoal();
         }
@@ -94,7 +94,7 @@ public class EnemyBear : ObjectMove
         if (gameManager.gameOver || gameManager.gameClear)
         {
             agent.speed = 0;
-            speed = 0.0f;
+            move = 0.0f;
         }
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
@@ -110,7 +110,7 @@ public class EnemyBear : ObjectMove
             death = true;
             Invoke("Death", 0.6f);
         }
-        animator.SetFloat("EnemySpeed", speed, 0.1f, Time.deltaTime);
+        animator.SetFloat("EnemySpeed", move, 0.1f, Time.deltaTime);
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
