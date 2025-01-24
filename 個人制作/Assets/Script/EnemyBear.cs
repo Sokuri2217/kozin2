@@ -91,11 +91,6 @@ public class EnemyBear : ObjectMove
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
 
-        if(isAttack||isDamage)
-        {
-            agent.speed = 0;
-        }
-
         if (gameManager.gameOver || gameManager.gameClear)
         {
             agent.speed = 0;

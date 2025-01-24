@@ -6,31 +6,30 @@ using UnityEngine.UI;
 
 public class ObjectMove : MonoBehaviour
 {
-    public Animator animator;
-    public NavMeshAgent agent;
-    public AudioSource se;
-    public Rigidbody rb;
+    //コンポーネント管理
+    public Animator animator;  //アニメーション
+    public NavMeshAgent agent; //移動範囲設定
+    public AudioSource se;     //音設定
+    public Rigidbody rb;       //重力設定
 
     //基本能力
-    public float maxHp; //最大のHP
-    public float currentHp;      //現在のHP
+    public float maxHp;      //最大のHP
+    public float currentHp;  //現在のHP
+    public float speed;      //移動速度
+    public float damage;     //受けるダメージ
 
-    public bool isAttack;       //攻撃中
-    public float speed;         //移動速度
-
-    public float damage;              //受けるダメージ
-    public bool isDamage;             //被弾確認
-
-    public bool death;                //死亡フラグ
-
-    public bool isStop;               //ダメージを受けると一時的に動きを止める
+    //フラグ管理
+    public bool isAttack;  //攻撃中
+    public bool isDamage;  //被弾確認
+    public bool death;     //死亡フラグ
+    public bool isStop;    //ダメージを受けると一時的に動きを止める
 
     //Sliderを入れる                             
-    public Slider hpSlider; //HPバー
+    public Slider hpSlider;  //HPバー
 
     // ゲームの状態を管理
-    public GameManager gameManager;
-    public PlayerController playerController;
+    public GameManager gameManager;            //GameManagerの情報取得
+    public PlayerController playerController;  //PlayerControllerの情報取得
 
     //武器の種類
     public enum Weapon{ Knife, Sword, Knuckle }
@@ -56,7 +55,14 @@ public class ObjectMove : MonoBehaviour
         //HPの制御
         if (currentHp <= 0.0f)
             currentHp = 0.0f;
+
+        //被弾か攻撃すると、一時的に移動を止める
+        if (isAttack || isDamage)
+        {
+            agent.speed = 0;
+        }
     }
+
     //ダメージ中フラグをfalseにする
     public void NotDamage()
     {

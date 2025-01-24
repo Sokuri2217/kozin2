@@ -1027,21 +1027,21 @@ MonoBehaviour:
   rb: {fileID: 436630831}
   maxHp: 30
   currentHp: 0
-  isAttack: 0
   speed: 0
   damage: 0
+  isAttack: 0
   isDamage: 0
   death: 0
   isStop: 0
   hpSlider: {fileID: 263289611}
-  gameManager: {fileID: 0}
-  playerController: {fileID: 0}
+  gameManager: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  playerController: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   searchArea: {fileID: 6641712731407648369}
   goals:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  player: {fileID: 0}
+  player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   isChase: 0
   surpriseAttack: 1.5
   damage_Se:
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
   - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
   weaponCollider: {fileID: 6348376833643489706}
-  camera: {fileID: 0}
+  camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0

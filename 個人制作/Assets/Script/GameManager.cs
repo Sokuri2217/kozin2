@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviour
     public int killEnemy;             //倒した敵数
     public int goalSpawn;             //ゴール出現に必要な敵数
 
-    //ボス出現フラグ
-    public bool spawnBoss;
-    //ボスオブジェクト
-    public GameObject boss;
+    //ボス関連
+    public bool spawnBoss;    //ボス出現フラグ
+    public GameObject boss;   //オブジェクト
+    public GameObject bossHp; //HPバー
 
     //ゲーム状態
     public bool open_Option;
@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
 
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
-
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +46,7 @@ public class GameManager : MonoBehaviour
         open_Option = false;
         input = false;
         spawnBoss = false;
+        bossHp.SetActive(false);
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -172,6 +172,7 @@ public class GameManager : MonoBehaviour
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
         fadePanel.enabled = false;
         boss.SetActive(true);
+        bossHp.SetActive(true);
         Time.timeScale = 1;
     }
 }

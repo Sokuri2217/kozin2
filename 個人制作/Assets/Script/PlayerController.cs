@@ -5,13 +5,12 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class PlayerController : ObjectMove
-{
-    
-    public AudioClip damage_se;
+{   
     //Šî‘b”\—Í
     public float maxAp = 100.0f; //Å‘å‚ÌAP
     public float currentAp;      //Œ»İ‚ÌAP
     public float useAp;          //Á”ïAP
+
 
     //ˆÚ“®ŠÖ˜A
     private float horizontal;              //‰¡ˆÚ“®
@@ -43,6 +42,9 @@ public class PlayerController : ObjectMove
 
     //Slider‚ğ“ü‚ê‚é     
     public Slider apSlider; //Apƒo[
+
+    //‰¹‚ğ–Â‚ç‚·
+    public AudioClip damage_se; //”í’e‚Ì‰¹
 
     new void Start()
     {
@@ -84,9 +86,6 @@ public class PlayerController : ObjectMove
             //UŒ‚—pŠÖ”
             Attack();
         }
-
-        //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
-        hpSlider.value = currentHp / maxHp;
     }
 
     //APŠÇ—‚Æ€–Sˆ—
@@ -109,6 +108,8 @@ public class PlayerController : ObjectMove
         if (currentAp < useAp) apLost = true;
         else apLost = false;
 
+        //Å‘åHP‚É‚¨‚¯‚éŒ»İ‚ÌHP‚ğSlider‚É”½‰f
+        hpSlider.value = currentHp / maxHp;
         //Å‘åAP‚É‚¨‚¯‚éŒ»İ‚ÌAP‚ğSlider‚É”½‰f
         apSlider.value = currentAp / maxAp;
     }
