@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
     public int goalSpawn;             //ゴール出現に必要な敵数
 
     //ボス関連
-    public bool spawnBoss;    //ボス出現フラグ
-    public GameObject boss;   //オブジェクト
-    public GameObject bossHp; //HPバー
+    //public bool spawnBoss;    //ボス出現フラグ
+    //public GameObject boss;   //オブジェクト
+    //public GameObject bossHp; //HPバー
 
     //ゲーム状態
     public bool open_Option;
@@ -33,20 +33,27 @@ public class GameManager : MonoBehaviour
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
 
+    //音楽
+    public AudioSource bgm;
+    public AudioClip clearBGM;
+    public AudioClip overBGM;
+
     // Start is called before the first frame update
     void Start()
     {
+        bgm = GetComponent<AudioSource>();
+        bgm.Play();
         gameOver = false;
         gameClear = false;
         gamePlay = true;
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
-        boss.SetActive(false);
+        //boss.SetActive(false);
         open_Option = false;
         input = false;
-        spawnBoss = false;
-        bossHp.SetActive(false);
+        //spawnBoss = false;
+        //bossHp.SetActive(false);
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -86,22 +93,22 @@ public class GameManager : MonoBehaviour
                 input = true;
             }
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            currentCount = maxCount;
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    currentCount = maxCount;
+        //}
 
-        //ボス出現
-        if (currentCount >= maxCount)
-        {
-            currentCount = maxCount;
-            if(!spawnBoss)
-            {
-                Time.timeScale = 1;
-                spawnBoss = true;
-                StartCoroutine(FadeOutAndLoadScene());
-            }
-        }
+        ////ボス出現
+        //if (currentCount >= maxCount)
+        //{
+        //    currentCount = maxCount;
+        //    if(!spawnBoss)
+        //    {
+        //        Time.timeScale = 1;
+        //        spawnBoss = true;
+        //        StartCoroutine(FadeOutAndLoadScene());
+        //    }
+        //}
 
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
@@ -143,12 +150,16 @@ public class GameManager : MonoBehaviour
     void Over()
     {
         overPanel.SetActive(true);
+        bgm.Stop();
+        bgm.PlayOneShot(overBGM);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
     }
     void Clear()
     {
         clearPanel.SetActive(true);
+        bgm.Stop();
+        bgm.PlayOneShot(clearBGM);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
     }
@@ -171,8 +182,8 @@ public class GameManager : MonoBehaviour
 
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
         fadePanel.enabled = false;
-        boss.SetActive(true);
-        bossHp.SetActive(true);
+        //boss.SetActive(true);
+        //bossHp.SetActive(true);
         Time.timeScale = 1;
     }
 }

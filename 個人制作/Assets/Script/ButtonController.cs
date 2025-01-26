@@ -13,20 +13,35 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private float attention;             //ボタンの拡大率
 
-    public GameObject option_Panel;
-    bool isOpen;
+    public GameObject option1Panel;
+    public GameObject option2Panel;
+    bool isOption;
 
     private AudioSource sound;
     public AudioClip onCursor;
     public AudioClip click;
 
+    //押したボタンの判別用
+    public enum Mode
+    {
+        Title = 1,
+        Main1,
+        Main2,
+        GameEnd,
+        Open,
+        Control,
+        Status,
+        GameClearScene,
+
+    }
     private void Start()
     {
         mode = 0;
         attention = 1.3f;
         sound = GetComponent<AudioSource>();
-        option_Panel.SetActive(false);
-        isOpen = false;
+        option1Panel.SetActive(false);
+        //option2Panel.SetActive(false);
+        isOption = false;
     }
     //タイトルに移動
     public void LoadTitle()
@@ -58,11 +73,28 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     //オプションを開く
     public void OpenOption()
     {
-        Time.timeScale = 1;
-
         StartCoroutine("MoveDelay", 0.1f);
         mode = (int)Mode.Open;
     }
+    //操作説明を開く
+    public void OpenControl()
+    {
+        StartCoroutine("MoveDelay", 0.4f);
+        mode = (int)Mode.Control;
+    }
+    //次のページを開く
+    public void NextPage()
+    {
+        StartCoroutine("MoveDelay", 0.4f);
+        mode = (int)Mode.Status;
+    }
+    //ゲームクリア画面
+    public void GameClear()
+    {
+        StartCoroutine("MoveDelay", 0.4f);
+        mode = (int)Mode.GameClearScene;
+    }
+
     //ゲーム終了
     public void EndGame()
     {
@@ -73,13 +105,31 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        if (mode == (int)Mode.ExtLuck)
-        {
-            GameManager gameManager;
-            GameObject player = GameObject.Find("Player");
-            gameManager = player.GetComponent<GameManager>();
 
-            gameManager.open_Option = false;
+        if (mode == (int)Mode.Open)
+        {
+            if (!isOption)
+            {
+                option1Panel.SetActive(true);
+                option2Panel.SetActive(false);
+                isOption = true;
+            }
+            else
+            {
+                option1Panel.SetActive(false);
+                option2Panel.SetActive(false);
+                isOption = false;
+            }
+        }
+        else if (mode == (int)Mode.Control)
+        {
+            option1Panel.SetActive(true);
+            option2Panel.SetActive(false);
+        }
+        if (mode == (int)Mode.Status)
+        {
+            option2Panel.SetActive(true);
+            option1Panel.SetActive(false);
         }
         //ゲームプレイ終了
         else if (mode == (int)Mode.GameEnd)
@@ -89,19 +139,6 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
 #else
     Application.Quit();//ゲームプレイ終了
 #endif
-        }
-        else if(mode == (int)Mode.Open)
-        {
-            if(!isOpen)
-            {
-                option_Panel.SetActive(true);
-                isOpen = true;
-            }
-            else
-            {
-                option_Panel.SetActive(false);
-                isOpen = false;
-            }
         }
     }
 
@@ -128,6 +165,8 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
             SceneManager.LoadScene("Main1");
         else if (mode == (int)Mode.Main2)
             SceneManager.LoadScene("Main2");
+        else if (mode == (int)Mode.GameClearScene)
+            SceneManager.LoadScene("GameClearScene");
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -146,16 +185,4 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         sound.PlayOneShot(click);
     }
-
-    //押したボタンの判別用
-    public enum Mode
-    {
-        Title = 1,
-        Main1,
-        Main2,
-        ExtLuck,
-        GameEnd,
-        Open,
-    }
-    
 }

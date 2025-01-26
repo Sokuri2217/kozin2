@@ -18,9 +18,10 @@ public class PlayerController : ObjectMove
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
     private Quaternion targetRotation;     //向きの回転
-    private float speed;                    //歩き、走りの切り替え
+    public  float speed;                   //歩き、走りの切り替え
     private float rotationSpeed;           //向きを変える速度
     private bool isJump;                   //ジャンプ中
+    public bool jumpFirst;                 //ジャンプの出始めで中断されない様にするフラグ
     public float jumpPower;                //ジャンプ力
 
     //攻撃関連                                   
@@ -30,6 +31,10 @@ public class PlayerController : ObjectMove
     public bool input;           //長押し防止
     public float attack;         //攻撃力
     private float notAttack = 0; //動けるようになるまでの時間
+
+    //回復倍率
+    public float healHp;
+    public float healAp;
 
     //AP関連                               
     private float currentTime = 0.0f; //現在の時間取得
@@ -44,7 +49,8 @@ public class PlayerController : ObjectMove
     public Slider apSlider; //Apバー
 
     //音を鳴らす
-    public AudioClip damage_se; //被弾時の音
+    public AudioClip damageSe; //被弾時の音
+    public AudioClip itemGet; //被弾時の音
 
     new void Start()
     {
@@ -101,12 +107,14 @@ public class PlayerController : ObjectMove
             Death();
         }
 
+        //現在のAPが上限を超えないようにする
+        if(currentAp>=maxAp)
+        {
+            currentAp = maxAp;
+        }
+
         //APの自動回復関数
         AutoRegenAP();
-
-        //残りAPが0になったらフラグをたてる
-        if (currentAp < useAp) apLost = true;
-        else apLost = false;
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
@@ -119,35 +127,64 @@ public class PlayerController : ObjectMove
         GameManager gameManager = GetComponent<GameManager>();
 
         //敵の攻撃に当たる
-        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay)
+        if(!isDamage && gameManager.gamePlay)
         {
-            currentHp -= damage;   //現在のHPからダメージを引く
-            isDamage = true;       //ダメージ中状態にする
-            isStop = true;         //その場で停止させる
-            HitWeapon();
-            if (currentHp > 0.0f)
+            if (other.CompareTag("enemyweapon")||
+                other.CompareTag("nearweapon"))
             {
-                //被弾アニメーション再生
-                animator.SetTrigger("damage");
-                //ダメージSEを鳴らす
-                se.PlayOneShot(damage_se);
-                //無敵時間
-                Invoke("NotDamage", 1.1f);
-                //被弾してから動けるようになるまでの時間
-                Invoke("CanMove", 0.5f);
+                currentHp -= damage;   //現在のHPからダメージを引く
+
+                if (currentHp > 0.0f)
+                {
+                    //被弾アニメーション再生
+                    animator.SetTrigger("damage");
+                    //ダメージSEを鳴らす
+                    se.PlayOneShot(damageSe);
+                    //無敵時間
+                    Invoke("NotDamage", 1.1f);
+                    //被弾してから動けるようになるまでの時間
+                    Invoke("CanMove", 0.5f);
+                }
+
+                isDamage = true;       //ダメージ中状態にする
+                isStop = true;         //その場で停止させる
+                HitWeapon();
             }
         }
-        if (other.CompareTag("Ground"))
+
+        //回復アイテムに触れる
+        if(other.CompareTag("healItem"))
+        {
+            currentHp += maxHp * healHp;
+            currentAp += maxAp * healAp;
+            //取得音を鳴らす
+            se.PlayOneShot(itemGet);
+            //アイテムを消去する
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("allHeal"))
+        {
+            currentHp = maxHp;
+            currentAp = maxAp;
+            //取得音を鳴らす
+            se.PlayOneShot(itemGet);
+            //アイテムを消去する
+            Destroy(other.gameObject);
+        }
+
+        //地面に触れる
+        if (other.CompareTag("Ground") && !jumpFirst) 
         {
             rb.isKinematic = true;
             agent.enabled = true;
             isJump = false;
         }
 
-        //Goalタグのオブジェクトに触れると発動
+        //Goalに触れる
         if (other.CompareTag("Goal"))
         {
-            move = 0.0f;
+            speed = 0.0f;
             gameManager.gameClear = true;
         }
     }
@@ -164,13 +201,13 @@ public class PlayerController : ObjectMove
         //速度の取得
         //スニーク
         if (Input.GetKey(KeyCode.LeftControl))
-            speed = 1;
+            move = 1;
         //走る
         else if (Input.GetKey(KeyCode.LeftShift))
-            speed = 3;
+            move = 3;
         //歩く
         else
-            speed = 2;
+            move = 2;
 
         rotationSpeed = 600 * Time.deltaTime;
         transform.position += velocity * Time.deltaTime * move * speed;
@@ -180,7 +217,7 @@ public class PlayerController : ObjectMove
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
-        animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
     }
 
     //ジャンプ処理
@@ -192,6 +229,8 @@ public class PlayerController : ObjectMove
             agent.enabled = false;
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             isJump = true;
+            jumpFirst = true;
+            Invoke("FirstCancel", 0.01f);
         }
     }
 
@@ -232,19 +271,19 @@ public class PlayerController : ObjectMove
     {
         if (weapon == (int)Weapon.Knife)
         {
-            attack = 9.0f;
+            attack = 9.5f;
             useAp = 15.0f;
             notAttack = 0.6f;
         }
         else if(weapon == (int)Weapon.Sword)
         {
-            attack = 14.0f;
+            attack = 14.5f;
             useAp = 25.0f;
             notAttack = 0.5f;
         }
         else if(weapon == (int)Weapon.Knuckle)
         {
-            attack = 5.0f;
+            attack = 7.5f;
             useAp = 10.0f;
             notAttack = 0.3f;
         }
@@ -283,12 +322,12 @@ public class PlayerController : ObjectMove
         }
         else if (skill <= 70)//移動1.5倍・攻撃力0.75倍
         {
-            move *= 1.5f;
+            speed *= 1.5f;
             attack *= 0.75f;
         }
         else if (skill <= 80)//移動0.75倍・攻撃力1.5倍
         {
-            move *= 0.75f;
+            speed *= 0.75f;
             attack *= 1.5f;
         }
         else if (skill <= 90)//消費AP2倍・攻撃力3倍
@@ -296,16 +335,21 @@ public class PlayerController : ObjectMove
             useAp *= 2.0f;
             attack *= 3.0f;
         }
-        else if (skill <= 95)//被ダメージ2倍・与ダメージ0.5倍
+        else if (skill <= 95)//被ダメージ1.5倍・与ダメージ0.75倍
         {
-            damage *= 2.0f;
-            attack *= 0.5f;
+            damage *= 1.5f;
+            attack *= 0.75f;
         }
         else if (skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
         {
             damage /= 2.0f;
             attack *= 2.0f;
         }
+    }
+    //ジャンプの出始め状態を解除する
+    void FirstCancel()
+    {
+        jumpFirst = false;
     }
 
     //AP自動回復
@@ -337,7 +381,7 @@ public class PlayerController : ObjectMove
     //死亡処理
     public void Death()
     {
-        move = 0.0f;
+        speed = 0.0f;
         animator.SetTrigger("death");
     }
 }

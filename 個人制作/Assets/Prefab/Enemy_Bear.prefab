@@ -1022,12 +1022,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8869962818903947907}
+  move: 0
   agent: {fileID: 4155101325318120850}
   se: {fileID: 8050113819841256225}
   rb: {fileID: 436630831}
   maxHp: 30
   currentHp: 0
-  speed: 0
   damage: 0
   isAttack: 0
   isDamage: 0
@@ -1041,8 +1041,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  goalNum: 5
   isChase: 0
+  speed: 3
   surpriseAttack: 1.5
   damage_Se:
   - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
@@ -1050,6 +1054,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
   weaponCollider: {fileID: 6348376833643489706}
   camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+  healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2183,7 +2188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463216850972275919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -1.55, z: -0.09}
+  m_LocalPosition: {x: -0.04, y: -1.4, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

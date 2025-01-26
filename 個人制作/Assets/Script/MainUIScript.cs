@@ -19,7 +19,7 @@ public class MainUIScript : MonoBehaviour
     // 武器とスキルのアイコン
     public Sprite[] weapon;
     public Sprite[] weapon_interval;
-    public Sprite[] skill;
+    public Sprite[] skills;
 
     // ゲームの状態を管理
     private GameManager gameManager;
@@ -33,8 +33,6 @@ public class MainUIScript : MonoBehaviour
         reunion.SetActive(false);
         weapon_icon = GetComponent<Image>();
         skill_icon = GetComponent<Image>();
-
-        UpdateSkillIcon(); // アイコンを更新
     }
 
     // Update is called once per frame
@@ -43,6 +41,8 @@ public class MainUIScript : MonoBehaviour
         // ゲームマネージャーとプレイヤーコントローラーを取得
         gameManager = GameObject.Find("Player").GetComponent<GameManager>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+
+        UpdateSkillIcon(); // アイコンを更新
 
         // ポーズやメニューの切り替え
         if (!gameManager.gameClear && !gameManager.gameOver)
@@ -117,47 +117,47 @@ public class MainUIScript : MonoBehaviour
         //AP2倍
         if (playerController.skill <= 20)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[0];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[0];
         }
         //HP2倍
         else if (playerController.skill <= 40)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[1];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[1];
         }
         //攻撃力2倍
         else if (playerController.skill <= 50)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[2];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[2];
         }
         //被ダメージ2倍
         else if (playerController.skill <= 60)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[3];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[3];
         }
         //移動1.5倍・攻撃力0.75倍
         else if (playerController.skill <= 70)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[4];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[4];
         }
         //移動0.75倍・攻撃力1.5倍
         else if (playerController.skill <= 80)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[5];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[5];
         }
         //消費AP・攻撃力2倍
         else if (playerController.skill <= 90)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[6];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[6];
         }
         //被ダメージ2倍・与ダメージ0.5倍
         else if (playerController.skill <= 95)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[7];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[7];
         }
         //被ダメージ0.5倍・与ダメージ2倍 0
         else if (playerController.skill <= 100)
         {
-            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[8];
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skills[8];
         }
     }
 

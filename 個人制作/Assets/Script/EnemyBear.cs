@@ -14,8 +14,10 @@ public class EnemyBear : ObjectMove
     public Transform[] goals;     //徘徊ポイント
     public Transform player;      //プレイヤーの位置
     private int destNum = 0;　　　//向かう場所
+    public int goalNum;           //徘徊箇所数
     public bool isChase = false;  //追跡フラグ
     private int chaseTime = 0;    //追跡解除用のカウント
+    public float speed;           //移動速度
 
     //戦闘関連
     bool attack = false;          //攻撃フラグ
@@ -30,6 +32,9 @@ public class EnemyBear : ObjectMove
     //HPバー関連
     public new Transform camera; //カメラの位置
 
+    //ドロップアイテム
+    public GameObject healItem;
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -43,7 +48,7 @@ public class EnemyBear : ObjectMove
     void nextGoal()
     {
         //目的地を抽選
-        destNum = Random.Range(0, 3);
+        destNum = Random.Range(0, goalNum);
         //目的地まで移動
         agent.destination = goals[destNum].position;
     }
@@ -84,7 +89,7 @@ public class EnemyBear : ObjectMove
             searchArea.enabled = true;
             chaseTime = 0;
             move = 1.0f;
-            agent.speed = 2;
+            agent.speed = speed;
             nextGoal();
         }
 
@@ -169,6 +174,8 @@ public class EnemyBear : ObjectMove
         //死亡処理
         //KILLカウントを増やす
         gameManager.killEnemy++;
+        //回復アイテム生成
+        Instantiate(healItem, transform.position, Quaternion.identity);
         //オブジェクトを消去する
         Destroy(gameObject);
     }

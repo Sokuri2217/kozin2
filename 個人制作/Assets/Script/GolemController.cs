@@ -27,6 +27,12 @@ public class GolemController : ObjectMove
     //武器の当たり判定
     public Collider nearCollider;  //近距離攻撃用コライダー
 
+    //ゴールオブジェクト
+    public GameObject goal;
+
+    //ボスUI
+    public GameObject bossUi;
+
     // Start is called before the first frame update
     private new void Start()
     {
@@ -38,12 +44,14 @@ public class GolemController : ObjectMove
         currentHp = maxHp;
         //近距離攻撃の当たり判定を消す
         nearCollider.enabled = false;
+        bossUi.SetActive(true);
     }
 
 
     private new void Update()
     {
         move = 1.0f;
+
         // 対象のオブジェクトを追いかける
         agent.destination = player.transform.position;
 
@@ -78,20 +86,25 @@ public class GolemController : ObjectMove
             if(!isAttack)
             {
                 transform.LookAt(player.transform);
-                //近距離
-                if (attackNear) 
-                {
-                    animator.SetTrigger("nearattack");
-                    nearCollider.enabled = true;
-                }
-                //遠距離
-                else if (attackFar)
-                {
-                    animator.SetTrigger("farattack");
-                    rock = (GameObject)Instantiate(rock, this.transform.position, Quaternion.identity);
-                    rock.transform.parent = shotPos.transform;
-                    Invoke("RockShot", 1.6f);
-                }
+
+                //近距離攻撃
+                animator.SetTrigger("nearattack");
+                nearCollider.enabled = true;
+
+                ////近距離
+                //if (attackNear) 
+                //{
+                //    animator.SetTrigger("nearattack");
+                //    nearCollider.enabled = true;
+                //}
+                ////遠距離
+                //else if (attackFar)
+                //{
+                //    animator.SetTrigger("farattack");
+                //    //rock = (GameObject)Instantiate(rock, this.transform.position, Quaternion.identity);
+                //    //rock.transform.parent = shotPos.transform;
+                //    //Invoke("RockShot", 1.6f);
+                //}
                 isAttack = true;
                 attackTime = 0.0f;
                 Invoke("NotWeapon", 3.0f);
@@ -111,6 +124,7 @@ public class GolemController : ObjectMove
         if (currentHp <= 0.0f && !death)
         {
             animator.SetTrigger("death");
+            bossUi.SetActive(false);
             agent.speed = 0;
             death = true;
             Invoke("Death", 0.6f);
@@ -119,6 +133,15 @@ public class GolemController : ObjectMove
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
+
+        //デバッグ用
+        //{
+        //    if (Input.GetKeyDown(KeyCode.E))
+        //    {
+        //        currentHp = 0.0f;
+        //    }
+        //}
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -127,13 +150,12 @@ public class GolemController : ObjectMove
         playerController = obj.GetComponent<PlayerController>();
 
         //weaponタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon") && !isDamage)
+        if (other.CompareTag("weapon"))
         {
             if(!isAttack)
             {
                 GetComponent<Animator>().SetTrigger("damage");
             }
-            isDamage = true;
             //武器ごとに被弾SEを鳴らす
             se.PlayOneShot(damage_Se[playerController.weapon]);
             //現在のHPからダメージを引く
@@ -141,15 +163,17 @@ public class GolemController : ObjectMove
         }
     }
 
-    void RockShot()
-    {
+    //void RockShot()
+    //{
         
-        rock.GetComponent<Rigidbody>().velocity = shotPos.transform.forward * rockSpeed;
-    }
+    //    rock.GetComponent<Rigidbody>().velocity = shotPos.transform.forward * rockSpeed;
+    //}
 
     void Death()
     {
         //死亡処理
+        //その場にゴールを生成
+        Instantiate(goal, transform.position, Quaternion.identity);
         //オブジェクトを消去する
         Destroy(gameObject);
     }

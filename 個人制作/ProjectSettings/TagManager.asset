@@ -16,6 +16,8 @@ TagManager:
   - Ground
   - nearweapon
   - farweapon
+  - healItem
+  - allHeal
   layers:
   - Default
   - TransparentFX
