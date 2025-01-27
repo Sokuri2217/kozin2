@@ -7,15 +7,11 @@ using UnityEngine.EventSystems;
 
 public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    int mode;                           //シーン判別
+    public int mode;                           //シーン判別
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
 
     private float attention;             //ボタンの拡大率
-
-    public GameObject option1Panel;
-    public GameObject option2Panel;
-    bool isOption;
 
     private AudioSource sound;
     public AudioClip onCursor;
@@ -24,51 +20,22 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     //押したボタンの判別用
     public enum Mode
     {
-        Title = 1,
-        Main1,
-        Main2,
         GameEnd,
         Open,
         Control,
         Status,
-        GameClearScene,
-
     }
     private void Start()
     {
         mode = 0;
         attention = 1.3f;
         sound = GetComponent<AudioSource>();
-        option1Panel.SetActive(false);
-        //option2Panel.SetActive(false);
-        isOption = false;
     }
-    //タイトルに移動
-    public void LoadTitle()
+    //シーン移動
+    public void SceneLoad(string sceneName)
     {
         Time.timeScale = 1;
-
-        StartCoroutine(FadeOutAndLoadScene());
-        mode = (int)Mode.Title;
-
-    }
-    //ステージ1に移動
-    public void LoadMain1()
-    {
-        Time.timeScale = 1;
-
-        StartCoroutine(FadeOutAndLoadScene());
-        mode = (int)Mode.Main1;
-
-    }
-    //ステージ2に移動
-    public void LoadMain2()
-    {
-        Time.timeScale = 1;
-
-         StartCoroutine(FadeOutAndLoadScene());
-        mode = (int)Mode.Main2;
-
+        StartCoroutine(FadeOutAndLoadScene(sceneName));
     }
     //オプションを開く
     public void OpenOption()
@@ -88,51 +55,44 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         StartCoroutine("MoveDelay", 0.4f);
         mode = (int)Mode.Status;
     }
-    //ゲームクリア画面
-    public void GameClear()
-    {
-        StartCoroutine("MoveDelay", 0.4f);
-        mode = (int)Mode.GameClearScene;
-    }
-
     //ゲーム終了
     public void EndGame()
     {
         StartCoroutine("MoveDelay", 1.0f);
         mode = (int)Mode.GameEnd;
-
     }
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
 
+        TitleUIScript titleUI;
+        GameObject obj = GameObject.Find("TitleUI");
+        titleUI = obj.GetComponent<TitleUIScript>();
+
         if (mode == (int)Mode.Open)
         {
-            if (!isOption)
+            if (!titleUI.isOption)
             {
-                option1Panel.SetActive(true);
-                option2Panel.SetActive(false);
-                isOption = true;
+                titleUI.isOption = true;
             }
             else
             {
-                option1Panel.SetActive(false);
-                option2Panel.SetActive(false);
-                isOption = false;
+                titleUI.isOption = false;
             }
         }
         else if (mode == (int)Mode.Control)
         {
-            option1Panel.SetActive(true);
-            option2Panel.SetActive(false);
+            titleUI.isControl = true;
+            titleUI.isStatus = false;
         }
-        if (mode == (int)Mode.Status)
+        else if (mode == (int)Mode.Status)
         {
-            option2Panel.SetActive(true);
-            option1Panel.SetActive(false);
+            titleUI.isControl = false;
+            titleUI.isStatus = true;
         }
+
         //ゲームプレイ終了
-        else if (mode == (int)Mode.GameEnd)
+        if (mode == (int)Mode.GameEnd)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -142,7 +102,7 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
     }
 
-    public IEnumerator FadeOutAndLoadScene()
+    public IEnumerator FadeOutAndLoadScene(string scene)
     {
         fadePanel.enabled = true;                 // パネルを有効化
         float elapsedTime = 0.0f;                 // 経過時間を初期化
@@ -159,14 +119,7 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
 
         fadePanel.color = endColor;  // フェードが完了したら最終色に設定
-        if (mode == (int)Mode.Title)
-            SceneManager.LoadScene("Title");
-        else if (mode == (int)Mode.Main1)
-            SceneManager.LoadScene("Main1");
-        else if (mode == (int)Mode.Main2)
-            SceneManager.LoadScene("Main2");
-        else if (mode == (int)Mode.GameClearScene)
-            SceneManager.LoadScene("GameClearScene");
+        SceneManager.LoadScene(scene);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -96,6 +96,11 @@ public class EnemyBear : ObjectMove
         GameObject obj = GameObject.Find("Player");
         gameManager = obj.GetComponent<GameManager>();
 
+        if(gameManager.spawn)
+        {
+            isChase = true;
+        }
+
         if (gameManager.gameOver || gameManager.gameClear)
         {
             agent.speed = 0;
@@ -103,7 +108,7 @@ public class EnemyBear : ObjectMove
         }
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
-        if (chaseTime >= 300)
+        if (chaseTime >= 300 && !gameManager.spawn)  
             isChase = false;
 
 

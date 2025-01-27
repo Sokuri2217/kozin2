@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject spawnGoal;
     public GameObject[] goal;
     private int goalNum = 0;
-    private bool spawn = false;
+    public bool spawn = false;
     public int maxCount;
     public int currentCount;
     public int killEnemy;             //“|‚µ‚½“G”

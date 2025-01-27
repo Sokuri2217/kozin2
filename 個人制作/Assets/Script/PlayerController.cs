@@ -7,10 +7,8 @@ using UnityEngine.UI;
 public class PlayerController : ObjectMove
 {   
     //基礎能力
-    public float maxAp = 100.0f; //最大のAP
-    public float currentAp;      //現在のAP
-    public float useAp;          //消費AP
-
+    public float maxAp;     //最大のAP
+    public float currentAp; //現在のAP
 
     //移動関連
     private float horizontal;              //横移動
@@ -18,34 +16,33 @@ public class PlayerController : ObjectMove
     private Quaternion horizontalRotation; //向き取得
     private Vector3 velocity;              //ベクトル取得
     private Quaternion targetRotation;     //向きの回転
-    public  float speed;                   //歩き、走りの切り替え
+    public  float speed;                   //移動速度
     private float rotationSpeed;           //向きを変える速度
     private bool isJump;                   //ジャンプ中
     public bool jumpFirst;                 //ジャンプの出始めで中断されない様にするフラグ
     public float jumpPower;                //ジャンプ力
 
     //攻撃関連                                   
-    public int weapon = 0;       //攻撃手段  
-    public int skill = 0;        //付与する効果
-    public bool apLost;          //攻撃に必要なApが残っているかどうか
-    public bool input;           //長押し防止
-    public float attack;         //攻撃力
-    private float notAttack = 0; //動けるようになるまでの時間
+    public int weapon;       //攻撃手段  
+    public int skill;        //付与する効果
+    public bool input;       //長押し防止
+    public float attack;     //攻撃力
+    private float notAttack; //動けるようになるまでの時間
 
     //回復倍率
     public float healHp;
     public float healAp;
 
-    //AP関連                               
+    //AP関連
+    public float useAp;               //消費AP
+    public bool apLost;               //攻撃に必要なApが残っているかどうか
     private float currentTime = 0.0f; //現在の時間取得
 
-    //武器オブジェクト                                    
-    public GameObject[] useWeapon; //使用中の武器
+    //武器関連                                
+    public GameObject[] useWeapon;    //使用中の武器オブジェクト                     
+    public Collider[] weaponCollider; //武器の当たり判定
 
-    //武器の当たり判定                          
-    public Collider[] weaponCollider; //武器のコライダー
-
-    //Sliderを入れる     
+    //ゲージ    
     public Slider apSlider; //Apバー
 
     //音を鳴らす
@@ -54,6 +51,8 @@ public class PlayerController : ObjectMove
 
     new void Start()
     {
+        GameManager gameManager = GetComponent<GameManager>();
+
         //初期化
         targetRotation = transform.rotation;
         weapon = Random.Range(0, 3);
@@ -80,13 +79,12 @@ public class PlayerController : ObjectMove
     //プレイヤーの基本操作
     private new void Update()
     {
+        //死亡時もしくは攻撃中、被弾時以外
         if(!death)
         {
             if (!isAttack && !isStop)
             {
-                //攻撃中はその場から移動できない
                 Jump3D();
-                //攻撃中はその場から移動できない
                 Move3D();
             }
             //攻撃用関数
@@ -97,8 +95,6 @@ public class PlayerController : ObjectMove
     //AP管理と死亡処理
     private void FixedUpdate()
     {
-        GameManager gameManager = GetComponent<GameManager>();
-
         //死亡処理
         if (currentHp <= 0.0f && !gameManager.gameOver)
         {
@@ -107,14 +103,14 @@ public class PlayerController : ObjectMove
             Death();
         }
 
+        //APの自動回復関数
+        AutoRegenAP();
+
         //現在のAPが上限を超えないようにする
-        if(currentAp>=maxAp)
+        if (currentAp>=maxAp)
         {
             currentAp = maxAp;
         }
-
-        //APの自動回復関数
-        AutoRegenAP();
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
@@ -124,8 +120,6 @@ public class PlayerController : ObjectMove
 
     private void OnTriggerEnter(Collider other)
     {
-        GameManager gameManager = GetComponent<GameManager>();
-
         //敵の攻撃に当たる
         if(!isDamage && gameManager.gamePlay)
         {
