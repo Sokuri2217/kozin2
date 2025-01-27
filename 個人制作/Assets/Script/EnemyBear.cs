@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;//NavMeshagentを使う
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 
@@ -23,6 +23,9 @@ public class EnemyBear : ObjectMove
     bool attack = false;          //攻撃フラグ
     public float surpriseAttack;  //不意打ち被ダメ倍率
 
+    //UI
+    public int chaseEnemy; //チェイス判定入ってる敵数
+
     //ダメージSE
     public AudioClip[] damage_Se;
 
@@ -40,6 +43,7 @@ public class EnemyBear : ObjectMove
     {
         weaponCollider.enabled = false;
         move = 0.0f;
+        chaseEnemy = 0;
 
         //現在の値を最大値と同じにする
         currentHp = maxHp;

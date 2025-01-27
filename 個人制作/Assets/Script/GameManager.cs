@@ -93,23 +93,24 @@ public class GameManager : MonoBehaviour
                 input = true;
             }
         }
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    currentCount = maxCount;
-        //}
+        {
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    currentCount = maxCount;
+            //}
 
-        ////ボス出現
-        //if (currentCount >= maxCount)
-        //{
-        //    currentCount = maxCount;
-        //    if(!spawnBoss)
-        //    {
-        //        Time.timeScale = 1;
-        //        spawnBoss = true;
-        //        StartCoroutine(FadeOutAndLoadScene());
-        //    }
-        //}
-
+            ////ボス出現
+            //if (currentCount >= maxCount)
+            //{
+            //    currentCount = maxCount;
+            //    if(!spawnBoss)
+            //    {
+            //        Time.timeScale = 1;
+            //        spawnBoss = true;
+            //        StartCoroutine(FadeOutAndLoadScene());
+            //    }
+            //}
+        }
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {

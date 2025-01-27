@@ -24,7 +24,14 @@ public class TitleUIScript : MonoBehaviour
     {
         if (isOption)
         {
-            isControl = true;
+            if (!isControl && !isStatus) 
+            {
+                isControl = true;
+            }
+            else if(isStatus)
+            {
+                isControl = false;
+            }
         }
         else
         {

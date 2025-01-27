@@ -141,10 +141,10 @@ public class GolemController : ObjectMove
 
         //デバッグ用
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                currentHp = 0.0f;
-            }
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    currentHp = 0.0f;
+            //}
         }
 
     }
