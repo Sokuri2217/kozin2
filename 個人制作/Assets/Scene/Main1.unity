@@ -712,11 +712,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6635911627906379185, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 61.86
+      value: 56.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635911627906379185, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -49.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343170276244199962, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -49.99
       objectReference: {fileID: 0}
     - target: {fileID: 8343170276412101416, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.x
       value: -38.965
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343170276412101416, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -49.97
       objectReference: {fileID: 0}
     - target: {fileID: 8343170277716053451, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -724,7 +736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8343170277716053451, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -50.844
+      value: -49.84
       objectReference: {fileID: 0}
     - target: {fileID: 8343170277716053451, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.z
@@ -736,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8343170278199123277, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -50.8
+      value: -49.87
       objectReference: {fileID: 0}
     - target: {fileID: 8343170278199123277, guid: d7dc544d12ea27c4a9f611856659ae96, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4217,10 +4229,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1402116781153780636}
     - target: {fileID: 6646692183830371254, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
-      propertyPath: healItem
-      value: 
-      objectReference: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
-    - target: {fileID: 6646692183830371254, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1402116781153780641}
@@ -4595,6 +4603,22 @@ PrefabInstance:
       propertyPath: m_HorizontalAxis.m_MaxSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3014306029008838124, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+      propertyPath: m_BiasX
+      value: -0.000048854345
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014306029008838124, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+      propertyPath: m_BiasY
+      value: 0.000002747066
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014306029008838124, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+      propertyPath: m_SoftZoneWidth
+      value: 0.034161344
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014306029008838124, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+      propertyPath: m_SoftZoneHeight
+      value: 0.0650927
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
 --- !u!1001 &6751703066483945169
@@ -4689,6 +4713,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1862663705}
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+      propertyPath: battleBGM
+      value: 
+      objectReference: {fileID: 8300000, guid: e3d057b214ccd2f49a964631cfd0c7d5, type: 3}
+    - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: fadePanel
       value: 
       objectReference: {fileID: 1862663706}
@@ -4779,6 +4807,10 @@ PrefabInstance:
     - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: goalSpawn
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+      propertyPath: chengeTime
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: gameManager

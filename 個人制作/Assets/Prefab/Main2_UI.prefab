@@ -493,14 +493,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8001121829299683971}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadMain2
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Main2
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8001121829299683971}
@@ -527,10 +527,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &6850227894079567227
@@ -1177,14 +1176,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5398883722493409617}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadMain2
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: GameClearScene
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5398883722493409617}
@@ -1211,10 +1210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &1815840934307515591
@@ -1703,6 +1701,7 @@ RectTransform:
   - {fileID: 5818329930506808860}
   - {fileID: 9166760445690960271}
   - {fileID: 5168127096395531717}
+  - {fileID: 5806444295864063244}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1794,6 +1793,7 @@ MonoBehaviour:
   skill_icon: {fileID: 5398883722812341283}
   currentKill: {fileID: 5398883722747692283}
   goalSpawnKill: {fileID: 5398883722120091114}
+  chaseEnemy: {fileID: 0}
   weapon:
   - {fileID: 21300000, guid: da4c4d42cdb31e542950e4f8c6f5530f, type: 3}
   - {fileID: 21300000, guid: cd894e5ec61177542a313a8274acb8d4, type: 3}
@@ -2415,14 +2415,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5398883723422217144}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadMain2
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Main2
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5398883723422217144}
@@ -2449,10 +2449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &4813944482562204202
@@ -2844,14 +2843,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5398883723778906564}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadTitle
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Title
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5398883723778906564}
@@ -2878,10 +2877,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &3285544259268576665
@@ -3257,14 +3255,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5398883723950447493}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadTitle
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Title
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5398883723950447493}
@@ -3291,10 +3289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &7164261002355252402
@@ -3594,14 +3591,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5398883724101468610}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: LoadMain2
-        m_Mode: 1
+        m_MethodName: SceneLoad
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Main2
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5398883724101468610}
@@ -3628,10 +3625,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046d997c679a9ae4db1f908811e9c651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fadePanel: {fileID: 38685042521824932}
   fadeDuration: 1
-  option1Panel: {fileID: 840428300}
-  option2Panel: {fileID: 840428300}
   onCursor: {fileID: 8300000, guid: c53da005cdd830c419068e4d94f575b9, type: 3}
   click: {fileID: 8300000, guid: e3d4fd023a262614682f9cc41e455501, type: 3}
 --- !u!82 &5611841728543915253
@@ -3649,6 +3645,134 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1 &6841762766647119016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5806444295864063244}
+  - component: {fileID: 8592680212900994275}
+  m_Layer: 0
+  m_Name: battle_bgm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5806444295864063244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841762766647119016}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -505625.44, y: -10517.224, z: -121855.734}
+  m_LocalScale: {x: 5056.2544, y: 5056.2544, z: 5056.2544}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5398883722959804517}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &8592680212900994275
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841762766647119016}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e3d057b214ccd2f49a964631cfd0c7d5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

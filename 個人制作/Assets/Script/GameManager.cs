@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     //音楽
     public AudioSource bgm;
+    public AudioClip battleBGM;
     public AudioClip clearBGM;
     public AudioClip overBGM;
 
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
                 input = true;
             }
         }
+        //デバッグ用
         {
             //if (Input.GetKeyDown(KeyCode.E))
             //{
@@ -111,6 +113,7 @@ public class GameManager : MonoBehaviour
             //    }
             //}
         }
+
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {

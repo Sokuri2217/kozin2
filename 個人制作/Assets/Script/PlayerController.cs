@@ -7,8 +7,10 @@ using UnityEngine.UI;
 public class PlayerController : ObjectMove
 {   
     //基礎能力
-    public float maxAp;     //最大のAP
-    public float currentAp; //現在のAP
+    public float maxAp;      //最大のAP
+    public float currentAp;  //現在のAP
+    public float chengeTime; //変化が起きるまでの時間
+    public float chenge;     //計測用
 
     //移動関連
     private float horizontal;              //横移動
@@ -77,6 +79,7 @@ public class PlayerController : ObjectMove
     }
 
     //プレイヤーの基本操作
+    //ステータス変化
     private new void Update()
     {
         //死亡時もしくは攻撃中、被弾時以外
@@ -89,6 +92,15 @@ public class PlayerController : ObjectMove
             }
             //攻撃用関数
             Attack();
+
+            chenge++;
+
+            if(chenge>=chengeTime)
+            {
+                skill = Random.Range(1, 100);
+                RandomSkill();
+                chenge = 0.0f;
+            }
         }
     }
 

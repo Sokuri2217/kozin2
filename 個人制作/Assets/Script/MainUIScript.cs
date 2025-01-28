@@ -16,7 +16,7 @@ public class MainUIScript : MonoBehaviour
     public Image weapon_icon, skill_icon;
     public Text currentKill;
     public Text goalSpawnKill;
-    public Text chaseEnemy;      //画面に表示させる
+    public Text chaseEnemy;
 
     // 武器とスキルのアイコン
     public Sprite[] weapon;
@@ -170,7 +170,7 @@ public class MainUIScript : MonoBehaviour
         goalSpawnKill.text = gameManager.goalSpawn.ToString(); // ゴール出現に必要なKILL数
     }
 
-    //チェイス中の敵数更新
+    ////チェイス中の敵数更新
     //private void UpdateChaseCount()
     //{
     //    chaseEnemy.text
