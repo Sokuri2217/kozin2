@@ -988,6 +988,10 @@ PrefabInstance:
       propertyPath: hpSlider
       value: 
       objectReference: {fileID: 290828488}
+    - target: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+      propertyPath: chengeTime
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 6751703066117837005, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0

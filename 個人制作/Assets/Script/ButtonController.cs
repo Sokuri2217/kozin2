@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public int mode;                           //シーン判別
+    public int mode;                    //シーン判別
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
 

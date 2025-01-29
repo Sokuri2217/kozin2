@@ -12,6 +12,16 @@ public class PlayerController : ObjectMove
     public float chengeTime; //変化が起きるまでの時間
     public float chenge;     //計測用
 
+    //初回ステータス保存用
+    public float firstMaxHp;    
+    public float firstNowHp;    
+    public float firstMaxAp;    
+    public float firstNowAp;    
+    public float firstSpeed;
+    public float firstAttack;
+    public float firstDamage;
+    public float firstUseAp;
+
     //移動関連
     private float horizontal;              //横移動
     private float vertical;                //縦移動
@@ -19,7 +29,7 @@ public class PlayerController : ObjectMove
     private Vector3 velocity;              //ベクトル取得
     private Quaternion targetRotation;     //向きの回転
     public  float speed;                   //移動速度
-    private float rotationSpeed;           //向きを変える速度
+    private float rotationSpeed;           //向きを変える速度7
     private bool isJump;                   //ジャンプ中
     public bool jumpFirst;                 //ジャンプの出始めで中断されない様にするフラグ
     public float jumpPower;                //ジャンプ力
@@ -32,8 +42,8 @@ public class PlayerController : ObjectMove
     private float notAttack; //動けるようになるまでの時間
 
     //回復倍率
-    public float healHp;
-    public float healAp;
+    public float healHp; //HP回復倍率
+    public float healAp; //AP回復倍率
 
     //AP関連
     public float useAp;               //消費AP
@@ -68,6 +78,15 @@ public class PlayerController : ObjectMove
         }
         //使用武器決定
         InitializeWeapon();
+
+        //初期値保存
+        firstMaxHp = maxHp;
+        firstMaxAp = maxAp;
+        firstSpeed = speed;
+        firstAttack = attack;
+        firstDamage = damage;
+        firstUseAp = useAp;
+
         //ステータス変化
         RandomSkill();
 
@@ -107,6 +126,9 @@ public class PlayerController : ObjectMove
     //AP管理と死亡処理
     private void FixedUpdate()
     {
+        firstNowHp = currentHp;
+        firstNowAp = currentAp;
+
         //死亡処理
         if (currentHp <= 0.0f && !gameManager.gameOver)
         {
@@ -117,9 +139,13 @@ public class PlayerController : ObjectMove
 
         //APの自動回復関数
         AutoRegenAP();
-
+        //現在のHPが上限を超えないようにする
+        if (currentHp >= maxHp)
+        {
+            currentHp = maxHp;
+        }
         //現在のAPが上限を超えないようにする
-        if (currentAp>=maxAp)
+        if (currentAp >= maxAp) 
         {
             currentAp = maxAp;
         }
@@ -310,13 +336,25 @@ public class PlayerController : ObjectMove
     //ステータス変化
     void RandomSkill()
     {
+        //一時的にステータスを初期値にする
+        maxHp = firstMaxHp;
+        currentHp = firstNowHp;
+        maxAp = firstMaxAp;
+        currentAp = firstNowAp;
+        speed = firstSpeed;
+        attack = firstAttack;
+        damage = firstDamage;
+        useAp = firstUseAp;
+
         if (skill <= 20)//AP2倍
         {
             maxAp *= 2.0f;
+            currentAp *= 2.0f;
         }
         else if (skill <= 40)//HP2倍
         {
             maxHp *= 2.0f;
+            currentHp *= 2.0f;
         }
         else if (skill <= 50)//攻撃力2倍
         {
