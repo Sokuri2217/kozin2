@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bgm = GetComponent<AudioSource>();
         bgm.Play();
         gameOver = false;
         gameClear = false;

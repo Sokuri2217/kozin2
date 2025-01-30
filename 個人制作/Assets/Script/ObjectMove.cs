@@ -37,11 +37,6 @@ public class ObjectMove : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        se = GetComponent<AudioSource>();
-        rb = GetComponent<Rigidbody>();
-
         isDamage = false;
         death = false;
 

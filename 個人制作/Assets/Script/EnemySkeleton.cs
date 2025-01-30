@@ -12,7 +12,6 @@ public class EnemySkeleton : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()

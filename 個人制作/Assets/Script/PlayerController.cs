@@ -7,10 +7,8 @@ using UnityEngine.UI;
 public class PlayerController : ObjectMove
 {   
     //Šî‘b”\—Í
-    public float maxAp;      //Å‘å‚ÌAP
-    public float currentAp;  //Œ»Ý‚ÌAP
-    public float chengeTime; //•Ï‰»‚ª‹N‚«‚é‚Ü‚Å‚ÌŽžŠÔ
-    public float chenge;     //Œv‘ª—p
+    public float maxAp;        //Å‘å‚ÌAP
+    public float currentAp;    //Œ»Ý‚ÌAP
 
     //‰‰ñƒXƒe[ƒ^ƒX•Û‘¶—p
     public float firstMaxHp;    
@@ -37,7 +35,6 @@ public class PlayerController : ObjectMove
     //UŒ‚ŠÖ˜A                                   
     public int weapon;       //UŒ‚Žè’i  
     public int skill;        //•t—^‚·‚éŒø‰Ê
-    public bool input;       //’·‰Ÿ‚µ–hŽ~
     public float attack;     //UŒ‚—Í
     private float notAttack; //“®‚¯‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚ÌŽžŠÔ
 
@@ -60,6 +57,13 @@ public class PlayerController : ObjectMove
     //‰¹‚ð–Â‚ç‚·
     public AudioClip damageSe; //”í’eŽž‚Ì‰¹
     public AudioClip itemGet; //”í’eŽž‚Ì‰¹
+
+    //“ü—ÍŠÖ˜A
+    //’·‰Ÿ‚µ–hŽ~
+    private bool input;       //UŒ‚
+
+    //UIî•ñŽæ“¾
+    public MainUIScript mainUI;
 
     new void Start()
     {
@@ -112,13 +116,11 @@ public class PlayerController : ObjectMove
             //UŒ‚—pŠÖ”
             Attack();
 
-            chenge++;
-
-            if(chenge>=chengeTime)
+            if(mainUI.changeInput)
             {
                 skill = Random.Range(1, 100);
                 RandomSkill();
-                chenge = 0.0f;
+                mainUI.changeInput = false;
             }
         }
     }
@@ -262,7 +264,7 @@ public class PlayerController : ObjectMove
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             isJump = true;
             jumpFirst = true;
-            Invoke("FirstCancel", 0.01f);
+            Invoke("FirstCancel", 0.015f);
         }
     }
 
