@@ -27,7 +27,8 @@ public class EnemyBear : ObjectMove
     public int chaseEnemy; //チェイス判定入ってる敵数
 
     //ダメージSE
-    public AudioClip[] damage_Se;
+    public AudioClip[] damageSe;
+    public AudioClip[] powerDamageSe;
 
     //武器の当たり判定
     public Collider weaponCollider;
@@ -155,7 +156,15 @@ public class EnemyBear : ObjectMove
             weaponCollider.enabled = false;
             GetComponent<Animator>().SetTrigger("damage");
             //武器ごとに被弾SEを鳴らす
-            se.PlayOneShot(damage_Se[playerController.weapon]);
+            if (playerController.attack > playerController.firstAttack)
+            {
+                se.PlayOneShot(powerDamageSe[playerController.weapon]);
+            }
+            else
+            {
+                se.PlayOneShot(damageSe[playerController.weapon]);
+            }
+            
 
             if(!isChase)
             {

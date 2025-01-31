@@ -8002,17 +8002,24 @@ MonoBehaviour:
   playerController: {fileID: 5676664056568212851}
   maxAp: 100
   currentAp: 0
-  useAp: 0
+  firstMaxHp: 0
+  firstNowHp: 0
+  firstMaxAp: 0
+  firstNowAp: 0
+  firstSpeed: 0
+  firstAttack: 0
+  firstDamage: 0
+  firstUseAp: 0
   speed: 5
   jumpFirst: 0
   jumpPower: 25
   weapon: 0
   skill: 0
-  apLost: 0
-  input: 0
   attack: 0
-  healHp: 0
-  healAp: 0
+  healHp: 0.1
+  healAp: 0.2
+  useAp: 0
+  apLost: 0
   useWeapon:
   - {fileID: 6751703067125497863}
   - {fileID: 6751703067153212541}
@@ -8023,7 +8030,9 @@ MonoBehaviour:
   - {fileID: 6751703067455605674}
   apSlider: {fileID: 0}
   damageSe: {fileID: 8300000, guid: 8e5b3d4405098374dbe76b2e9bfb789c, type: 3}
+  powerDamageSe: {fileID: 8300000, guid: 21a72c481d280bf4a826f7ebb5fccfac, type: 3}
   itemGet: {fileID: 8300000, guid: 7d671fc65d53a7e4590dda582d465710, type: 3}
+  mainUI: {fileID: 0}
 --- !u!114 &5676664056568212848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8048,15 +8057,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  spawn: 0
   maxCount: 10
   currentCount: 0
   killEnemy: 0
-  goalSpawn: 0
+  goalSpawn: 10
   open_Option: 0
   input: 0
   fadePanel: {fileID: 0}
   fadeDuration: 1
   bgm: {fileID: 3085483949981718748}
+  battleBGM: {fileID: 8300000, guid: e3d057b214ccd2f49a964631cfd0c7d5, type: 3}
   clearBGM: {fileID: 8300000, guid: 37a024e7789e62046ba863d15acd8d7a, type: 3}
   overBGM: {fileID: 8300000, guid: 69ecbda9e980f914abae25ba571371ea, type: 3}
 --- !u!54 &5676664056568212815
@@ -8121,11 +8132,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b4a4e483573c81448bacea6adefbba4c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

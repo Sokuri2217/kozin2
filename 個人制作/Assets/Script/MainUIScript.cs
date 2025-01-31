@@ -23,6 +23,7 @@ public class MainUIScript : MonoBehaviour
     public float changeTime;   //変化が起きるまでの時間
     public float change;       //計測用
     public bool changeConsent; //変化開始フラグ
+    public GameObject keyR;    //変化するボタン
 
     // 武器とスキルのアイコン
     public Sprite[] weapon;
@@ -35,6 +36,10 @@ public class MainUIScript : MonoBehaviour
     // ゲームの状態を管理
     public GameManager gameManager;
     public PlayerController playerController;
+
+    public AudioSource se;
+    public AudioClip changeConsentSe;
+    public AudioClip changeSe;
 
     public enum Weapon
     {
@@ -49,6 +54,7 @@ public class MainUIScript : MonoBehaviour
         // 初期設定
         menuPanel.SetActive(false);
         reunion.SetActive(false);
+        keyR.SetActive(false);
         
         changeIcon.fillAmount = 0;
     }
@@ -56,30 +62,17 @@ public class MainUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!changeConsent)
-        {
-            change++;
-
-            if (change >= changeTime)
-            {
-                changeConsent = true;
-                change = changeTime;
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.R) && !changeInput)
-            {
-                changeConsent = false;
-                changeInput = true;
-                change = 0.0f;
-            }
-        }
-
         // ポーズやメニューの切り替え
         if (!gameManager.gameClear && !gameManager.gameOver)
         {
             HandleMenu(); // メニュー表示の処理
+
+            //一時停止中は動かない
+            if (!playerController.isStop)
+            {
+                //ステータス変化
+                ChangeExtLuck();
+            }
         }
         else
         {
@@ -138,6 +131,33 @@ public class MainUIScript : MonoBehaviour
             reunion.SetActive(false);
             pause.SetActive(true);
             camera.SetActive(true);
+        }
+    }
+
+    void ChangeExtLuck()
+    {
+        if (!changeConsent)
+        {
+            change++;
+
+            if (change >= changeTime)
+            {
+                se.PlayOneShot(changeConsentSe);
+                changeConsent = true;
+                keyR.SetActive(true);
+                change = changeTime;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.R) && !changeInput)
+            {
+                se.PlayOneShot(changeSe);
+                keyR.SetActive(false);
+                changeConsent = false;
+                changeInput = true;
+                change = 0.0f;
+            }
         }
     }
 

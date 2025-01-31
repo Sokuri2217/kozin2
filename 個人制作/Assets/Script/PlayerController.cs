@@ -55,8 +55,9 @@ public class PlayerController : ObjectMove
     public Slider apSlider; //Apƒo[
 
     //‰¹‚ð–Â‚ç‚·
-    public AudioClip damageSe; //”í’eŽž‚Ì‰¹
-    public AudioClip itemGet; //”í’eŽž‚Ì‰¹
+    public AudioClip damageSe;      //”í’e
+    public AudioClip powerDamageSe; //”íƒ_ƒ[ƒWã¸’†‚Ì”í’e
+    public AudioClip itemGet;       //ƒAƒCƒeƒ€Šl“¾
 
     //“ü—ÍŠÖ˜A
     //’·‰Ÿ‚µ–hŽ~
@@ -173,7 +174,14 @@ public class PlayerController : ObjectMove
                     //”í’eƒAƒjƒ[ƒVƒ‡ƒ“Ä¶
                     animator.SetTrigger("damage");
                     //ƒ_ƒ[ƒWSE‚ð–Â‚ç‚·
-                    se.PlayOneShot(damageSe);
+                    if (damage > firstDamage) 
+                    {
+                        se.PlayOneShot(powerDamageSe);
+                    }
+                    else
+                    {
+                        se.PlayOneShot(damageSe);
+                    }
                     //–³“GŽžŠÔ
                     Invoke("NotDamage", 1.1f);
                     //”í’e‚µ‚Ä‚©‚ç“®‚¯‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚ÌŽžŠÔ
