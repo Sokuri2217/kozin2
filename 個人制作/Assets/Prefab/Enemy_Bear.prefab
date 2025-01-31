@@ -1133,7 +1133,8 @@ MonoBehaviour:
   death: 0
   isStop: 0
   hpSlider: {fileID: 263289611}
-  gameManager: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  gameManager: {fileID: 0}
+  playerController: {fileID: 0}
   searchArea: {fileID: 6641712731407648369}
   goals:
   - {fileID: 0}
@@ -1141,7 +1142,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  player: {fileID: 0}
   goalNum: 5
   isChase: 0
   speed: 3
@@ -1156,9 +1157,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9779cf74802209d4591234044008180e, type: 3}
   - {fileID: 8300000, guid: afde5833f7522ad45958f154729b4a30, type: 3}
   weaponCollider: {fileID: 6348376833643489706}
-  camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
+  camera: {fileID: 0}
   healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
-  playerController: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  effect: {fileID: 2025072818883560887, guid: d571fbabde3511c438e2f1933e3836a0, type: 3}
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0

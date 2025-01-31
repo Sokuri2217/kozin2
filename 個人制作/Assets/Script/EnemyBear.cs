@@ -39,6 +39,9 @@ public class EnemyBear : ObjectMove
     //ドロップアイテム
     public GameObject healItem;
 
+    //エフェクト
+    public GameObject effect;
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -123,6 +126,10 @@ public class EnemyBear : ObjectMove
             animator.SetTrigger("death");
             agent.speed = 0;
             death = true;
+            //エフェクトを生成する
+            GameObject effects = Instantiate(effect) as GameObject;
+            //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
+            effects.transform.position = gameObject.transform.position;
             Invoke("Death", 0.6f);
         }
         animator.SetFloat("EnemySpeed", move, 0.1f, Time.deltaTime);
