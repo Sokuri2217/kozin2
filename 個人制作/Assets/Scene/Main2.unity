@@ -847,11 +847,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 182283a3e83f88d4280207a0002bf316, type: 3}
---- !u!82 &842193695 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3085483949981718748, guid: e24546eac9b1fac4f861364536223cab, type: 3}
-  m_PrefabInstance: {fileID: 1252931529}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &940168185 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 38685042521824932, guid: 832ce72a921e7ef408e93a1e9bc49017, type: 3}
@@ -902,11 +897,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3085483949981718748, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3085483949981718748, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 2c2195e420f94e242932827d16add616, type: 3}
@@ -957,7 +952,7 @@ PrefabInstance:
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: mainBGM
       value: 
-      objectReference: {fileID: 842193695}
+      objectReference: {fileID: 0}
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: fadePanel
       value: 
@@ -969,7 +964,7 @@ PrefabInstance:
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: resultBGM
       value: 
-      objectReference: {fileID: 842193695}
+      objectReference: {fileID: 0}
     - target: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: spawnGoal
       value: 
@@ -1677,6 +1672,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1212097878911263218, guid: a17f4a06f5ab50b4caca96ec476fafff, type: 3}
+      propertyPath: mainBGM
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c2195e420f94e242932827d16add616, type: 3}
     - target: {fileID: 6891552357102734462, guid: a17f4a06f5ab50b4caca96ec476fafff, type: 3}
       propertyPath: m_Name
       value: BGMObject
