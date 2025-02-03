@@ -41,6 +41,7 @@ public class PlayerController : ObjectMove
     //回復倍率
     public float healHp; //HP回復倍率
     public float healAp; //AP回復倍率
+    public bool item;    //アイテムゲットフラグ
 
     //AP関連
     public float useAp;               //消費AP
@@ -53,11 +54,6 @@ public class PlayerController : ObjectMove
 
     //ゲージ    
     public Slider apSlider; //Apバー
-
-    //音を鳴らす
-    public AudioClip damageSe;      //被弾
-    public AudioClip powerDamageSe; //被ダメージ上昇中の被弾
-    public AudioClip itemGet;       //アイテム獲得
 
     //入力関連
     //長押し防止
@@ -173,15 +169,6 @@ public class PlayerController : ObjectMove
                 {
                     //被弾アニメーション再生
                     animator.SetTrigger("damage");
-                    //ダメージSEを鳴らす
-                    if (damage > firstDamage) 
-                    {
-                        se.PlayOneShot(powerDamageSe);
-                    }
-                    else
-                    {
-                        se.PlayOneShot(damageSe);
-                    }
                     //無敵時間
                     Invoke("NotDamage", 1.1f);
                     //被弾してから動けるようになるまでの時間
@@ -199,8 +186,7 @@ public class PlayerController : ObjectMove
         {
             currentHp += maxHp * healHp;
             currentAp += maxAp * healAp;
-            //取得音を鳴らす
-            se.PlayOneShot(itemGet);
+            item = true;
             //アイテムを消去する
             Destroy(other.gameObject);
         }
@@ -209,8 +195,7 @@ public class PlayerController : ObjectMove
         {
             currentHp = maxHp;
             currentAp = maxAp;
-            //取得音を鳴らす
-            se.PlayOneShot(itemGet);
+            item = true;
             //アイテムを消去する
             Destroy(other.gameObject);
         }

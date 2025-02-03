@@ -10,7 +10,6 @@ public class ObjectMove : MonoBehaviour
     public Animator animator;  //アニメーション
     public float move;         //アニメーション管理
     public NavMeshAgent agent; //移動範囲設定
-    public AudioSource se;     //音設定
     public Rigidbody rb;       //重力設定
 
     //基本能力

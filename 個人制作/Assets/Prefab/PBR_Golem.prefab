@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 5401594046429635354}
   - component: {fileID: 3341914381557047587}
   - component: {fileID: 6625191029651187132}
-  - component: {fileID: 7989525481487315138}
   m_Layer: 0
   m_Name: PBR_Golem
   m_TagString: Untagged
@@ -189,7 +188,6 @@ MonoBehaviour:
   animator: {fileID: 95380085654935804}
   move: 0
   agent: {fileID: 3341914381557047587}
-  se: {fileID: 0}
   rb: {fileID: 5401594046429635354}
   maxHp: 500
   currentHp: 0
@@ -202,7 +200,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   playerController: {fileID: 0}
   player: {fileID: 0}
-  speed: 15
+  speed: 20
   shotPos: {fileID: 1620575693851942}
   rock: {fileID: 1375754531036840, guid: 71497ec4178769a4c8cdb38563f01fc0, type: 3}
   rockSpeed: 5
@@ -210,109 +208,10 @@ MonoBehaviour:
   attackStart: 120
   attackFar: 0
   attackNear: 0
-  damage_Se:
-  - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
-  - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
-  - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
   nearCollider: {fileID: 3752964829845843830}
   goal: {fileID: 6065611780705877405, guid: 71eb312a6c9db68458082e9d056f0cc4, type: 3}
   bossUi: {fileID: 0}
---- !u!82 &7989525481487315138
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067925524328404}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  effect: {fileID: 100002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
 --- !u!1 &1088256926929212
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,8 +424,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 293.2464, y: 259.838, z: 231.7957}
-  m_Center: {x: -59.21395, y: -14.298984, z: 3.1394737}
+  m_Size: {x: 299.01575, y: 235.83635, z: 292.0656}
+  m_Center: {x: -62.098644, y: -26.299675, z: 50.14658}
 --- !u!1 &1265240290402662
 GameObject:
   m_ObjectHideFlags: 0

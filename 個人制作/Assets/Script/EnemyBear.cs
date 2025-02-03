@@ -26,10 +26,6 @@ public class EnemyBear : ObjectMove
     //UI
     public int chaseEnemy; //チェイス判定入ってる敵数
 
-    //ダメージSE
-    public AudioClip[] damageSe;
-    public AudioClip[] powerDamageSe;
-
     //武器の当たり判定
     public Collider weaponCollider;
 
@@ -101,9 +97,6 @@ public class EnemyBear : ObjectMove
             nextGoal();
         }
 
-        GameObject obj = GameObject.Find("Player");
-        gameManager = obj.GetComponent<GameManager>();
-
         if(gameManager.spawn)
         {
             isChase = true;
@@ -126,10 +119,6 @@ public class EnemyBear : ObjectMove
             animator.SetTrigger("death");
             agent.speed = 0;
             death = true;
-            //エフェクトを生成する
-            GameObject effects = Instantiate(effect) as GameObject;
-            //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
-            effects.transform.position = gameObject.transform.position;
             Invoke("Death", 0.6f);
         }
         animator.SetFloat("EnemySpeed", move, 0.1f, Time.deltaTime);
@@ -153,25 +142,12 @@ public class EnemyBear : ObjectMove
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject obj = GameObject.Find("Player");
-        playerController = obj.GetComponent<PlayerController>();
-
         //weaponタグのオブジェクトに触れると発動
         if (other.CompareTag("weapon") && !isDamage)  
         {
             isDamage = true;
             weaponCollider.enabled = false;
             GetComponent<Animator>().SetTrigger("damage");
-            //武器ごとに被弾SEを鳴らす
-            if (playerController.attack > playerController.firstAttack)
-            {
-                se.PlayOneShot(powerDamageSe[playerController.weapon]);
-            }
-            else
-            {
-                se.PlayOneShot(damageSe[playerController.weapon]);
-            }
-            
 
             if(!isChase)
             {
@@ -193,10 +169,11 @@ public class EnemyBear : ObjectMove
 
     void Death()
     {
-        GameObject obj = GameObject.Find("Player");
-        playerController = obj.GetComponent<PlayerController>();
-
         //死亡処理
+        //エフェクトを生成する
+        GameObject effects = Instantiate(effect) as GameObject;
+        //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
+        effects.transform.position = gameObject.transform.position;
         //KILLカウントを増やす
         gameManager.killEnemy++;
         //回復アイテム生成

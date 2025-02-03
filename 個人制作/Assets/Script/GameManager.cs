@@ -33,16 +33,9 @@ public class GameManager : MonoBehaviour
     public Image fadePanel;             // フェード用のUIパネル（Image）
     public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
 
-    //音楽
-    public AudioSource bgm;
-    public AudioClip battleBGM;
-    public AudioClip clearBGM;
-    public AudioClip overBGM;
-
     // Start is called before the first frame update
     void Start()
     {
-        bgm.Play();
         gameOver = false;
         gameClear = false;
         gamePlay = true;
@@ -153,16 +146,12 @@ public class GameManager : MonoBehaviour
     void Over()
     {
         overPanel.SetActive(true);
-        bgm.Stop();
-        bgm.PlayOneShot(overBGM);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
     }
     void Clear()
     {
         clearPanel.SetActive(true);
-        bgm.Stop();
-        bgm.PlayOneShot(clearBGM);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
     }

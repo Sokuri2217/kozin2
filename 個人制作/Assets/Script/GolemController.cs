@@ -21,9 +21,6 @@ public class GolemController : ObjectMove
     public bool attackFar;      //遠距離攻撃
     public bool attackNear;     //近距離攻撃
 
-    //ダメージSE
-    public AudioClip[] damageSe;
-
     //武器の当たり判定
     public Collider nearCollider; //近距離攻撃用コライダー
 
@@ -32,6 +29,9 @@ public class GolemController : ObjectMove
 
     //ボスUI
     public GameObject bossUi;
+
+    //エフェクト
+    public GameObject effect;
 
     // Start is called before the first frame update
     private new void Start()
@@ -116,9 +116,6 @@ public class GolemController : ObjectMove
             }
         }
 
-        GameObject obj = GameObject.Find("Player");
-        gameManager = obj.GetComponent<GameManager>();
-
         if (gameManager.gameOver)
         {
             agent.speed = 0;
@@ -141,19 +138,16 @@ public class GolemController : ObjectMove
 
         //デバッグ用
         {
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-            //    currentHp = 0.0f;
-            //}
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                currentHp = 0.0f;
+            }
         }
 
     }
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject obj = GameObject.Find("Player");
-        playerController = obj.GetComponent<PlayerController>();
-
         //weaponタグのオブジェクトに触れると発動
         if (other.CompareTag("weapon"))
         {
@@ -161,8 +155,6 @@ public class GolemController : ObjectMove
             {
                 GetComponent<Animator>().SetTrigger("damage");
             }
-            //武器ごとに被弾SEを鳴らす
-            se.PlayOneShot(damageSe[playerController.weapon]);
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
         }
@@ -177,6 +169,10 @@ public class GolemController : ObjectMove
     void Death()
     {
         //死亡処理
+        //エフェクトを生成する
+        GameObject effects = Instantiate(effect) as GameObject;
+        //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
+        effects.transform.position = gameObject.transform.position;
         //その場にゴールを生成
         Instantiate(goal, transform.position, Quaternion.identity);
         //オブジェクトを消去する

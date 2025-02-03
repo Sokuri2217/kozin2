@@ -37,10 +37,6 @@ public class MainUIScript : MonoBehaviour
     public GameManager gameManager;
     public PlayerController playerController;
 
-    public AudioSource se;
-    public AudioClip changeConsentSe;
-    public AudioClip changeSe;
-
     public enum Weapon
     {
         KNIFE,
@@ -142,7 +138,6 @@ public class MainUIScript : MonoBehaviour
 
             if (change >= changeTime)
             {
-                se.PlayOneShot(changeConsentSe);
                 changeConsent = true;
                 keyR.SetActive(true);
                 change = changeTime;
@@ -152,7 +147,6 @@ public class MainUIScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R) && !changeInput)
             {
-                se.PlayOneShot(changeSe);
                 keyR.SetActive(false);
                 changeConsent = false;
                 changeInput = true;
