@@ -20,6 +20,7 @@ public class BGMScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bgm.clip = mainBGM;
         bgm.Play();
     }
 

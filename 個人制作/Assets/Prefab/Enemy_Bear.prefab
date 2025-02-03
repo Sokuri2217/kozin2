@@ -1123,7 +1123,6 @@ MonoBehaviour:
   animator: {fileID: 8869962818903947907}
   move: 0
   agent: {fileID: 4155101325318120850}
-  se: {fileID: 8050113819841256225}
   rb: {fileID: 436630831}
   maxHp: 30
   currentHp: 0
@@ -1148,14 +1147,6 @@ MonoBehaviour:
   speed: 3
   surpriseAttack: 1.5
   chaseEnemy: 0
-  damageSe:
-  - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
-  - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
-  - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
-  powerDamageSe:
-  - {fileID: 8300000, guid: 46ff309d6d2c8004a99a8f2a78e64f5f, type: 3}
-  - {fileID: 8300000, guid: 9779cf74802209d4591234044008180e, type: 3}
-  - {fileID: 8300000, guid: afde5833f7522ad45958f154729b4a30, type: 3}
   weaponCollider: {fileID: 6348376833643489706}
   camera: {fileID: 0}
   healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}

@@ -42,6 +42,7 @@ public class EnemyBear : ObjectMove
     new void Start()
     {
         weaponCollider.enabled = false;
+        death = false;
         move = 0.0f;
         chaseEnemy = 0;
 
@@ -145,8 +146,6 @@ public class EnemyBear : ObjectMove
         //weaponタグのオブジェクトに触れると発動
         if (other.CompareTag("weapon") && !isDamage)  
         {
-            isDamage = true;
-            weaponCollider.enabled = false;
             GetComponent<Animator>().SetTrigger("damage");
 
             if(!isChase)
@@ -160,6 +159,8 @@ public class EnemyBear : ObjectMove
                 currentHp -= playerController.attack;
             }
 
+            isDamage = true;
+            weaponCollider.enabled = false;
             //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
             isChase =true;
             Invoke("NotDamage", 0.5f);

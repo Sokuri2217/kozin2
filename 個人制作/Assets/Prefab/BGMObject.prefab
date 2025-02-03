@@ -46,14 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgm: {fileID: 3527734261764703042}
-  mainBGM: {fileID: 0}
+  mainBGM: {fileID: 8300000, guid: b4a4e483573c81448bacea6adefbba4c, type: 3}
   battleBGM: {fileID: 8300000, guid: e3d057b214ccd2f49a964631cfd0c7d5, type: 3}
   clearBGM: {fileID: 8300000, guid: 37a024e7789e62046ba863d15acd8d7a, type: 3}
   overBGM: {fileID: 8300000, guid: 69ecbda9e980f914abae25ba571371ea, type: 3}
-  playerController: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  playerController: {fileID: 0}
   enemyBear: {fileID: 6646692183830371254, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
   golemController: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
-  gameManager: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  gameManager: {fileID: 0}
 --- !u!82 &3527734261764703042
 AudioSource:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

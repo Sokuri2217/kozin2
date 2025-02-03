@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        killEnemy = 0;
         gameOver = false;
         gameClear = false;
         gamePlay = true;

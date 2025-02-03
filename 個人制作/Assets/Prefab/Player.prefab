@@ -7985,7 +7985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5676664056568212850}
-  move: 5
+  move: 1
   agent: {fileID: 1402116781153780637}
   rb: {fileID: 5676664056568212815}
   maxHp: 100
@@ -8056,7 +8056,7 @@ MonoBehaviour:
   spawn: 0
   maxCount: 10
   currentCount: 0
-  killEnemy: 0
+  killEnemy: 125
   goalSpawn: 10
   open_Option: 0
   input: 0

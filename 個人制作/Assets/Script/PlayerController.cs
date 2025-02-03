@@ -115,9 +115,7 @@ public class PlayerController : ObjectMove
 
             if(mainUI.changeInput)
             {
-                skill = Random.Range(1, 100);
                 RandomSkill();
-                mainUI.changeInput = false;
             }
         }
     }
@@ -190,7 +188,7 @@ public class PlayerController : ObjectMove
             //アイテムを消去する
             Destroy(other.gameObject);
         }
-
+        //全回復
         if (other.CompareTag("allHeal"))
         {
             currentHp = maxHp;

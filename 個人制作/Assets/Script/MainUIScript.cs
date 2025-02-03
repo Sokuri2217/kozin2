@@ -33,6 +33,10 @@ public class MainUIScript : MonoBehaviour
     //入力関連
     public bool changeInput; //任意変化
 
+    //直前の変化を保存
+    public int beforeStatus;
+
+
     // ゲームの状態を管理
     public GameManager gameManager;
     public PlayerController playerController;
@@ -51,8 +55,14 @@ public class MainUIScript : MonoBehaviour
         menuPanel.SetActive(false);
         reunion.SetActive(false);
         keyR.SetActive(false);
-        
+        beforeStatus = -1;
         changeIcon.fillAmount = 0;
+        // アイコンを更新
+        UpdateSkillIcon();
+        //アイコン変更
+        GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
+        //現在の変化を保存
+        beforeStatus = randomSkill;
     }
 
     // Update is called once per frame
@@ -64,7 +74,7 @@ public class MainUIScript : MonoBehaviour
             HandleMenu(); // メニュー表示の処理
 
             //一時停止中は動かない
-            if (!playerController.isStop)
+            if (!gameManager.open_Option) 
             {
                 //ステータス変化
                 ChangeExtLuck();
@@ -85,8 +95,6 @@ public class MainUIScript : MonoBehaviour
 
         // KILLカウントとゴールの条件を更新
         UpdateKillCount();
-        // アイコンを更新
-        UpdateSkillIcon();
         //インターバル中のアイコン制御
         UpdateWeaponIcon();
     }
@@ -147,10 +155,20 @@ public class MainUIScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R) && !changeInput)
             {
+                do
+                {
+                    playerController.skill = Random.Range(1, 100);
+
+                    // アイコンを更新
+                    UpdateSkillIcon();
+                } while (beforeStatus == randomSkill);
+                beforeStatus = randomSkill;
                 keyR.SetActive(false);
                 changeConsent = false;
                 changeInput = true;
                 change = 0.0f;
+                //アイコン変更
+                GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
             }
         }
     }
@@ -203,9 +221,6 @@ public class MainUIScript : MonoBehaviour
         {
             randomSkill = 8;
         }
-
-        //アイコン変更
-        GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
     }
 
     // KILLカウントを更新する処理
