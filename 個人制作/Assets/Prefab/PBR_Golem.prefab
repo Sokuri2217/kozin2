@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 5401594046429635354}
   - component: {fileID: 3341914381557047587}
   - component: {fileID: 6625191029651187132}
+  - component: {fileID: -9151603623251428327}
   m_Layer: 0
   m_Name: PBR_Golem
   m_TagString: Enemy
@@ -212,6 +213,31 @@ MonoBehaviour:
   goal: {fileID: 6065611780705877405, guid: 71eb312a6c9db68458082e9d056f0cc4, type: 3}
   bossUi: {fileID: 0}
   effect: {fileID: 100002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
+--- !u!114 &-9151603623251428327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067925524328404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1d92775b02b5849b85aa0541a25fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  se: {fileID: 0}
+  isHit: 0
+  bear: {fileID: 0}
+  skeleton: {fileID: 0}
+  golem: {fileID: 0}
+  damage: []
+  powerDamage: []
+  downDamage: []
+  bearDeath: {fileID: 0}
+  isBearDeath: 0
+  golemDeath: {fileID: 0}
+  isGolemDeath: 0
 --- !u!1 &1088256926929212
 GameObject:
   m_ObjectHideFlags: 0

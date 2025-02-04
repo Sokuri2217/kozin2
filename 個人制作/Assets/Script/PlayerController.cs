@@ -156,7 +156,7 @@ public class PlayerController : ObjectMove
     private void OnTriggerEnter(Collider other)
     {
         //敵の攻撃に当たる
-        if(!isDamage && gameManager.gamePlay)
+        if (!isDamage && gameManager.gamePlay)
         {
             if (other.CompareTag("enemyweapon")||
                 other.CompareTag("nearweapon"))
@@ -189,13 +189,17 @@ public class PlayerController : ObjectMove
             Destroy(other.gameObject);
         }
         //全回復
-        if (other.CompareTag("allHeal"))
+        else if (other.CompareTag("allHeal"))
         {
             currentHp = maxHp;
             currentAp = maxAp;
             item = true;
             //アイテムを消去する
             Destroy(other.gameObject);
+        }
+        else
+        {
+            item = false;
         }
 
         //地面に触れる

@@ -18,6 +18,7 @@ TagManager:
   - farweapon
   - healItem
   - allHeal
+  - search
   layers:
   - Default
   - TransparentFX

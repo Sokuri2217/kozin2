@@ -4,49 +4,45 @@ using UnityEngine;
 
 public class BGMScript : MonoBehaviour
 {
-    public AudioSource bgm; //BGM関連
-
-    public AudioClip mainBGM;   //メイン
-    public AudioClip battleBGM; //戦闘中
-    public AudioClip clearBGM;  //ステージクリア
-    public AudioClip overBGM;   //ステージオーバー
-
-    //スクリプト取得
-    public PlayerController playerController;
-    public EnemyBear enemyBear;
-    public GolemController golemController;
     public GameManager gameManager;
+
+    public AudioSource bgm;
+
+    public AudioClip main;
+    public AudioClip clear;
+    public bool isClear;
+    public AudioClip over;
+    public bool isOver;
 
     // Start is called before the first frame update
     void Start()
     {
-        bgm.clip = mainBGM;
+        bgm.clip = main;
+        isClear = false;
+        isOver = false;
         bgm.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!gameManager.gameClear && !gameManager.gameOver)
+        if (gameManager.gameClear)
         {
-            if (enemyBear.isChase)
+            bgm.clip = clear;
+            if (!isClear) 
             {
-                bgm.clip = battleBGM;
-            }
-            else
-            {
-                bgm.clip = mainBGM;
+                bgm.Play();
+                isClear = true;
             }
         }
-        else
+        else if (gameManager.gameOver)
         {
-            if(gameManager.gameClear)
+            bgm.clip = over;
+
+            if (!isOver) 
             {
-                bgm.clip = clearBGM;
-            }
-            else if(gameManager.gameOver)
-            {
-                bgm.clip = overBGM;
+                bgm.Play();
+                isOver = true;
             }
         }
     }

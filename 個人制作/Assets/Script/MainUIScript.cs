@@ -19,7 +19,7 @@ public class MainUIScript : MonoBehaviour
     public Text currentKill;
     public Text goalSpawnKill;
     public Text chaseEnemy;
-    private int randomSkill;
+    public int randomSkill;
     public float changeTime;   //変化が起きるまでの時間
     public float change;       //計測用
     public bool changeConsent; //変化開始フラグ
@@ -55,14 +55,10 @@ public class MainUIScript : MonoBehaviour
         menuPanel.SetActive(false);
         reunion.SetActive(false);
         keyR.SetActive(false);
+        changeConsent = false;
+        changeInput = false;
         beforeStatus = -1;
         changeIcon.fillAmount = 0;
-        // アイコンを更新
-        UpdateSkillIcon();
-        //アイコン変更
-        GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
-        //現在の変化を保存
-        beforeStatus = randomSkill;
     }
 
     // Update is called once per frame
@@ -97,6 +93,12 @@ public class MainUIScript : MonoBehaviour
         UpdateKillCount();
         //インターバル中のアイコン制御
         UpdateWeaponIcon();
+        // アイコンを更新
+        UpdateSkillIcon();
+        //アイコン変更
+        GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
+        //現在の変化を保存
+        beforeStatus = randomSkill;
     }
 
     //使用装備をアイコンとして表示
@@ -170,6 +172,11 @@ public class MainUIScript : MonoBehaviour
                 //アイコン変更
                 GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
             }
+        }
+
+        if (Input.GetKeyUp(KeyCode.R) && changeInput)
+        {
+            changeInput = false;
         }
     }
 

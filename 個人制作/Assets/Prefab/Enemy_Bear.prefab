@@ -1036,6 +1036,7 @@ GameObject:
   - component: {fileID: 8869962818903947907}
   - component: {fileID: 4155101325318120850}
   - component: {fileID: 6646692183830371254}
+  - component: {fileID: -6866789884796861500}
   - component: {fileID: 436630831}
   - component: {fileID: 436630827}
   - component: {fileID: 8050113819841256225}
@@ -1151,6 +1152,38 @@ MonoBehaviour:
   camera: {fileID: 0}
   healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
   effect: {fileID: 2025072818883560887, guid: d571fbabde3511c438e2f1933e3836a0, type: 3}
+--- !u!114 &-6866789884796861500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788726836488354371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1d92775b02b5849b85aa0541a25fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  se: {fileID: 0}
+  isHit: 0
+  bear: {fileID: 0}
+  skeleton: {fileID: 6896769085836071106, guid: d46a543c71635a94eae771446c96210b, type: 3}
+  golem: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
+  damage:
+  - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
+  - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
+  - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
+  powerDamage:
+  - {fileID: 8300000, guid: 46ff309d6d2c8004a99a8f2a78e64f5f, type: 3}
+  - {fileID: 8300000, guid: 9779cf74802209d4591234044008180e, type: 3}
+  - {fileID: 8300000, guid: afde5833f7522ad45958f154729b4a30, type: 3}
+  downDamage:
+  - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
+  - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
+  - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
+  bearDeath: {fileID: 8300000, guid: 72a17f4d55380a34ab04db25e72ff081, type: 3}
+  golemDeath: {fileID: 8300000, guid: df1c7253db4fc9141abe065ab5ef3627, type: 3}
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2271,7 +2304,7 @@ GameObject:
   - component: {fileID: 6641712731407648369}
   m_Layer: 0
   m_Name: SearchArea
-  m_TagString: Untagged
+  m_TagString: search
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
