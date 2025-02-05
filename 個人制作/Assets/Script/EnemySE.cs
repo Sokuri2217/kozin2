@@ -36,7 +36,7 @@ public class EnemySE : SeScript
         //•¡”‰ñ–Â‚ç‚È‚¢‚æ‚¤‚É‚·‚é
         if ((bear.isDamage && !bear.death) || (golem.isDamage && !golem.death))
         {
-            if (!isHit)
+            if (!isHit && !gameManager.isDamageSe) 
             {
                 if (playerController.attack > playerController.firstAttack) //”íƒ_ƒ‘‰Á
                 {
@@ -51,40 +51,50 @@ public class EnemySE : SeScript
                     se.PlayOneShot(damage[playerController.weapon]);
                 }
                 isHit = true;
+                gameManager.isDamageSe = true;
             }
             
         }
         else
         {
             isHit = false;
+            gameManager.isDamageSe = false;
         }
 
         //ŒF€–S
         if (bear.death) 
         {
-            if (!isBearDeath)
+            //€–S‚ÌSE
+            //–Â‚Á‚Ä‚¢‚éÅ’†‚È‚ç‚Î‘¼‚Ì“G‚ª€–S‚µ‚Ä‚à–Â‚ç‚³‚È‚¢
+            if (!isBearDeath && !gameManager.isDeathSe) 
             {
                 se.PlayOneShot(bearDeath);
                 isBearDeath = true;
+                gameManager.isDeathSe = true;
             }
         }
         else
         {
             isBearDeath = false;
+            gameManager.isDeathSe = false;
         }
 
         //ƒS[ƒŒƒ€€–S
         if (golem.death) 
         {
-            if(!isGolemDeath)
+            //€–S‚ÌSE
+            //–Â‚Á‚Ä‚¢‚éÅ’†‚È‚ç‚Î‘¼‚Ì“G‚ª€–S‚µ‚Ä‚à–Â‚ç‚³‚È‚¢
+            if (!isGolemDeath && !gameManager.isDeathSe)
             {
                 se.PlayOneShot(golemDeath);
                 isGolemDeath = true;
+                gameManager.isDeathSe = true;
             }
         }
         else
         {
             isGolemDeath = false;
+            gameManager.isDeathSe = false;
         }
     }
 }

@@ -1146,12 +1146,13 @@ MonoBehaviour:
   goalNum: 5
   isChase: 0
   speed: 3
+  isCount: 0
   surpriseAttack: 1.5
-  chaseEnemy: 0
   weaponCollider: {fileID: 6348376833643489706}
   camera: {fileID: 0}
   healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
   effect: {fileID: 2025072818883560887, guid: d571fbabde3511c438e2f1933e3836a0, type: 3}
+  mainUI: {fileID: 0}
 --- !u!114 &-6866789884796861500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,9 +1166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
-  se: {fileID: 0}
+  gameManager: {fileID: 0}
+  se: {fileID: 8050113819841256225}
   isHit: 0
-  bear: {fileID: 0}
+  bear: {fileID: 6646692183830371254}
   skeleton: {fileID: 6896769085836071106, guid: d46a543c71635a94eae771446c96210b, type: 3}
   golem: {fileID: 6625191029651187132, guid: 6bbfea6690ef7724ba495c866081f855, type: 3}
   damage:
@@ -1179,11 +1181,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9779cf74802209d4591234044008180e, type: 3}
   - {fileID: 8300000, guid: afde5833f7522ad45958f154729b4a30, type: 3}
   downDamage:
-  - {fileID: 8300000, guid: 13b84532ac02fcd4faeb063d468df66c, type: 3}
-  - {fileID: 8300000, guid: 35e93597a5704c74fabd1cab1f243f43, type: 3}
-  - {fileID: 8300000, guid: ff70c05e12ca407479acc92c44387117, type: 3}
+  - {fileID: 8300000, guid: ca4038d8c32d1324eb5cb7d181909dca, type: 3}
+  - {fileID: 8300000, guid: d200b8e778f30384cae4236569a1cdc4, type: 3}
+  - {fileID: 8300000, guid: afb5daa1d19bd1c4188526211f2a58e6, type: 3}
   bearDeath: {fileID: 8300000, guid: 72a17f4d55380a34ab04db25e72ff081, type: 3}
+  isBearDeath: 0
   golemDeath: {fileID: 8300000, guid: df1c7253db4fc9141abe065ab5ef3627, type: 3}
+  isGolemDeath: 0
 --- !u!54 &436630831
 Rigidbody:
   m_ObjectHideFlags: 0

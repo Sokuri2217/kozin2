@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public int currentCount;
     public int killEnemy;             //倒した敵数
     public int goalSpawn;             //ゴール出現に必要な敵数
+    public bool isDamageSe;            //敵の被弾seがなっている最中かどうか
+    public bool isDeathSe;            //敵の死亡seがなっている最中かどうか
 
     //ボス関連
     //public bool spawnBoss;    //ボス出現フラグ
@@ -46,6 +48,8 @@ public class GameManager : MonoBehaviour
         //boss.SetActive(false);
         open_Option = false;
         input = false;
+        isDamageSe = false;
+        isDeathSe = false;
         //spawnBoss = false;
         //bossHp.SetActive(false);
 

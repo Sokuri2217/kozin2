@@ -18,13 +18,11 @@ public class EnemyBear : ObjectMove
     public bool isChase = false;  //追跡フラグ
     private int chaseTime = 0;    //追跡解除用のカウント
     public float speed;           //移動速度
+    public bool isCount;          //チェイス中カウントフラグ
 
     //戦闘関連
     bool attack = false;          //攻撃フラグ
     public float surpriseAttack;  //不意打ち被ダメ倍率
-
-    //UI
-    public int chaseEnemy; //チェイス判定入ってる敵数
 
     //武器の当たり判定
     public Collider weaponCollider;
@@ -38,13 +36,16 @@ public class EnemyBear : ObjectMove
     //エフェクト
     public GameObject effect;
 
+    //スクリプト取得
+    public MainUIScript mainUI;
+
     // Start is called before the first frame update
     new void Start()
     {
         weaponCollider.enabled = false;
         death = false;
         move = 0.0f;
-        chaseEnemy = 0;
+        isCount = false;
 
         //現在の値を最大値と同じにする
         currentHp = maxHp;
@@ -61,6 +62,19 @@ public class EnemyBear : ObjectMove
     // Update is called once per frame
     void FixedUpdate()
     {
+        //チェイス中の敵数カウントを増やす
+        if (isChase && !isCount)
+        {
+            mainUI.chaseEnemyNum++;
+            isCount = true;
+        }
+        //カウント済みの状態の敵のチェイス判定が切れると、カウントを減らす
+        else if (!isChase && isCount) 
+        {
+            mainUI.chaseEnemyNum--;
+            isCount = false;
+        }
+
         //プレイヤーに一定距離近づくと、攻撃する
         if ((transform.position.x - player.transform.position.x) < 1.0f &&
             (transform.position.z - player.transform.position.z) < 1.0f &&
@@ -76,6 +90,7 @@ public class EnemyBear : ObjectMove
             Invoke("NotWeapon", 0.3f);
         }
         //チェイス中は、移動速度と移動アニメーションを変更
+        //攻撃中は移動しない
         else if (isChase && !isAttack)
         {
             //チェイス中は、索敵範囲を消去
@@ -98,11 +113,13 @@ public class EnemyBear : ObjectMove
             nextGoal();
         }
 
+        //ゴールが生成されると、自動的にチェイスモードに移行する
         if(gameManager.spawn)
         {
             isChase = true;
         }
 
+        //ゲームの決着がつくと、動きを止める
         if (gameManager.gameOver || gameManager.gameClear)
         {
             agent.speed = 0;
@@ -110,9 +127,10 @@ public class EnemyBear : ObjectMove
         }
 
         //チェイススタートから一定時間が経つと、徘徊モードに戻る
-        if (chaseTime >= 300 && !gameManager.spawn)  
+        if (chaseTime >= 300 && !gameManager.spawn && isChase) 
+        {
             isChase = false;
-
+        }
 
         ////体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
         if (currentHp <= 0.0f && !death)

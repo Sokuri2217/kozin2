@@ -149,14 +149,16 @@ public class GolemController : ObjectMove
     void OnTriggerEnter(Collider other)
     {
         //weaponタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon"))
+        if (other.CompareTag("weapon") && !isDamage) 
         {
             if(!isAttack)
             {
                 GetComponent<Animator>().SetTrigger("damage");
             }
+            isDamage = true;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
+            Invoke("NotDamage", 0.2f);
         }
     }
 

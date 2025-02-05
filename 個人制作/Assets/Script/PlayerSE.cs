@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerSE : SeScript
 {
-    //スクリプト取得
-    public GameManager gameManager;
-
     //アイテム取得音
     public AudioClip itemGet;
     public bool isItemGet;

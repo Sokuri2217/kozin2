@@ -6,6 +6,7 @@ public class SeScript : MonoBehaviour
 {
     //スクリプト取得
     public PlayerController playerController;
+    public GameManager gameManager;
 
     //コンポーネント取得
     public AudioSource se;

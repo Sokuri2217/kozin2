@@ -19,6 +19,7 @@ public class MainUIScript : MonoBehaviour
     public Text currentKill;
     public Text goalSpawnKill;
     public Text chaseEnemy;
+    public int chaseEnemyNum;
     public int randomSkill;
     public float changeTime;   //変化が起きるまでの時間
     public float change;       //計測用
@@ -59,6 +60,7 @@ public class MainUIScript : MonoBehaviour
         changeInput = false;
         beforeStatus = -1;
         changeIcon.fillAmount = 0;
+        chaseEnemyNum = 0;
     }
 
     // Update is called once per frame
@@ -91,6 +93,8 @@ public class MainUIScript : MonoBehaviour
 
         // KILLカウントとゴールの条件を更新
         UpdateKillCount();
+        //チェイス中の敵数更新
+        UpdateChaseCount();
         //インターバル中のアイコン制御
         UpdateWeaponIcon();
         // アイコンを更新
@@ -237,9 +241,9 @@ public class MainUIScript : MonoBehaviour
         goalSpawnKill.text = gameManager.goalSpawn.ToString(); // ゴール出現に必要なKILL数
     }
 
-    ////チェイス中の敵数更新
-    //private void UpdateChaseCount()
-    //{
-    //    chaseEnemy.text
-    //}
+    //チェイス中の敵数更新
+    private void UpdateChaseCount()
+    {
+        chaseEnemy.text = chaseEnemyNum.ToString(); //チェイス中の敵数
+    }
 }
