@@ -52,7 +52,7 @@ public class PlayerSE : SeScript
                 }
                 else if (playerController.damage < playerController.firstDamage) //”íƒ_ƒŒ¸­
                 {
-
+                    se.PlayOneShot(downDamage);
                 }
                 else //’Êí
                 {
