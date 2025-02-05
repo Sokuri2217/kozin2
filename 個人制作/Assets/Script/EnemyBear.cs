@@ -34,10 +34,11 @@ public class EnemyBear : ObjectMove
     public GameObject healItem;
 
     //エフェクト
-    public GameObject effect;
+    public GameObject hitEffect;
+    public GameObject deathEffect;
 
     //スクリプト取得
-    public MainUIScript mainUI;
+    MainUIScript mainUI;
 
     // Start is called before the first frame update
     new void Start()
@@ -46,6 +47,13 @@ public class EnemyBear : ObjectMove
         death = false;
         move = 0.0f;
         isCount = false;
+
+        GameObject playerObj = GameObject.Find("Player");
+        player.transform.position = playerObj.transform.position;
+        playerController = playerObj.GetComponent<PlayerController>();
+        GameObject uiObj = GameObject.Find("Main1_UI");
+        mainUI = uiObj.GetComponent<MainUIScript>();
+        
 
         //現在の値を最大値と同じにする
         currentHp = maxHp;
@@ -63,7 +71,7 @@ public class EnemyBear : ObjectMove
     void FixedUpdate()
     {
         //チェイス中の敵数カウントを増やす
-        if (isChase && !isCount)
+        if (isChase && !isCount && !death) 
         {
             mainUI.chaseEnemyNum++;
             isCount = true;
@@ -74,7 +82,6 @@ public class EnemyBear : ObjectMove
             mainUI.chaseEnemyNum--;
             isCount = false;
         }
-
         //プレイヤーに一定距離近づくと、攻撃する
         if ((transform.position.x - player.transform.position.x) < 1.0f &&
             (transform.position.z - player.transform.position.z) < 1.0f &&
@@ -114,7 +121,7 @@ public class EnemyBear : ObjectMove
         }
 
         //ゴールが生成されると、自動的にチェイスモードに移行する
-        if(gameManager.spawn)
+        if (gameManager.spawn)
         {
             isChase = true;
         }
@@ -135,11 +142,17 @@ public class EnemyBear : ObjectMove
         ////体力が0以下になると、死亡アニメーションを表示しオブジェクトを消去
         if (currentHp <= 0.0f && !death)
         {
+            if (isCount)
+            {
+                mainUI.chaseEnemyNum--;
+                isCount = false;
+            }
             animator.SetTrigger("death");
             agent.speed = 0;
             death = true;
             Invoke("Death", 0.6f);
         }
+
         animator.SetFloat("EnemySpeed", move, 0.1f, Time.deltaTime);
 
         //最大HPにおける現在のHPをSliderに反映
@@ -176,7 +189,10 @@ public class EnemyBear : ObjectMove
                 //現在のHPからダメージを引く
                 currentHp -= playerController.attack;
             }
-
+            //エフェクトを生成する
+            GameObject effects = Instantiate(hitEffect) as GameObject;
+            //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
+            effects.transform.position = gameObject.transform.position;
             isDamage = true;
             weaponCollider.enabled = false;
             //プレイヤーの攻撃が当たると、プレイヤーの方向を向く
@@ -190,7 +206,7 @@ public class EnemyBear : ObjectMove
     {
         //死亡処理
         //エフェクトを生成する
-        GameObject effects = Instantiate(effect) as GameObject;
+        GameObject effects = Instantiate(deathEffect) as GameObject;
         //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
         effects.transform.position = gameObject.transform.position;
         //KILLカウントを増やす

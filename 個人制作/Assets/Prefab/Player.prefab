@@ -7946,7 +7946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6751703067119545943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100, y: 0, z: 100}
+  m_LocalPosition: {x: 92.649216, y: 0.054437984, z: 101.581215}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8055,11 +8055,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  spawnArea: {fileID: 0}
   spawn: 0
   maxCount: 10
   currentCount: 0
-  killEnemy: 125
+  killEnemy: 4
   goalSpawn: 10
+  isDamageSe: 0
+  isDeathSe: 0
   open_Option: 0
   input: 0
   fadePanel: {fileID: 0}
@@ -8076,15 +8079,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ebc560e42e8bc46907429b4788cb90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  se: {fileID: 0}
+  playerController: {fileID: 5676664056568212851}
+  gameManager: {fileID: 5676664056568212848}
+  se: {fileID: -1619296407314763084}
   isHit: 0
-  gameManager: {fileID: 0}
   itemGet: {fileID: 8300000, guid: 7d671fc65d53a7e4590dda582d465710, type: 3}
   isItemGet: 0
   damage: {fileID: 8300000, guid: 8e5b3d4405098374dbe76b2e9bfb789c, type: 3}
   powerDamage: {fileID: 8300000, guid: 21a72c481d280bf4a826f7ebb5fccfac, type: 3}
-  downDamage: {fileID: 8300000, guid: 9cc01c958ca1ea54699fc9066d76964a, type: 3}
+  downDamage: {fileID: 8300000, guid: 8e5b3d4405098374dbe76b2e9bfb789c, type: 3}
 --- !u!54 &5676664056568212815
 Rigidbody:
   m_ObjectHideFlags: 0

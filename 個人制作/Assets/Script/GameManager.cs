@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject overPanel;
     public GameObject spawnGoal;
     public GameObject[] goal;
+    public GameObject spawnArea;
     private int goalNum = 0;
     public bool spawn = false;
     public int maxCount;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
+        spawnArea.SetActive(false);
         //boss.SetActive(false);
         open_Option = false;
         input = false;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
         isDeathSe = false;
         //spawnBoss = false;
         //bossHp.SetActive(false);
+        
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -127,8 +130,10 @@ public class GameManager : MonoBehaviour
                 goalNum = Random.Range(0, 5);
                 goal[goalNum].SetActive(true);
                 spawnGoal.SetActive(true);
+                spawnArea.SetActive(true);
             }
         }
+
         //ゲームオーバー
         if (gameOver && gamePlay)   
         {

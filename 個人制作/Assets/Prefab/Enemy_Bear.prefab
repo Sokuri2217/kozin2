@@ -1133,26 +1133,27 @@ MonoBehaviour:
   death: 0
   isStop: 0
   hpSlider: {fileID: 263289611}
-  gameManager: {fileID: 0}
-  playerController: {fileID: 0}
+  gameManager: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  playerController: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   searchArea: {fileID: 6641712731407648369}
   goals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  player: {fileID: 0}
+  - {fileID: 8970885065766242702, guid: b5d47e81ea67ece489f93ef13b11bb23, type: 3}
+  - {fileID: 8970885065766242702, guid: b5d47e81ea67ece489f93ef13b11bb23, type: 3}
+  - {fileID: 8970885065766242702, guid: b5d47e81ea67ece489f93ef13b11bb23, type: 3}
+  - {fileID: 8970885065766242702, guid: b5d47e81ea67ece489f93ef13b11bb23, type: 3}
+  - {fileID: 8970885065766242702, guid: b5d47e81ea67ece489f93ef13b11bb23, type: 3}
+  player: {fileID: 5676664056568212813, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   goalNum: 5
   isChase: 0
   speed: 3
   isCount: 0
   surpriseAttack: 1.5
   weaponCollider: {fileID: 6348376833643489706}
-  camera: {fileID: 0}
+  camera: {fileID: 3014306027732469513, guid: d856efca73cdeef4a838af8c042137f9, type: 3}
   healItem: {fileID: 1874481831726335647, guid: f2e558d249a0592419f6b1c9b1e15dc1, type: 3}
-  effect: {fileID: 2025072818883560887, guid: d571fbabde3511c438e2f1933e3836a0, type: 3}
-  mainUI: {fileID: 0}
+  hitEffect: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
+  deathEffect: {fileID: 2025072818883560887, guid: d571fbabde3511c438e2f1933e3836a0, type: 3}
+  mainUI: {fileID: 3955221455159732284, guid: b926453d4a1e97f40901db477dd57272, type: 3}
 --- !u!114 &-6866789884796861500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,8 +1166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1d92775b02b5849b85aa0541a25fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  gameManager: {fileID: 0}
+  playerController: {fileID: 5676664056568212851, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+  gameManager: {fileID: 5676664056568212848, guid: e24546eac9b1fac4f861364536223cab, type: 3}
   se: {fileID: 8050113819841256225}
   isHit: 0
   bear: {fileID: 6646692183830371254}
