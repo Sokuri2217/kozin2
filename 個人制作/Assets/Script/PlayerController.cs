@@ -11,14 +11,14 @@ public class PlayerController : ObjectMove
     public float currentAp;    //現在のAP
 
     //初回ステータス保存用
-    public float firstMaxHp;    
-    public float firstNowHp;    
-    public float firstMaxAp;    
-    public float firstNowAp;    
-    public float firstSpeed;
-    public float firstAttack;
-    public float firstDamage;
-    public float firstUseAp;
+    public float firstMaxHp;  //最大HP 
+    public float firstNowHp;  //現在のHP  
+    public float firstMaxAp;  //最大AP  
+    public float firstNowAp;  //現在のAP  
+    public float firstSpeed;  //移動速度
+    public float firstAttack; //攻撃力
+    public float firstDamage; //被ダメージ
+    public float firstUseAp;  //消費AP
 
     //移動関連
     private float horizontal;              //横移動
@@ -57,20 +57,17 @@ public class PlayerController : ObjectMove
 
     //入力関連
     //長押し防止
-    private bool input;       //攻撃
+    private bool input; //攻撃
 
     //UI情報取得
     public MainUIScript mainUI;
 
     new void Start()
     {
-        GameManager gameManager = GetComponent<GameManager>();
-
         //初期化
         targetRotation = transform.rotation;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        damage = 5.0f;
         // 武器の初期化
         for (int i = 0; i < 3; i++)
         {
@@ -120,12 +117,12 @@ public class PlayerController : ObjectMove
         }
     }
 
-    //AP管理と死亡処理
+    //HPとAP管理と死亡処理
     private void FixedUpdate()
     {
+        //現在のHPとAPを保存
         firstNowHp = currentHp;
         firstNowAp = currentAp;
-
         //死亡処理
         if (currentHp <= 0.0f && !gameManager.gameOver)
         {
@@ -133,7 +130,6 @@ public class PlayerController : ObjectMove
             death = true;
             Death();
         }
-
         //APの自動回復関数
         AutoRegenAP();
         //現在のHPが上限を超えないようにする
@@ -173,38 +169,38 @@ public class PlayerController : ObjectMove
                     Invoke("CanMove", 0.5f);
                 }
 
-                isDamage = true;       //ダメージ中状態にする
-                isStop = true;         //その場で停止させる
-                HitWeapon();
+                isDamage = true; //ダメージ中状態にする
+                isStop = true;   //その場で停止させる
+                HitWeapon();     //アタックキャンセルさせる
             }
         }
 
         //回復アイテムに触れる
         if(other.CompareTag("healItem"))
         {
+            //一定の割合を回復させる
             currentHp += maxHp * healHp;
             currentAp += maxAp * healAp;
+            //取得フラグをtrueにする
             item = true;
             //アイテムを消去する
             Destroy(other.gameObject);
         }
-        //全回復
         else if (other.CompareTag("allHeal"))
         {
+            //全回復
             currentHp = maxHp;
             currentAp = maxAp;
+            //取得フラグをtrueにする
             item = true;
             //アイテムを消去する
             Destroy(other.gameObject);
-        }
-        else
-        {
-            item = false;
         }
 
         //地面に触れる
         if (other.CompareTag("Ground") && !jumpFirst) 
         {
+            //地上用設定に戻す
             rb.isKinematic = true;
             agent.enabled = true;
             isJump = false;
@@ -238,6 +234,7 @@ public class PlayerController : ObjectMove
         else
             move = 2;
 
+        //向きを変更する速度
         rotationSpeed = 600 * Time.deltaTime;
         transform.position += velocity * Time.deltaTime * move * speed;
 
@@ -246,6 +243,7 @@ public class PlayerController : ObjectMove
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
+        //アニメーション管理
         animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
     }
 
@@ -298,24 +296,26 @@ public class PlayerController : ObjectMove
     //使用武器決定
     void InitializeWeapon()
     {
-        if (weapon == (int)Weapon.Knife)
-        {
-            attack = 9.5f;
-            useAp = 15.0f;
-            notAttack = 0.6f;
-        }
-        else if(weapon == (int)Weapon.Sword)
-        {
-            attack = 14.5f;
-            useAp = 25.0f;
-            notAttack = 0.5f;
-        }
-        else if(weapon == (int)Weapon.Knuckle)
+        if (weapon == (int)Weapon.Knife)       //ナイフ
+        {                                      
+            attack = 9.5f;                     
+            useAp = 15.0f;                     
+            notAttack = 0.6f;                  
+        }                                      
+        else if(weapon == (int)Weapon.Sword)   //大剣
+        {                                      
+            attack = 14.5f;                    
+            useAp = 25.0f;                     
+            notAttack = 0.5f;                  
+        }                                      
+        else if(weapon == (int)Weapon.Knuckle) //ナックル
         {
             attack = 7.5f;
             useAp = 10.0f;
             notAttack = 0.3f;
         }
+
+        //武器を表示
         useWeapon[weapon].SetActive(true);
     }
     //攻撃アニメーション

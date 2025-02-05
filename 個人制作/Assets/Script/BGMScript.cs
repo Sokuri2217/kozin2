@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class BGMScript : MonoBehaviour
 {
+    //スクリプト取得
     public GameManager gameManager;
     public MainUIScript mainUI;
 
+    //コンポーネント取得
     public AudioSource bgm;
 
+    //各BGM
     public AudioClip main;
-    public bool isMain;
     public AudioClip battle;
-    public bool isBattle;
     public AudioClip clear;
-    public bool isClear;
     public AudioClip over;
+
+    //再生確認フラグ
+    public bool isMain;
+    public bool isBattle;
+    public bool isClear;
     public bool isOver;
 
     // Start is called before the first frame update
@@ -59,6 +64,7 @@ public class BGMScript : MonoBehaviour
             }
         }
 
+        //クリアBGM
         if (gameManager.gameClear)
         {
             bgm.clip = clear;
@@ -68,6 +74,7 @@ public class BGMScript : MonoBehaviour
                 isClear = true;
             }
         }
+        //オーバーBGM
         else if (gameManager.gameOver)
         {
             bgm.clip = over;

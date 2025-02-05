@@ -7,29 +7,29 @@ using UnityEngine.SceneManagement;
 public class MainUIScript : MonoBehaviour
 {
     // UI要素
-    public GameObject menuPanel;
-    public GameObject killCounter;
-    public GameObject pause;
-    public GameObject reunion;
-    public GameObject escIcon;
-    public new GameObject camera;
-    public Image weaponIcon;
-    public Image skillIcon;
-    public Image changeIcon;
-    public Text currentKill;
-    public Text goalSpawnKill;
-    public Text chaseEnemy;
-    public int chaseEnemyNum;
-    public int randomSkill;
+    public GameObject menuPanel;   //一時停止画面
+    public GameObject killCounter; //KILL画像
+    public GameObject pause;   //「ポーズ」
+    public GameObject reunion; //「再開」
+    public GameObject escIcon; //Esc画像
+    public new GameObject camera; //カメラオブジェクト
+    public Image weaponIcon; //武器アイコン
+    public Image skillIcon;  //変化アイコン
+    public Image changeIcon; //変更ゲージ
+    public Text currentKill; //現在の倒した敵数
+    public Text goalSpawnKill; //目標敵数
+    public Text chaseEnemy; //「チェイス判定に入っている敵数」
+    public int chaseEnemyNum; //チェイス判定に入っている敵数
+    public int randomSkill; //変更適用の判別用
     public float changeTime;   //変化が起きるまでの時間
     public float change;       //計測用
     public bool changeConsent; //変化開始フラグ
-    public GameObject keyR;    //変化するボタン
+    public GameObject keyR;    //変化するボタン画像
 
     // 武器とスキルのアイコン
-    public Sprite[] weapon;
-    public Sprite[] weapon_interval;
-    public Sprite[] skills;
+    public Sprite[] weapon; //攻撃可能
+    public Sprite[] weapon_interval; //攻撃不可
+    public Sprite[] skills; //変更アイコン
 
     //入力関連
     public bool changeInput; //任意変化
@@ -42,6 +42,7 @@ public class MainUIScript : MonoBehaviour
     public GameManager gameManager;
     public PlayerController playerController;
 
+    //武器判別用
     public enum Weapon
     {
         KNIFE,
@@ -59,7 +60,7 @@ public class MainUIScript : MonoBehaviour
         changeConsent = false;
         changeInput = false;
         beforeStatus = -1;
-        changeIcon.fillAmount = 0;
+        changeIcon.fillAmount = 0; //変更可能ゲージの進捗度を0にする
         chaseEnemyNum = 0;
     }
 
@@ -72,7 +73,7 @@ public class MainUIScript : MonoBehaviour
             HandleMenu(); // メニュー表示の処理
 
             //一時停止中は動かない
-            if (!gameManager.open_Option) 
+            if (!gameManager.openOption) 
             {
                 //ステータス変化
                 ChangeExtLuck();
@@ -124,7 +125,7 @@ public class MainUIScript : MonoBehaviour
     // メニューの表示と非表示を切り替える処理
     private void HandleMenu()
     {
-        if (gameManager.open_Option)
+        if (gameManager.openOption)
         {
             // オプションメニューを表示
             Cursor.lockState = CursorLockMode.None; // カーソルを自由に動かせるようにする
@@ -150,6 +151,7 @@ public class MainUIScript : MonoBehaviour
         {
             change++;
 
+            //ゲージがたまったとき
             if (change >= changeTime)
             {
                 changeConsent = true;
@@ -159,8 +161,10 @@ public class MainUIScript : MonoBehaviour
         }
         else
         {
+            //入力があったとき
             if (Input.GetKeyDown(KeyCode.R) && !changeInput)
             {
+                //直前の変化以外の変化が起きるまで抽選
                 do
                 {
                     playerController.skill = Random.Range(1, 100);

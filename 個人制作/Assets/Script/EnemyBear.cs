@@ -11,14 +11,14 @@ public class EnemyBear : ObjectMove
     public Collider searchArea;
 
     //移動関連
-    public Transform[] goals;     //徘徊ポイント
-    public Transform player;      //プレイヤーの位置
-    private int destNum = 0;　　　//向かう場所
-    public int goalNum;           //徘徊箇所数
-    public bool isChase = false;  //追跡フラグ
-    private int chaseTime = 0;    //追跡解除用のカウント
-    public float speed;           //移動速度
-    public bool isCount;          //チェイス中カウントフラグ
+    public Transform[] goals; //徘徊ポイント
+    public Transform player;  //プレイヤーの位置
+    private int destNum;      //向かう場所
+    public int goalNum;       //徘徊箇所数
+    public bool isChase;      //追跡フラグ
+    private int chaseTime;    //追跡解除用のカウント
+    public float speed;       //移動速度
+    public bool isCount;      //チェイス中カウントフラグ
 
     //戦闘関連
     bool attack = false;          //攻撃フラグ
@@ -38,7 +38,7 @@ public class EnemyBear : ObjectMove
     public GameObject deathEffect;
 
     //スクリプト取得
-    MainUIScript mainUI;
+    public MainUIScript mainUI;
 
     // Start is called before the first frame update
     new void Start()
@@ -47,13 +47,6 @@ public class EnemyBear : ObjectMove
         death = false;
         move = 0.0f;
         isCount = false;
-
-        GameObject playerObj = GameObject.Find("Player");
-        player.transform.position = playerObj.transform.position;
-        playerController = playerObj.GetComponent<PlayerController>();
-        GameObject uiObj = GameObject.Find("Main1_UI");
-        mainUI = uiObj.GetComponent<MainUIScript>();
-        
 
         //現在の値を最大値と同じにする
         currentHp = maxHp;
@@ -83,8 +76,8 @@ public class EnemyBear : ObjectMove
             isCount = false;
         }
         //プレイヤーに一定距離近づくと、攻撃する
-        if ((transform.position.x - player.transform.position.x) < 1.0f &&
-            (transform.position.z - player.transform.position.z) < 1.0f &&
+        if ((transform.position.x - player.transform.position.x) < 0.5f &&
+            (transform.position.z - player.transform.position.z) < 0.5f &&
             isChase && !attack && !isAttack)
         {
             attack = true;

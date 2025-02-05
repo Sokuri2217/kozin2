@@ -29,7 +29,7 @@ public class EnemySE : SeScript
     }
 
     // Update is called once per frame
-    new void Update()
+    void Update()
     {
         //“G‚ª”í’e‚µ‚½‚Æ‚«
         //Ž€–S”»’è‚É‚È‚Á‚Ä‚¢‚È‚¢‚Æ‚«

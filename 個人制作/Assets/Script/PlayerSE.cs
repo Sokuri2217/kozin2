@@ -21,7 +21,7 @@ public class PlayerSE : SeScript
     }
 
     // Update is called once per frame
-    new void Update()
+    void Update()
     {
         //ƒAƒCƒeƒ€Žæ“¾
         if(playerController.item)
@@ -31,6 +31,7 @@ public class PlayerSE : SeScript
             {
                 se.PlayOneShot(itemGet);
                 isItemGet = true;
+                playerController.item = false;
             }
         }
         else
