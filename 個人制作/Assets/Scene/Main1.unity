@@ -1301,6 +1301,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6646692183830371254, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6646692183830371254, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: battle
       value: 
       objectReference: {fileID: 0}
@@ -5514,6 +5518,10 @@ PrefabInstance:
     - target: {fileID: 6751703067119545943, guid: e24546eac9b1fac4f861364536223cab, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6751703067294390696, guid: e24546eac9b1fac4f861364536223cab, type: 3}
+      propertyPath: m_TagString
+      value: weapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e24546eac9b1fac4f861364536223cab, type: 3}

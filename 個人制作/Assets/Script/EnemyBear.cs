@@ -23,6 +23,7 @@ public class EnemyBear : ObjectMove
     //戦闘関連
     bool attack = false;          //攻撃フラグ
     public float surpriseAttack;  //不意打ち被ダメ倍率
+    public bool notDamage;        //索敵範囲を当たり判定にしないようにする
 
     //武器の当たり判定
     public Collider weaponCollider;
@@ -162,13 +163,24 @@ public class EnemyBear : ObjectMove
             isChase = true;
             chaseTime = 0;
         }
-        
+        if (other.CompareTag("weapon"))
+        {
+            notDamage = true;
+        }
+    }
+
+    public void OnLoseObject(Collider other)
+    {
+        if (other.CompareTag("weapon"))
+        {
+            notDamage = false;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         //weaponタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon") && !isDamage)  
+        if (other.CompareTag("weapon") && !isDamage && !notDamage)   
         {
             GetComponent<Animator>().SetTrigger("damage");
 

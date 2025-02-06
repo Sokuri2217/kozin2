@@ -60,8 +60,8 @@ public class GolemController : ObjectMove
         agent.destination = player.transform.position;
 
         //ƒvƒŒƒCƒ„[‚ª‹ß‚­‚É‚¢‚é‚Æ‚«
-        if ((transform.position.x - player.transform.position.x) < 0.5f &&
-            (transform.position.z - player.transform.position.z) < 0.5f)
+        if ((transform.position.x - player.transform.position.x) < 0.001f &&
+            (transform.position.z - player.transform.position.z) < 0.001f)
         {
             attackNear = true;
             attackFar = false;
@@ -107,7 +107,6 @@ public class GolemController : ObjectMove
                 isAttack = true;
                 Invoke("NotWeapon", 1.5f);
             }
-            attackNear = false;
         }
 
         if (gameManager.gameOver)
