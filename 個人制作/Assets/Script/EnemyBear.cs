@@ -157,12 +157,7 @@ public class EnemyBear : ObjectMove
     // CollisionDetectorクラスに作ったonTriggerStayEventにセットする。
     public void OnDetectObject(Collider other)
     {
-        // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
-        if (other.CompareTag("Player")) 
-        {
-            isChase = true;
-            chaseTime = 0;
-        }
+        //索敵範囲を当たり判定に加えない
         if (other.CompareTag("weapon"))
         {
             notDamage = true;
@@ -179,6 +174,13 @@ public class EnemyBear : ObjectMove
 
     void OnTriggerEnter(Collider other)
     {
+        // 検知したオブジェクトに"Player"タグが付いてれば、そのオブジェクトを追いかける
+        if (other.CompareTag("Player"))
+        {
+            isChase = true;
+            chaseTime = 0;
+        }
+
         //weaponタグのオブジェクトに触れると発動
         if (other.CompareTag("weapon") && !isDamage && !notDamage)   
         {

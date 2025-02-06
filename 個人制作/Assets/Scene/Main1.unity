@@ -128,6 +128,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2427341919915249794, guid: 6490cd4efb2ea5e449568c885dc716ae, type: 3}
   m_PrefabInstance: {fileID: 2427341919909055746}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &44016612 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 6641712731407648369, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+  m_PrefabInstance: {fileID: 1829660195}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &45650866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1847,6 +1852,22 @@ PrefabInstance:
     - target: {fileID: 1804554224, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1358129183}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1358129183}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLoseObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDetectObject
       objectReference: {fileID: 0}
     - target: {fileID: 2788726836488354371, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: m_Name
@@ -4008,6 +4029,38 @@ PrefabInstance:
     - target: {fileID: 1313380104, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1510846998}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1510846998}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLoseObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDetectObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyBear, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 44016612}
+    - target: {fileID: 2016582376, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
+      propertyPath: onTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Collider, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2788726836488354371, guid: c13bc1d4eeb22ff428e44a1ab4e03056, type: 3}
       propertyPath: m_Name
