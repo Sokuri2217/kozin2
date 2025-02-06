@@ -58,7 +58,10 @@ public class GolemController : ObjectMove
 
         // 対象のオブジェクトを追いかける
         agent.destination = player.transform.position;
-
+    }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         //プレイヤーが近くにいるとき
         if ((transform.position.x - player.transform.position.x) < 0.001f &&
             (transform.position.z - player.transform.position.z) < 0.001f)
@@ -72,16 +75,14 @@ public class GolemController : ObjectMove
             attackFar = true;
             attackNear = false;
         }
-    }
-    // Update is called once per frame
-    void FixedUpdate()
-    {
+
         if (attackNear)   
         {
             move = 0.0f;
             agent.speed = 0;
+            attackNear = false;
 
-            if(!isAttack)
+            if (!isAttack)
             {
                 transform.LookAt(player.transform);
 
