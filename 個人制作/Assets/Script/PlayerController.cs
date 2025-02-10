@@ -221,7 +221,7 @@ public class PlayerController : ObjectMove
     //移動処理
     void Move3D()
     {
-        //入力ベクトルの取得
+        //入力ベクトルの取得z
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
