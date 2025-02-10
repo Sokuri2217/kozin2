@@ -6,7 +6,6 @@ public class EnemySE : SeScript
 {
     //スクリプト取得
     public EnemyBear bear;
-    public EnemySkeleton skeleton;
     public GolemController golem;
 
     //被弾
