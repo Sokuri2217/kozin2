@@ -21,7 +21,7 @@ public class ObjectMove : MonoBehaviour
     public bool isAttack;  //攻撃中
     public bool isDamage;  //被弾確認
     public bool death;     //死亡フラグ
-    public bool isStop;    //ダメージを受けると一時的に動きを止める
+    public bool isStop;    //一時的に動きを止める
 
     //Sliderを入れる                             
     public Slider hpSlider;  //HPバー

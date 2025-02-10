@@ -7,10 +7,13 @@ public class MainUISE : SeScript
     //スクリプト取得
     public MainUIScript mainUI;
 
-    public AudioClip consent;
+    //効果音
+    public AudioClip consent; //ステータス変更可能
+    public AudioClip change;  //ステータス変更
+
+    //一度だけ鳴らすためのフラグ
     public bool isConsent;
-    public AudioClip change;
-    public bool isChange;
+    public bool isChange; 
 
     // Start is called before the first frame update
     new void Start()
@@ -20,8 +23,9 @@ public class MainUISE : SeScript
     }
 
     // Update is called once per frame
-    new void Update()
+    void Update()
     {
+        //ステータス変更可能
         if(mainUI.changeConsent)
         {
             if(!isConsent)
@@ -35,6 +39,7 @@ public class MainUISE : SeScript
             isConsent = false;
         }
 
+        //ステータス変更
         if(mainUI.changeInput)
         {
             if(!isChange)

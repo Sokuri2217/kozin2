@@ -6,6 +6,7 @@ public class SeScript : MonoBehaviour
 {
     //スクリプト取得
     public PlayerController playerController;
+    public GameManager gameManager;
 
     //コンポーネント取得
     public AudioSource se;
@@ -15,12 +16,6 @@ public class SeScript : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    public void Update()
-    {
-        
+        isHit = false;
     }
 }

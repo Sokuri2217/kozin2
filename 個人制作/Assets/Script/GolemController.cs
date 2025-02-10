@@ -16,7 +16,6 @@ public class GolemController : ObjectMove
     public GameObject rock;     //遠距離攻撃の岩オブジェクト
     public float rockSpeed;     //岩の速度
     public bool attack;         //攻撃フラグ
-    private float attackTime;   //攻撃するまでの時間
     public float attackStart;   //攻撃を始める時間
     public bool attackFar;      //遠距離攻撃
     public bool attackNear;     //近距離攻撃
@@ -31,7 +30,8 @@ public class GolemController : ObjectMove
     public GameObject bossUi;
 
     //エフェクト
-    public GameObject effect;
+    public GameObject hitEffect;
+    public GameObject deathEffect;
 
     // Start is called before the first frame update
     private new void Start()
@@ -52,16 +52,19 @@ public class GolemController : ObjectMove
     }
 
 
-    private new void Update()
+    new void Update()
     {
         move = 1.0f;
 
         // 対象のオブジェクトを追いかける
         agent.destination = player.transform.position;
-
+    }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         //プレイヤーが近くにいるとき
-        if ((transform.position.x - player.transform.position.x) < 7.0f &&
-            (transform.position.z - player.transform.position.z) < 7.0f)
+        if ((transform.position.x - player.transform.position.x) < 0.001f &&
+            (transform.position.z - player.transform.position.z) < 0.001f)
         {
             attackNear = true;
             attackFar = false;
@@ -72,22 +75,14 @@ public class GolemController : ObjectMove
             attackFar = true;
             attackNear = false;
         }
-    }
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (!isAttack) 
-        {
-            attackTime++;
-        }
 
-        //移動開始から一定時間経つと、その場で止まりプレイヤーとの距離に適した攻撃をする
-        if (attackTime >= attackStart)  
+        if (attackNear)   
         {
             move = 0.0f;
             agent.speed = 0;
+            attackNear = false;
 
-            if(!isAttack)
+            if (!isAttack)
             {
                 transform.LookAt(player.transform);
 
@@ -111,7 +106,6 @@ public class GolemController : ObjectMove
                     //}
                 }
                 isAttack = true;
-                attackTime = 0.0f;
                 Invoke("NotWeapon", 1.5f);
             }
         }
@@ -135,28 +129,25 @@ public class GolemController : ObjectMove
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
-
-        //デバッグ用
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                currentHp = 0.0f;
-            }
-        }
-
     }
 
     void OnTriggerEnter(Collider other)
     {
         //weaponタグのオブジェクトに触れると発動
-        if (other.CompareTag("weapon"))
+        if (other.CompareTag("weapon") && !isDamage) 
         {
             if(!isAttack)
             {
                 GetComponent<Animator>().SetTrigger("damage");
             }
+            //エフェクトを生成する
+            GameObject effects = Instantiate(hitEffect) as GameObject;
+            //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
+            effects.transform.position = gameObject.transform.position;
+            isDamage = true;
             //現在のHPからダメージを引く
             currentHp -= playerController.attack;
+            Invoke("NotDamage", 0.2f);
         }
     }
 
@@ -170,7 +161,7 @@ public class GolemController : ObjectMove
     {
         //死亡処理
         //エフェクトを生成する
-        GameObject effects = Instantiate(effect) as GameObject;
+        GameObject effects = Instantiate(deathEffect) as GameObject;
         //エフェクトが発生する場所を決定する(敵オブジェクトの場所)
         effects.transform.position = gameObject.transform.position;
         //その場にゴールを生成

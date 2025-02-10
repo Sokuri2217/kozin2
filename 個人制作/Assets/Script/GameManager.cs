@@ -5,20 +5,22 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    //ゲームの状態
     public bool gameOver;
     public bool gameClear;
     public bool gamePlay;
 
-    public GameObject clearPanel;
-    public GameObject overPanel;
-    public GameObject spawnGoal;
-    public GameObject[] goal;
-    private int goalNum = 0;
-    public bool spawn = false;
-    public int maxCount;
-    public int currentCount;
-    public int killEnemy;             //倒した敵数
-    public int goalSpawn;             //ゴール出現に必要な敵数
+    public GameObject clearPanel; //クリアパネル
+    public GameObject overPanel; //オーバーパネル
+    public GameObject spawnGoal; //ゴール出現
+    public GameObject defenceDown; //防御ダウン
+    public GameObject[] goal; //ゴールオブジェクト
+    private int goalNum = 0; //ゴールの抽選用
+    public bool spawn = false; //ゴール生成フラグ
+    public int killEnemy; //倒した敵数
+    public int goalSpawn; //ゴール出現に必要な敵数
+    public bool isDamageSe; //敵の被弾seがなっている最中かどうか
+    public bool isDeathSe; //敵の死亡seがなっている最中かどうか
 
     //ボス関連
     //public bool spawnBoss;    //ボス出現フラグ
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour
     //public GameObject bossHp; //HPバー
 
     //ゲーム状態
-    public bool open_Option;
+    public bool openOption;
     //長押し防止
     public bool input;
 
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //初期化
         killEnemy = 0;
         gameOver = false;
         gameClear = false;
@@ -43,11 +46,15 @@ public class GameManager : MonoBehaviour
         clearPanel.SetActive(false);
         overPanel.SetActive(false);
         spawnGoal.SetActive(false);
+        defenceDown.SetActive(false);
         //boss.SetActive(false);
-        open_Option = false;
+        openOption = false;
         input = false;
+        isDamageSe = false;
+        isDeathSe = false;
         //spawnBoss = false;
         //bossHp.SetActive(false);
+        
 
         // カーソルを画面中央にロックする
         Cursor.lockState = CursorLockMode.Locked;
@@ -67,10 +74,10 @@ public class GameManager : MonoBehaviour
             //Escで一時停止させる
             if (Input.GetKeyDown(KeyCode.Escape) && !input)
             {
-                switch (open_Option)
+                switch (openOption)
                 {
                     case false:
-                        open_Option = true;
+                        openOption = true;
                         playerController.isStop = true;
                         // カーソルを自由に動かせる
                         Cursor.lockState = CursorLockMode.None;
@@ -81,32 +88,12 @@ public class GameManager : MonoBehaviour
                         playerController.isStop = false;
                         // カーソルを画面中央にロックする
                         Cursor.lockState = CursorLockMode.Locked;
-                        open_Option = false;
+                        openOption = false;
                         break;
                 }
                 input = true;
             }
         }
-        //デバッグ用
-        {
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-            //    currentCount = maxCount;
-            //}
-
-            ////ボス出現
-            //if (currentCount >= maxCount)
-            //{
-            //    currentCount = maxCount;
-            //    if(!spawnBoss)
-            //    {
-            //        Time.timeScale = 1;
-            //        spawnBoss = true;
-            //        StartCoroutine(FadeOutAndLoadScene());
-            //    }
-            //}
-        }
-
         //長押し防止
         if (Input.GetKeyUp(KeyCode.Escape) && input)
         {
@@ -120,11 +107,15 @@ public class GameManager : MonoBehaviour
             if (!spawn)
             {
                 spawn = true;
+                playerController.damage *= 3;
+                playerController.firstDamage *= 3;
                 goalNum = Random.Range(0, 5);
                 goal[goalNum].SetActive(true);
                 spawnGoal.SetActive(true);
+                defenceDown.SetActive(true);
             }
         }
+
         //ゲームオーバー
         if (gameOver && gamePlay)   
         {

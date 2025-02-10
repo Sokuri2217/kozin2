@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerSE : SeScript
 {
-    //スクリプト取得
-    public GameManager gameManager;
-
     //アイテム取得音
     public AudioClip itemGet;
     public bool isItemGet;
@@ -24,7 +21,7 @@ public class PlayerSE : SeScript
     }
 
     // Update is called once per frame
-    new void Update()
+    void Update()
     {
         //アイテム取得
         if(playerController.item)
@@ -34,6 +31,7 @@ public class PlayerSE : SeScript
             {
                 se.PlayOneShot(itemGet);
                 isItemGet = true;
+                playerController.item = false;
             }
         }
         else
@@ -54,7 +52,7 @@ public class PlayerSE : SeScript
                 }
                 else if (playerController.damage < playerController.firstDamage) //被ダメ減少
                 {
-
+                    se.PlayOneShot(downDamage);
                 }
                 else //通常
                 {
