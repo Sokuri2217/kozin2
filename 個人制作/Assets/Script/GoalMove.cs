@@ -17,7 +17,6 @@ public class GoalMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //‰ñ“]‚³‚¹‚é
         transform.rotation *= Quaternion.AngleAxis(angularSpeed * Time.deltaTime, Vector3.up);
     }
 }

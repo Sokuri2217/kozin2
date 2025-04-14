@@ -6,248 +6,175 @@ using UnityEngine.SceneManagement;
 
 public class MainUIScript : MonoBehaviour
 {
-    // UI要素
-    public GameObject menuPanel;   //一時停止画面
-    public GameObject killCounter; //KILL画像
-    public GameObject pause;   //「ポーズ」
-    public GameObject reunion; //「再開」
-    public GameObject escIcon; //Esc画像
-    public new GameObject camera; //カメラオブジェクト
-    public Image weaponIcon; //武器アイコン
-    public Image skillIcon;  //変化アイコン
-    public Image changeIcon; //変更ゲージ
-    public Text currentKill; //現在の倒した敵数
-    public Text goalSpawnKill; //目標敵数
-    public Text chaseEnemy; //「チェイス判定に入っている敵数」
-    public int chaseEnemyNum; //チェイス判定に入っている敵数
-    public int randomSkill; //変更適用の判別用
-    public float changeTime;   //変化が起きるまでの時間
-    public float change;       //計測用
-    public bool changeConsent; //変化開始フラグ
-    public GameObject keyR;    //変化するボタン画像
+    //UI
+    public GameObject menuPanel;
+    public new GameObject camera;
+    public GameObject killCounter;
+    //武器アイコン
+    public Image weapon_icon;
+    public Sprite[] wepon;
+    public Sprite[] wepon_interval;
+    //スキルアイコン
+    public  Image skill_icon;
+    public Sprite[] skill;
 
-    // 武器とスキルのアイコン
-    public Sprite[] weapon; //攻撃可能
-    public Sprite[] weapon_interval; //攻撃不可
-    public Sprite[] skills; //変更アイコン
+    public bool input = false;
 
-    //入力関連
-    public bool changeInput; //任意変化
-
-    //直前の変化を保存
-    public int beforeStatus;
-
-
-    // ゲームの状態を管理
-    public GameManager gameManager;
-    public PlayerController playerController;
-
-    //武器判別用
-    public enum Weapon
-    {
-        KNIFE,
-        SWORD,
-        KNUCKLE
-    }
+    //ゴール条件
+    public Text currentKill;
+    public Text goalSpawnKill;
 
     // Start is called before the first frame update
     void Start()
     {
-        // 初期設定
         menuPanel.SetActive(false);
-        reunion.SetActive(false);
-        keyR.SetActive(false);
-        changeConsent = false;
-        changeInput = false;
-        beforeStatus = -1;
-        changeIcon.fillAmount = 0; //変更可能ゲージの進捗度を0にする
-        chaseEnemyNum = 0;
+        camera.SetActive(true);
+        killCounter.SetActive(true);
+
+        weapon_icon = GetComponent<Image>();
+        skill_icon = GetComponent<Image>();
+
+        //初回表示
+        Icon();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ポーズやメニューの切り替え
-        if (!gameManager.gameClear && !gameManager.gameOver)
-        {
-            HandleMenu(); // メニュー表示の処理
+        GameManager gameManager;
+        PlayerController playerController;
+        GameObject obj = GameObject.Find("Player");
+        gameManager = obj.GetComponent<GameManager>();
+        playerController = obj.GetComponent<PlayerController>();
 
-            //一時停止中は動かない
-            if (!gameManager.openOption) 
+        //オプション管理
+        //ボタンで操作
+        if(!gameManager.gameClear && !gameManager.gameOver)
+        {
+            if (gameManager.open_Option)
             {
-                //ステータス変化
-                ChangeExtLuck();
+                // カーソルを自由に動かせる
+                Cursor.lockState = CursorLockMode.None;
+                menuPanel.SetActive(true);
+                camera.SetActive(false);
+            }
+            else
+            {
+                // カーソルを画面中央にロックする
+                Cursor.lockState = CursorLockMode.Locked;
+                menuPanel.SetActive(false);
+                camera.SetActive(true);
             }
         }
-        else
+
+        if (gameManager.gameClear || gameManager.gameOver) 
         {
             camera.SetActive(false);
-            escIcon.SetActive(false);
         }
+        //KILLカウントを表示させる
+        currentKill.text = playerController.kill_enemy.ToString();
+        goalSpawnKill.text = playerController.goalspawn.ToString();
 
-        // ゴール条件達成でKILLカウントを非表示に
-        if (gameManager.killEnemy >= gameManager.goalSpawn) 
+        //ゴール出現時にKILLカウントを非表示にする
+        if (playerController.kill_enemy >= 5)
             killCounter.SetActive(false);
 
-        //ステータス変化ゲージの状態を更新
-        changeIcon.fillAmount = change / changeTime;
-
-        // KILLカウントとゴールの条件を更新
-        UpdateKillCount();
-        //チェイス中の敵数更新
-        UpdateChaseCount();
         //インターバル中のアイコン制御
-        UpdateWeaponIcon();
-        // アイコンを更新
-        UpdateSkillIcon();
-        //アイコン変更
-        GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
-        //現在の変化を保存
-        beforeStatus = randomSkill;
+        Icon();
     }
 
     //使用装備をアイコンとして表示
-    void UpdateWeaponIcon()
+    void Icon()
     {
-        // プレイヤーの武器の状態に応じてアイコンを変更
-        if (playerController.apLost)
-        {
-            // APが足りない場合、インターバル用の武器アイコンを表示
-            GameObject.Find("Weapon").GetComponent<Image>().sprite = weapon_interval[playerController.weapon];
-        }
-        else
-        {
-            // 通常の武器アイコンを表示
-            GameObject.Find("Weapon").GetComponent<Image>().sprite = weapon[playerController.weapon];
-        }
-    }
+        PlayerController playerController;
+        GameObject obj = GameObject.Find("Player");
+        playerController = obj.GetComponent<PlayerController>();
 
-    // メニューの表示と非表示を切り替える処理
-    private void HandleMenu()
-    {
-        if (gameManager.openOption)
+        if (playerController.interval || playerController.apLost) 
         {
-            // オプションメニューを表示
-            Cursor.lockState = CursorLockMode.None; // カーソルを自由に動かせるようにする
-            menuPanel.SetActive(true);
-            pause.SetActive(false);
-            reunion.SetActive(true);
-            camera.SetActive(false);
-        }
-        else
-        {
-            // 通常ゲーム画面に戻る
-            Cursor.lockState = CursorLockMode.Locked; // カーソルを画面中央にロック
-            menuPanel.SetActive(false);
-            reunion.SetActive(false);
-            pause.SetActive(true);
-            camera.SetActive(true);
-        }
-    }
-
-    void ChangeExtLuck()
-    {
-        if (!changeConsent)
-        {
-            change++;
-
-            //ゲージがたまったとき
-            if (change >= changeTime)
+            //武器
+            switch (playerController.weapon)
             {
-                changeConsent = true;
-                keyR.SetActive(true);
-                change = changeTime;
+                case (int)Weapon.KNIFE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.KNIFE];
+                    break;
+                case (int)Weapon.SWORD:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.SWORD];
+                    break;
+                case (int)Weapon.KNUCKLE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon_interval[(int)Weapon.KNUCKLE];
+                    break;
             }
         }
-        else
+        else if (!playerController.interval)
         {
-            //入力があったとき
-            if (Input.GetKeyDown(KeyCode.R) && !changeInput)
+            //武器
+            switch (playerController.weapon)
             {
-                //直前の変化以外の変化が起きるまで抽選
-                do
-                {
-                    playerController.skill = Random.Range(1, 100);
-
-                    // アイコンを更新
-                    UpdateSkillIcon();
-                } while (beforeStatus == randomSkill);
-                beforeStatus = randomSkill;
-                keyR.SetActive(false);
-                changeConsent = false;
-                changeInput = true;
-                change = 0.0f;
-                //アイコン変更
-                GameObject.Find("Skill").GetComponent<Image>().sprite = skills[randomSkill];
+                case (int)Weapon.KNIFE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.KNIFE];
+                    break;
+                case (int)Weapon.SWORD:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.SWORD];
+                    break;
+                case (int)Weapon.KNUCKLE:
+                    GameObject.Find("Weapon").GetComponent<Image>().sprite = wepon[(int)Weapon.KNUCKLE];
+                    break;
             }
         }
-
-        if (Input.GetKeyUp(KeyCode.R) && changeInput)
-        {
-            changeInput = false;
-        }
-    }
-
-    // プレイヤーのスキルに応じてスキルアイコンを更新
-    void UpdateSkillIcon()
-    {
+       
+        //付与効果
         //AP2倍
-        if (playerController.skill <= 20)
+        if (playerController.skill >= 1 && playerController.skill <= 20)
         {
-            randomSkill = 0;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[0];
         }
         //HP2倍
-        else if (playerController.skill <= 40)
+        else if (playerController.skill >= 21 && playerController.skill <= 40)
         {
-            randomSkill = 1;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[1];
         }
         //攻撃力2倍
-        else if (playerController.skill <= 50)
+        else if (playerController.skill >= 41 && playerController.skill <= 50)
         {
-            randomSkill = 2;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[2];
         }
         //被ダメージ2倍
-        else if (playerController.skill <= 60)
+        else if (playerController.skill >= 51 && playerController.skill <= 60)
         {
-            randomSkill = 3;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[3];
         }
         //移動1.5倍・攻撃力0.75倍
-        else if (playerController.skill <= 70)
+        else if (playerController.skill >= 61 && playerController.skill <= 70)
         {
-            randomSkill = 4;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[4];
         }
         //移動0.75倍・攻撃力1.5倍
-        else if (playerController.skill <= 80)
+        else if (playerController.skill >= 71 && playerController.skill <= 80)
         {
-            randomSkill = 5;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[5];
         }
         //消費AP・攻撃力2倍
-        else if (playerController.skill <= 90)
+        else if (playerController.skill >= 81 && playerController.skill <= 90)
         {
-            randomSkill = 6;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[6];
         }
         //被ダメージ2倍・与ダメージ0.5倍
-        else if (playerController.skill <= 95)
+        else if (playerController.skill >= 91 && playerController.skill <= 95)
         {
-            randomSkill = 7;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[7];
         }
-        //被ダメージ0.5倍・与ダメージ2倍
-        else if (playerController.skill <= 100)
+        //被ダメージ0.5倍・与ダメージ2倍 0
+        else if (playerController.skill >= 96 && playerController.skill <= 100)
         {
-            randomSkill = 8;
+            GameObject.Find("Skill").GetComponent<Image>().sprite = skill[8];
         }
     }
 
-    // KILLカウントを更新する処理
-    private void UpdateKillCount()
+    public enum Weapon
     {
-        currentKill.text = gameManager.killEnemy.ToString(); // 現在のKILL数
-        goalSpawnKill.text = gameManager.goalSpawn.ToString(); // ゴール出現に必要なKILL数
-    }
-
-    //チェイス中の敵数更新
-    private void UpdateChaseCount()
-    {
-        chaseEnemy.text = chaseEnemyNum.ToString(); //チェイス中の敵数
+        KNIFE,
+        SWORD,
+        KNUCKLE
     }
 }

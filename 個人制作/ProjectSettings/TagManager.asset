@@ -13,12 +13,6 @@ TagManager:
   - weapon
   - enemyweapon
   - knuckle
-  - Ground
-  - nearweapon
-  - farweapon
-  - healItem
-  - allHeal
-  - search
   layers:
   - Default
   - TransparentFX

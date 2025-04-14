@@ -3,96 +3,103 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 
-public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonController : MonoBehaviour
 {
-    public int mode;                    //シーン判別
-    public Image fadePanel;             // フェード用のUIパネル（Image）
-    public float fadeDuration = 1.0f;   // フェードの完了にかかる時間
+    int mode;
 
-    private float attention;             //ボタンの拡大率
-
-    private AudioSource sound;
-    public AudioClip onCursor;
-    public AudioClip click;
-
-    //押したボタンの判別用
-    public enum Mode
-    {
-        GameEnd,
-        Open,
-        Control,
-        Status,
-    }
     private void Start()
     {
         mode = 0;
-        attention = 1.3f;
-        sound = GetComponent<AudioSource>();
     }
-    //シーン移動
-    public void SceneLoad(string sceneName)
+    //タイトルに移動
+    public void LoadTitle()
     {
         Time.timeScale = 1;
-        StartCoroutine(FadeOutAndLoadScene(sceneName));
+
+        StartCoroutine("MoveDelay", 0.5f);
+        mode = (int)Mode.Title;
+
     }
-    //オプションを開く
-    public void OpenOption()
+    //ステージ1に移動
+    public void LoadMain1()
     {
+        Time.timeScale = 1;
+
+        StartCoroutine("MoveDelay", 0.5f);
+        mode = (int)Mode.Main1;
+
+    }
+    //ステージ2に移動
+    public void LoadMain2()
+    {
+        Time.timeScale = 1;
+
+        StartCoroutine("MoveDelay", 0.5f);
+        mode = (int)Mode.Main2;
+
+    }
+    ////ステージ3に移動
+    //public void LoadMain3()
+    //{
+    //    Time.timeScale = 1;
+
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main3;
+
+    //}
+    ////ステージ4に移動
+    //public void LoadMain4()
+    //{
+    //    Time.timeScale = 1;
+
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main4;
+
+    //}
+    ////ステージ5に移動
+    //public void LoadMain5()
+    //{
+    //    Time.timeScale = 1;
+
+    //    StartCoroutine("MoveDelay", 0.5f);
+    //    mode = (int)Mode.Main5;
+
+    //}
+    //ゲームを再開する
+    public void BackGame()
+    {
+        Time.timeScale = 1;
+
         StartCoroutine("MoveDelay", 0.1f);
-        mode = (int)Mode.Open;
-    }
-    //操作説明を開く
-    public void OpenControl()
-    {
-        StartCoroutine("MoveDelay", 0.4f);
-        mode = (int)Mode.Control;
-    }
-    //次のページを開く
-    public void NextPage()
-    {
-        StartCoroutine("MoveDelay", 0.4f);
-        mode = (int)Mode.Status;
+        mode = (int)Mode.Back;
     }
     //ゲーム終了
     public void EndGame()
     {
         StartCoroutine("MoveDelay", 1.0f);
         mode = (int)Mode.GameEnd;
+
     }
     private IEnumerator MoveDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-
-        TitleUIScript titleUI;
-        GameObject obj = GameObject.Find("TitleUI");
-        titleUI = obj.GetComponent<TitleUIScript>();
-
-        if (mode == (int)Mode.Open)
+        if (mode == (int)Mode.Title)
+            SceneManager.LoadScene("Title");
+        else if (mode == (int)Mode.Main1)
+            SceneManager.LoadScene("Main1");
+        else if (mode == (int)Mode.Main2)
+            SceneManager.LoadScene("Main2");
+        else if (mode == (int)Mode.Back)
         {
-            if (!titleUI.isOption)
-            {
-                titleUI.isOption = true;
-            }
-            else
-            {
-                titleUI.isOption = false;
-            }
-        }
-        else if (mode == (int)Mode.Control)
-        {
-            titleUI.isControl = true;
-            titleUI.isStatus = false;
-        }
-        else if (mode == (int)Mode.Status)
-        {
-            titleUI.isControl = false;
-            titleUI.isStatus = true;
-        }
+            GameManager gameManager;
+            GameObject player = GameObject.Find("Player");
+            gameManager = player.GetComponent<GameManager>();
 
+            gameManager.open_Option = false;
+        }
         //ゲームプレイ終了
-        if (mode == (int)Mode.GameEnd)
+        else if (mode == (int)Mode.GameEnd)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -102,40 +109,17 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
     }
 
-    public IEnumerator FadeOutAndLoadScene(string scene)
+    //押したボタンの判別用
+    public enum Mode
     {
-        fadePanel.enabled = true;                 // パネルを有効化
-        float elapsedTime = 0.0f;                 // 経過時間を初期化
-        Color startColor = fadePanel.color;       // フェードパネルの開始色を取得
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1.0f); // フェードパネルの最終色を設定
-
-        // フェードアウトアニメーションを実行
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;                        // 経過時間を増やす
-            float t = Mathf.Clamp01(elapsedTime / fadeDuration);  // フェードの進行度を計算
-            fadePanel.color = Color.Lerp(startColor, endColor, t); // パネルの色を変更してフェードアウト
-            yield return null;                                     // 1フレーム待機
-        }
-
-        fadePanel.color = endColor;  // フェードが完了したら最終色に設定
-        SceneManager.LoadScene(scene);
+        Title = 1,
+        Main1,
+        Main2,
+        Main3,
+        Main4,
+        Main5,
+        Back,
+        GameEnd
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        sound.PlayOneShot(onCursor);
-        gameObject.transform.localScale = Vector3.one * attention;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        gameObject.transform.localScale = Vector3.one;
-    }
-
-    //ボタンをクリックした時
-    public void OnClick()
-    {
-        sound.PlayOneShot(click);
-    }
+    
 }

@@ -1,428 +1,358 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class PlayerController : ObjectMove
-{   
+public class PlayerController : MonoBehaviour
+{
+    Animator animator;
+    Quaternion targetRotation;
+    Rigidbody rb;
+    private AudioSource se;
+    public AudioClip damage_se;
+
     //基礎能力
-    public float maxAp;        //最大のAP
-    public float currentAp;    //現在のAP
+    public float maxHp = 100.0f;        //最大のHP
+    public float currentHp;             //現在のHP
+    public float maxAp = 100.0f;        //最大のAP
+    public float currentAp;             //現在のAP
+    public float use_Ap;                //消費AP
+    //移動関連                          
+    float horizontal;                   //横移動
+    float vertical;                     //縦移動
+    Quaternion horizontalRotation;      //向き取得
+    Vector3 velocity;                   //ベクトル取得
+    float speed;                        //移動速度
+    float move;                         //歩き、走りの切り替え
+    float rotationSpeed;                //向きを変える速度
+    //攻撃関連                          
+    public int weapon = 0;              //攻撃手段  
+    public int skill = 0;               //付与する効果
+    public bool interval = false;       //クールタイム中かどうか
+    public bool apLost = false;         //攻撃に必要なApが残っているかどうか
+    bool input = false;                 //長押し防止
+    public float attack;                //攻撃力
+    public bool isAttack = false;       //攻撃中
+    public float notAttack = 0;         //動けるようになるまでの時間
+    public float hitWeapon = 0.0f;      //当たり判定表示時間
+    //ダメージ関連                      
+    public float damage;                //受けるダメージ
+    public bool isDamage;               //被弾確認
+    float currentTime = 0.0f;           //現在の時間取得
+    public int kill_enemy;              //倒した敵数
+    public int goalspawn;               //ゴール出現に必要な敵数
+    public bool isStop;                 //ダメージを受けると一時的に動きを止める
+    public bool death;                  
+    //Sliderを入れる                    
+    public Slider hpSlider;             //HPバー
+    public Slider apSlider;             //Apバー
+    //武器                              
+    public GameObject[] use_weapon;     //使用中の武器
+    int weapon_num;
+    //武器の当たり判定
+    public Collider[] weaponCollider;   //武器のコライダー
 
-    //初回ステータス保存用
-    public float firstMaxHp;  //最大HP 
-    public float firstNowHp;  //現在のHP  
-    public float firstMaxAp;  //最大AP  
-    public float firstNowAp;  //現在のAP  
-    public float firstSpeed;  //移動速度
-    public float firstAttack; //攻撃力
-    public float firstDamage; //被ダメージ
-    public float firstUseAp;  //消費AP
-
-    //移動関連
-    private float horizontal;              //横移動
-    private float vertical;                //縦移動
-    private Quaternion horizontalRotation; //向き取得
-    private Vector3 velocity;              //ベクトル取得
-    private Quaternion targetRotation;     //向きの回転
-    public  float speed;                   //移動速度
-    private float rotationSpeed;           //向きを変える速度7
-    private bool isJump;                   //ジャンプ中
-    public bool jumpFirst;                 //ジャンプの出始めで中断されない様にするフラグ
-    public float jumpPower;                //ジャンプ力
-
-    //攻撃関連                                   
-    public int weapon;       //攻撃手段  
-    public int skill;        //付与する効果
-    public float attack;     //攻撃力
-    private float notAttack; //動けるようになるまでの時間
-
-    //回復倍率
-    public float healHp; //HP回復倍率
-    public float healAp; //AP回復倍率
-    public bool item;    //アイテムゲットフラグ
-
-    //AP関連
-    public float useAp;               //消費AP
-    public bool apLost;               //攻撃に必要なApが残っているかどうか
-    private float currentTime = 0.0f; //現在の時間取得
-
-    //武器関連                                
-    public GameObject[] useWeapon;    //使用中の武器オブジェクト                     
-    public Collider[] weaponCollider; //武器の当たり判定
-
-    //ゲージ    
-    public Slider apSlider; //Apバー
-
-    //入力関連
-    //長押し防止
-    private bool input; //攻撃
-
-    //UI情報取得
-    public MainUIScript mainUI;
-
-    new void Start()
+    void Start()
     {
         //初期化
+        animator = GetComponent<Animator>();
+        se = GetComponent<AudioSource>();
         targetRotation = transform.rotation;
+        hitWeapon = 0.5f;
         weapon = Random.Range(0, 3);
         skill = Random.Range(1, 100);
-        // 武器の初期化
-        for (int i = 0; i < 3; i++)
+        damage = 5.0f;
+        speed = 7.0f;
+        kill_enemy = 0;
+        goalspawn = 5;
+        isDamage = false;
+        death = false;
+
+        for (int i = 0; i < 3; i++) 
         {
-            useWeapon[i].SetActive(false);
+            use_weapon[i].SetActive(false);
             weaponCollider[i].enabled = false;
         }
-        //使用武器決定
-        InitializeWeapon();
 
-        //初期値保存
-        firstMaxHp = maxHp;
-        firstMaxAp = maxAp;
-        firstSpeed = speed;
-        firstAttack = attack;
-        firstDamage = damage;
-        firstUseAp = useAp;
+        //攻撃手段を分岐
+        switch (weapon)
+        {
+            case (int)Weapon.KNIFE:
+                Knife();
+                break;
+            case (int)Weapon.SWORD:
+                Sword();
+                break;
+            case (int)Weapon.KNUCKLE:
+                Knuckle();
+                break;
+        }
 
-        //ステータス変化
+        //追加効果付与
         RandomSkill();
 
         //Sliderを満タンにする。
+        hpSlider.value = 1;
         apSlider.value = 1;
         //現在の値を最大値と同じにする
         currentHp = maxHp;
         currentAp = maxAp;
+
     }
 
-    //プレイヤーの基本操作
-    //ステータス変化
-    private new void Update()
-    {
-        //死亡時もしくは攻撃中、被弾時以外
-        if(!death)
-        {
-            if (!isAttack && !isStop)
-            {
-                Jump3D();
-                Move3D();
-            }
-            //攻撃用関数
-            Attack();
-
-            if(mainUI.changeInput)
-            {
-                RandomSkill();
-            }
-        }
-    }
-
-    //HPとAP管理と死亡処理
     private void FixedUpdate()
     {
-        //現在のHPとAPを保存
-        firstNowHp = currentHp;
-        firstNowAp = currentAp;
-        //死亡処理
-        if (currentHp <= 0.0f && !gameManager.gameOver)
+        GameManager gameManager = GetComponent<GameManager>();
+
+        if (currentHp <= 0.0f && !gameManager.gameOver)  
         {
             gameManager.gameOver = true;
-            death = true;
-            Death();
+            speed = 0.0f;
+            animator.SetTrigger("death");
         }
-        //APの自動回復関数
-        AutoRegenAP();
-        //現在のHPが上限を超えないようにする
-        if (currentHp >= maxHp)
+
+        //攻撃中はその場から移動できない
+        if (!isAttack && !isStop && !death)  
         {
-            currentHp = maxHp;
+            Move3D();
         }
-        //現在のAPが上限を超えないようにする
-        if (currentAp >= maxAp) 
+
+        if(currentAp >= use_Ap)
         {
-            currentAp = maxAp;
+            //攻撃用関数
+            Attack();
         }
+
+        //長押し禁止用
+        if (Input.GetMouseButtonUp(0))
+            input = false;
+
+        //キルカウントの制御
+        if (kill_enemy >= 5)
+            kill_enemy = 5;
+
+        //HPの制御
+        if (currentHp <= 0.0f)
+            currentHp = 0.0f;
+
+        //APの自動回復
+        if (currentAp < maxAp)
+        {
+            currentTime += Time.deltaTime;
+
+            if (currentTime >= 2.0f)
+            {
+                currentAp += 5.0f;
+                currentTime = 0.0f;
+            }
+        }
+        //残りAPが0になったらフラグをたてる
+        if (currentAp < use_Ap) apLost = true;
+        else apLost = false;
 
         //最大HPにおける現在のHPをSliderに反映
         hpSlider.value = currentHp / maxHp;
-        //最大APにおける現在のAPをSliderに反映
+        //最大APにおける現在のAPをSliderに反映。
         apSlider.value = currentAp / maxAp;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //敵の攻撃に当たる
-        if (!isDamage && gameManager.gamePlay)
-        {
-            if (other.CompareTag("enemyweapon")||
-                other.CompareTag("nearweapon"))
-            {
-                currentHp -= damage;   //現在のHPからダメージを引く
-
-                if (currentHp > 0.0f)
-                {
-                    //被弾アニメーション再生
-                    animator.SetTrigger("damage");
-                    //無敵時間
-                    Invoke("NotDamage", 1.1f);
-                    //被弾してから動けるようになるまでの時間
-                    Invoke("CanMove", 0.5f);
-                }
-
-                isDamage = true; //ダメージ中状態にする
-                isStop = true;   //その場で停止させる
-                HitWeapon();     //アタックキャンセルさせる
-            }
-        }
-
-        //回復アイテムに触れる
-        if(other.CompareTag("healItem"))
-        {
-            //一定の割合を回復させる
-            currentHp += maxHp * healHp;
-            currentAp += maxAp * healAp;
-            //取得フラグをtrueにする
-            item = true;
-            //アイテムを消去する
-            Destroy(other.gameObject);
-        }
-        else if (other.CompareTag("allHeal"))
-        {
-            //全回復
-            currentHp = maxHp;
-            currentAp = maxAp;
-            //取得フラグをtrueにする
-            item = true;
-            //アイテムを消去する
-            Destroy(other.gameObject);
-        }
-
-        //地面に触れる
-        if (other.CompareTag("Ground") && !jumpFirst) 
-        {
-            //地上用設定に戻す
-            rb.isKinematic = true;
-            agent.enabled = true;
-            isJump = false;
-        }
-
-        //Goalに触れる
-        if (other.CompareTag("Goal"))
-        {
-            speed = 0.0f;
-            gameManager.gameClear = true;
-        }
-    }
-
-    //移動処理
+    //移動関連
     void Move3D()
     {
-        //入力ベクトルの取得z
+        //入力ベクトルの取得
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
         velocity = horizontalRotation * new Vector3(horizontal, 0, vertical).normalized;
 
         //速度の取得
-        //スニーク
-        if (Input.GetKey(KeyCode.LeftControl))
-            move = 1;
-        //走る
-        else if (Input.GetKey(KeyCode.LeftShift))
-            move = 3;
-        //歩く
-        else
-            move = 2;
-
-        //向きを変更する速度
+        move = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
         rotationSpeed = 600 * Time.deltaTime;
-        transform.position += velocity * Time.deltaTime * move * speed;
+        transform.position += velocity * Time.deltaTime * speed * move;
 
-        if (velocity.magnitude > 0.5f)
+        if (velocity.magnitude > 0.5f) 
             targetRotation = Quaternion.LookRotation(velocity, Vector3.up);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
 
-        //アニメーション管理
         animator.SetFloat("Speed", velocity.magnitude * move, 0.1f, Time.deltaTime);
     }
 
-    //ジャンプ処理
-    void Jump3D()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJump)
-        {
-            rb.isKinematic = false;
-            agent.enabled = false;
-            rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
-            isJump = true;
-            jumpFirst = true;
-            Invoke("FirstCancel", 0.015f);
-        }
-    }
-
-    //攻撃処理
+    //攻撃関連
     void Attack()
     {
-        if(!isStop)
+        //左クリックしたときに実行
+        if (Input.GetMouseButton(0) && !interval && !input)  
         {
-            //左クリックしたときに実行
-            //攻撃に必要なAPが足りている＆入力時の状態が攻撃中ではない
-            if (Input.GetMouseButton(0) && !input && currentAp >= useAp && !isAttack) 
+            //クールタイムフラグ
+            interval = true;
+            //入力フラグ
+            input = true;
+            ////攻撃中フラグ
+            isAttack = true;
+            //攻撃処理
+            switch (weapon)
             {
-                //入力フラグ
-                input = true;
-                //攻撃中フラグ
-                isAttack = true;
-                //攻撃中フラグをtrueにする
-                IsAttack();
-                //アニメーション再生
-                animator.SetTrigger(GetWeaponAttackTrigger());
-                //現在のAPから消費APを引く
-                currentAp -= useAp;
-
-                //フラグ変更
-                Invoke("NotAttack", notAttack);
-                Invoke("HitWeapon", 0.5f);
+                case (int)Weapon.KNIFE:
+                    animator.SetTrigger("knife");
+                    Invoke("Interval", 2.0f);
+                    break;
+                case (int)Weapon.SWORD:
+                    animator.SetTrigger("sword");
+                    Invoke("Interval", 3.0f);
+                    break;
+                case (int)Weapon.KNUCKLE:
+                    animator.SetTrigger("knuckle");
+                    Invoke("Interval", 1.2f);
+                    break;
             }
+            IsAttack();
+            //現在のAPから消費APを引く
+            currentAp = currentAp - use_Ap;
+            Invoke("NotAttack", notAttack);
+            Invoke("HitWeapon", hitWeapon);
         }
-
-        if (!Input.GetMouseButton(0)) 
-        {
-            input = false;
-        }
-        
     }
-    //使用武器決定
-    void InitializeWeapon()
+
+    //武器
+    void Knife()
     {
-        if (weapon == (int)Weapon.Knife)       //ナイフ
-        {                                      
-            attack = 9.5f;                     
-            useAp = 15.0f;                     
-            notAttack = 0.6f;                  
-        }                                      
-        else if(weapon == (int)Weapon.Sword)   //大剣
-        {                                      
-            attack = 14.5f;                    
-            useAp = 25.0f;                     
-            notAttack = 0.5f;                  
-        }                                      
-        else if(weapon == (int)Weapon.Knuckle) //ナックル
-        {
-            attack = 7.5f;
-            useAp = 10.0f;
-            notAttack = 0.3f;
-        }
-
-        //武器を表示
-        useWeapon[weapon].SetActive(true);
+        attack = 9.0f;
+        use_Ap = 15.0f;
+        notAttack = 0.8f;
+        use_weapon[(int)Weapon.KNIFE].SetActive(true);
+        weapon_num = (int)Weapon.KNIFE;
     }
-    //攻撃アニメーション
-    string GetWeaponAttackTrigger()
+    void Sword()
     {
-        switch (weapon)
-        {
-            case (int)Weapon.Knife: return "knife";
-            case (int)Weapon.Sword: return "sword";
-            case (int)Weapon.Knuckle: return "knuckle";
-            default: return "";
-        }
+        attack = 14.0f;
+        use_Ap = 25.0f;
+        notAttack = 0.5f;
+        use_weapon[(int)Weapon.SWORD].SetActive(true);
+        weapon_num = (int)Weapon.SWORD;
+    }
+    void Knuckle()
+    {
+        attack = 5.0f;
+        use_Ap = 10.0f;
+        notAttack = 0.3f;
+        use_weapon[(int)Weapon.KNUCKLE].SetActive(true);
+        weapon_num = (int)Weapon.KNUCKLE;
+    }
+    //クールタイム
+    void Interval()
+    {
+        interval = false;
     }
 
-    //ステータス変化
+    //付与効果
     void RandomSkill()
     {
-        //一時的にステータスを初期値にする
-        maxHp = firstMaxHp;
-        currentHp = firstNowHp;
-        maxAp = firstMaxAp;
-        currentAp = firstNowAp;
-        speed = firstSpeed;
-        attack = firstAttack;
-        damage = firstDamage;
-        useAp = firstUseAp;
-
-        if (skill <= 20)//AP2倍
+        if(skill>=1&&skill<=20)//AP2倍
         {
             maxAp *= 2.0f;
-            currentAp *= 2.0f;
         }
-        else if (skill <= 40)//HP2倍
+        else if (skill >= 21 && skill <= 40)//HP2倍
         {
             maxHp *= 2.0f;
-            currentHp *= 2.0f;
         }
-        else if (skill <= 50)//攻撃力2倍
+        else if (skill >= 41 && skill <= 50)//攻撃力2倍
         {
             attack *= 2.0f;
         }
-        else if (skill <= 60)//被ダメージ2倍
+        else if (skill >= 51 && skill <= 60)//被ダメージ2倍
         {
             damage *= 2.0f;
         }
-        else if (skill <= 70)//移動1.5倍・攻撃力0.75倍
+        else if (skill >= 61 && skill <= 70)//移動1.5倍・攻撃力0.75倍
         {
             speed *= 1.5f;
             attack *= 0.75f;
         }
-        else if (skill <= 80)//移動0.75倍・攻撃力1.5倍
+        else if (skill >= 71 && skill <= 80)//移動0.75倍・攻撃力1.5倍
         {
             speed *= 0.75f;
             attack *= 1.5f;
         }
-        else if (skill <= 90)//消費AP2倍・攻撃力3倍
+        else if (skill >= 81 && skill <= 90)//消費AP2倍・攻撃力3倍
         {
-            useAp *= 2.0f;
+            use_Ap *= 2.0f;
             attack *= 3.0f;
         }
-        else if (skill <= 95)//被ダメージ1.5倍・与ダメージ0.75倍
+        else if (skill >= 91 && skill <= 95)//被ダメージ2倍・与ダメージ0.5倍
         {
-            damage *= 1.5f;
-            attack *= 0.75f;
+            damage *= 2.0f;
+            attack *= 0.5f;
         }
-        else if (skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
+        else if (skill >= 96 && skill <= 100)//被ダメージ0.5倍・与ダメージ2倍
         {
             damage /= 2.0f;
             attack *= 2.0f;
         }
     }
-    //ジャンプの出始め状態を解除する
-    void FirstCancel()
-    {
-        jumpFirst = false;
-    }
 
-    //AP自動回復
-    void AutoRegenAP()
+    private void OnTriggerEnter(Collider other)
     {
-        if (currentAp < maxAp)
+        GameManager gameManager = GetComponent<GameManager>();
+        //Enemyタグのオブジェクトに触れると発動
+        if (other.CompareTag("enemyweapon") && !isDamage && gameManager.gamePlay)   
         {
-            currentTime += Time.deltaTime;
-            if (currentTime >= 2.0f)
+            //現在のHPからダメージを引く
+            currentHp -= damage;
+            //ダメージSEを鳴らす
+            se.PlayOneShot(damage_se);
+            isDamage = true;
+            isStop = true;
+            HitWeapon();
+            if (currentHp <= 0.0f)
             {
-                currentAp += 10f;
-                currentTime = 0f;
+                animator.SetTrigger("death");
+            }
+            else
+            {
+                animator.SetTrigger("damage");
+                Invoke("NotDamage", 1.0f);
+                Invoke("CanMove", 0.5f);
             }
         }
-
-        if (currentAp < useAp) apLost = true;
-        else apLost = false;
     }
-    //武器の当たり判定を出す
+
+    void OnTriggerStay(Collider other)
+    {
+        //Goalタグのオブジェクトに触れると発動
+        if (other.CompareTag("Goal"))
+        {
+            GameManager gameManager = GetComponent<GameManager>();
+            speed = 0.0f;
+            gameManager.gameClear = true;
+        }
+    }
+
+    void NotDamage()
+    {
+        isDamage = false;
+    }
+    void CanMove()
+    {
+        isStop = false;
+    }
     void IsAttack()
     {
-        weaponCollider[weapon].enabled = true;
+        weaponCollider[weapon_num].enabled = true;
     }
-    //武器の当たり判定を消す
+    void NotAttack()
+    {
+        isAttack = false;
+    }
     void HitWeapon()
     {
-        weaponCollider[weapon].enabled = false;
+        weaponCollider[weapon_num].enabled = false;
     }
-    //死亡処理
-    public void Death()
+
+    public enum Weapon
     {
-        speed = 0.0f;
-        animator.SetTrigger("death");
+        KNIFE,
+        SWORD,
+        KNUCKLE
     }
 }
